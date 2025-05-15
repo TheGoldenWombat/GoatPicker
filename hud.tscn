@@ -1,13 +1,25 @@
-[gd_scene load_steps=5 format=3 uid="uid://8w0h0i3plbqg"]
+[gd_scene load_steps=9 format=3 uid="uid://8w0h0i3plbqg"]
 
 [ext_resource type="Script" uid="uid://bo1skgqcpu3od" path="res://hud.gd" id="1_37p78"]
 [ext_resource type="PackedScene" uid="uid://bldbn2ol801w6" path="res://list_editor.tscn" id="2_64ctp"]
 
-[sub_resource type="InputEventAction" id="InputEventAction_37p78"]
-action = &"start_race"
+[sub_resource type="InputEventAction" id="InputEventAction_64ctp"]
+action = &"start_mode_1"
 
-[sub_resource type="Shortcut" id="Shortcut_64ctp"]
-events = [SubResource("InputEventAction_37p78")]
+[sub_resource type="Shortcut" id="Shortcut_8sq4i"]
+events = [SubResource("InputEventAction_64ctp")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_640wx"]
+action = &"start_mode_2"
+
+[sub_resource type="Shortcut" id="Shortcut_a2258"]
+events = [SubResource("InputEventAction_640wx")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_1xsix"]
+action = &"start_mode_3"
+
+[sub_resource type="Shortcut" id="Shortcut_rftc2"]
+events = [SubResource("InputEventAction_1xsix")]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_37p78")
@@ -54,7 +66,7 @@ offset_bottom = -20.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 32
-shortcut = SubResource("Shortcut_64ctp")
+shortcut = SubResource("Shortcut_8sq4i")
 text = "Start: Mode 1
 NORMAL"
 
@@ -71,7 +83,7 @@ offset_bottom = -20.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 32
-shortcut = SubResource("Shortcut_64ctp")
+shortcut = SubResource("Shortcut_a2258")
 text = "Start: Mode 2
 STALLING"
 
@@ -88,7 +100,7 @@ offset_bottom = -20.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 32
-shortcut = SubResource("Shortcut_64ctp")
+shortcut = SubResource("Shortcut_rftc2")
 text = "Start: Mode 3
 PULLBACK"
 
@@ -107,6 +119,21 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 32
 text = "Edit List"
 
+[node name="AbortRaceButton" type="Button" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -270.0
+offset_top = -130.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "Abort"
+
 [node name="ListEditor" parent="." instance=ExtResource("2_64ctp")]
 visible = false
 
@@ -116,3 +143,4 @@ visible = false
 [connection signal="pressed" from="StartMode2Button" to="." method="_on_start_mode_2_button_pressed"]
 [connection signal="pressed" from="StartMode3Button" to="." method="_on_start_mode_3_button_pressed"]
 [connection signal="pressed" from="EditListButton" to="." method="_on_edit_list_button_pressed"]
+[connection signal="pressed" from="AbortRaceButton" to="." method="_on_abort_race_button_pressed"]

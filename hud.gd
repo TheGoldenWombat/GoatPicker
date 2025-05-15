@@ -7,6 +7,7 @@ extends CanvasLayer
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$MovieAnnouncement.hide()
+	$AbortRaceButton.hide()
 	$TopThree.hide()
 	$ListEditor.hide()
 
@@ -22,6 +23,7 @@ func _process(delta: float) -> void:
 
 func start_race(mode: int = 1):
 	hide_main_menu_buttons()
+	$AbortRaceButton.show()
 	$MovieAnnouncement.hide()
 	$TopThree.show()
 	emit_signal("race_start", mode)
@@ -47,6 +49,7 @@ signal race_start
 func _on_racer_spawn_race_over(movie_title) -> void:
 	$MovieAnnouncement.text = "The winner is: \n" + movie_title
 	$MovieAnnouncement.show()
+	$AbortRaceButton.hide()
 	show_main_menu_buttons()
 	$TopThree.show()
 
@@ -76,3 +79,12 @@ func _on_start_mode_2_button_pressed() -> void:
 
 func _on_start_mode_3_button_pressed() -> void:
 	start_race(3)
+
+
+func _on_abort_race_button_pressed() -> void:
+	get_tree().call_group("racers", "end_race")
+	$MovieAnnouncement.text = "Race aborted!"
+	$MovieAnnouncement.show()
+	$AbortRaceButton.hide()
+	show_main_menu_buttons()
+	$TopThree.show()

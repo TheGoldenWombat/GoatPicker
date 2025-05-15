@@ -75,7 +75,7 @@ func spawn_racers(mode: int = 1):
 		# Halve time_scale for mode 1
 		if mode == 1:
 			racer.time_scale = racer.time_scale * 0.5
-		print("mode: " + str(mode))
+		#print("mode: " + str(mode))
 		racer.position = Vector2(0,y_offset + padding)
 		racer.movie_title = movie_title_array[n]
 		racer.race_end.connect(on_race_end)
