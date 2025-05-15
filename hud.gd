@@ -17,16 +17,37 @@ func _process(delta: float) -> void:
 
 
 ################################################################################
+# --------------------------------- FUNCTIONS -------------------------------- #
+################################################################################
+
+func start_race(mode: int = 1):
+	hide_main_menu_buttons()
+	$MovieAnnouncement.hide()
+	$TopThree.show()
+	emit_signal("race_start", mode)
+	
+func hide_main_menu_buttons():
+	$StartMode1Button.hide()
+	$StartMode2Button.hide()
+	$StartMode3Button.hide()
+	$EditListButton.hide()
+	
+func show_main_menu_buttons():
+	$StartMode1Button.show()
+	$StartMode2Button.show()
+	$StartMode3Button.show()
+	$EditListButton.show()
+
+################################################################################
 # ---------------------------------- SIGNALS --------------------------------- #
 ################################################################################
 
 signal race_start
 
 func _on_racer_spawn_race_over(movie_title) -> void:
-	$MovieAnnouncement.text = "Tonight's movie is: \n" + movie_title
+	$MovieAnnouncement.text = "The winner is: \n" + movie_title
 	$MovieAnnouncement.show()
-	$StartButton.show()
-	$EditListButton.show()
+	show_main_menu_buttons()
 	$TopThree.show()
 
 func _on_racer_spawn_top_three(top_three) -> void:
@@ -40,13 +61,18 @@ func _on_racer_spawn_top_three(top_three) -> void:
 					  second_progress + " - " + second_title + "\n" + \
 					  third_progress + " - " + third_title
 
-func _on_start_button_pressed() -> void:
-	$MovieAnnouncement.hide()
-	$StartButton.hide()
-	$EditListButton.hide()
-	$TopThree.show()
-	emit_signal("race_start")
-
 
 func _on_edit_list_button_pressed() -> void:
 	$ListEditor.show()
+
+
+func _on_start_mode_1_button_pressed() -> void:
+	start_race(1)
+
+
+func _on_start_mode_2_button_pressed() -> void:
+	start_race(2)
+
+
+func _on_start_mode_3_button_pressed() -> void:
+	start_race(3)

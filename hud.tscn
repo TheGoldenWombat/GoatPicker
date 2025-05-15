@@ -41,7 +41,58 @@ text = "00.00% - Default
 00.00% - Default
 00.00% - Default"
 
-[node name="StartButton" type="Button" parent="."]
+[node name="StartMode1Button" type="Button" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1080.0
+offset_top = -130.0
+offset_right = -830.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+shortcut = SubResource("Shortcut_64ctp")
+text = "Start: Mode 1
+NORMAL"
+
+[node name="StartMode2Button" type="Button" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -810.0
+offset_top = -130.0
+offset_right = -560.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+shortcut = SubResource("Shortcut_64ctp")
+text = "Start: Mode 2
+STALLING"
+
+[node name="StartMode3Button" type="Button" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -540.0
+offset_top = -130.0
+offset_right = -290.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+shortcut = SubResource("Shortcut_64ctp")
+text = "Start: Mode 3
+PULLBACK"
+
+[node name="EditListButton" type="Button" parent="."]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -54,27 +105,14 @@ offset_bottom = -20.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 32
-shortcut = SubResource("Shortcut_64ctp")
-text = "Start"
-
-[node name="EditListButton" type="Button" parent="."]
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -537.0
-offset_top = -130.0
-offset_right = -287.0
-offset_bottom = -20.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 32
 text = "Edit List"
 
 [node name="ListEditor" parent="." instance=ExtResource("2_64ctp")]
+visible = false
 
 [node name="Options" type="Node" parent="."]
 
-[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="StartMode1Button" to="." method="_on_start_mode_1_button_pressed"]
+[connection signal="pressed" from="StartMode2Button" to="." method="_on_start_mode_2_button_pressed"]
+[connection signal="pressed" from="StartMode3Button" to="." method="_on_start_mode_3_button_pressed"]
 [connection signal="pressed" from="EditListButton" to="." method="_on_edit_list_button_pressed"]

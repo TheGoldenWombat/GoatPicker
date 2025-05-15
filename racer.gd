@@ -74,8 +74,8 @@ var roll_strength: float
 ################################################################################
 
 func resize_racer():
-	print("screen_size:" + str(screen_size))
-	print("rect_size: " + str(rect_size))
+	#print("screen_size:" + str(screen_size))
+	#print("rect_size: " + str(rect_size))
 	#print("get_viewport().content_scale_size" + str(get_viewport().content_scale_size))
 	$ColorRect.position.x = padding
 	$ColorRect.size = rect_size
@@ -118,7 +118,7 @@ func update_roll_timer_wait():
 
 func update_line():
 	# Roll strength modulates gradient length, gradient alpha, and line intensity
-	var roll_strength: float = float(current_roll) / float(roll_max)
+	roll_strength = float(current_roll) / float(roll_max)
 	
 	# Update line and gradient length based on current progress percent
 	# LINE

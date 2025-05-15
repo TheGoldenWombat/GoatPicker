@@ -1,5 +1,10 @@
 extends Node
 
+################################################################################
+# ----------------------------------- TODO ----------------------------------- #
+################################################################################
+# Add slider for choosing number of racers, between 1 and 12
+
 
 ################################################################################
 # --------------------------------- VARIABLES -------------------------------- #
@@ -19,7 +24,7 @@ var racing: bool = false
 # --------------------------------- FUNCTIONS -------------------------------- #
 ################################################################################
 
-func setup_race():
+func setup_race(mode):
 	# Initialize spawner
 	remove_racers()
 	y_offset = 0
@@ -27,7 +32,7 @@ func setup_race():
 	movie_title_array = get_movie_title_array(list_path)
 	movie_title_array.shuffle()
 	movie_title_array.resize(number_of_racers)
-	spawn_racers()
+	spawn_racers(mode)
 	racing = true
 
 func remove_racers():
@@ -60,13 +65,17 @@ func spawn_racers(mode: int = 1):
 	for n in number_of_racers:
 		var racer: Racer = racer_scene.instantiate()
 		var padding = racer.padding
-		# TODO add logic for:
-		# if [MODE] == 1: #NORMAL
-		#	racer.roll_min = 1
-		# elif [MODE] == 2: #STALLING
-		#	racer.roll_min = 0
-		# else #PULLBACK
-		#	racer.roll_min = -1
+		# Set roll_min based on mode
+		if mode == 1: #NORMAL
+			racer.roll_min = 1
+		elif mode == 2: #STALLING
+			racer.roll_min = 0
+		else: #PULLBACK
+			racer.roll_min = -1
+		# Halve time_scale for mode 1
+		if mode == 1:
+			racer.time_scale = racer.time_scale * 0.5
+		print("mode: " + str(mode))
 		racer.position = Vector2(0,y_offset + padding)
 		racer.movie_title = movie_title_array[n]
 		racer.race_end.connect(on_race_end)
@@ -111,5 +120,5 @@ func on_race_end(movie_title):
 	racing = false
 	emit_signal("race_over", movie_title)
 
-func _on_hud_race_start() -> void:
-	setup_race()
+func _on_hud_race_start(mode) -> void:
+	setup_race(mode)
