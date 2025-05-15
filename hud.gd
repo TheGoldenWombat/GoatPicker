@@ -8,6 +8,7 @@ extends CanvasLayer
 func _ready() -> void:
 	$MovieAnnouncement.hide()
 	$TopThree.hide()
+	$ListEditor.hide()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -25,6 +26,7 @@ func _on_racer_spawn_race_over(movie_title) -> void:
 	$MovieAnnouncement.text = "Tonight's movie is: \n" + movie_title
 	$MovieAnnouncement.show()
 	$StartButton.show()
+	$EditListButton.show()
 	$TopThree.show()
 
 func _on_racer_spawn_top_three(top_three) -> void:
@@ -41,5 +43,10 @@ func _on_racer_spawn_top_three(top_three) -> void:
 func _on_start_button_pressed() -> void:
 	$MovieAnnouncement.hide()
 	$StartButton.hide()
+	$EditListButton.hide()
 	$TopThree.show()
 	emit_signal("race_start")
+
+
+func _on_edit_list_button_pressed() -> void:
+	$ListEditor.show()

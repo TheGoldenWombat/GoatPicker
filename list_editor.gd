@@ -1,4 +1,4 @@
-extends Node
+extends CanvasLayer
 
 ################################################################################
 # --------------------------------- VARIABLES -------------------------------- #
@@ -27,7 +27,7 @@ func load_list():
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	load_list()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -46,4 +46,4 @@ func _on_load_button_pressed() -> void:
 	load_list()
 
 func _on_done_button_pressed() -> void:
-	pass # Replace with function body.
+	hide()

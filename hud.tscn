@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://8w0h0i3plbqg"]
+[gd_scene load_steps=5 format=3 uid="uid://8w0h0i3plbqg"]
 
 [ext_resource type="Script" uid="uid://bo1skgqcpu3od" path="res://hud.gd" id="1_37p78"]
+[ext_resource type="PackedScene" uid="uid://bldbn2ol801w6" path="res://list_editor.tscn" id="2_64ctp"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_37p78"]
 action = &"start_race"
@@ -56,4 +57,24 @@ theme_override_font_sizes/font_size = 32
 shortcut = SubResource("Shortcut_64ctp")
 text = "Start"
 
+[node name="EditListButton" type="Button" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -537.0
+offset_top = -130.0
+offset_right = -287.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "Edit List"
+
+[node name="ListEditor" parent="." instance=ExtResource("2_64ctp")]
+
+[node name="Options" type="Node" parent="."]
+
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="EditListButton" to="." method="_on_edit_list_button_pressed"]

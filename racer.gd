@@ -3,6 +3,21 @@ class_name Racer
 extends Area2D
 
 ################################################################################
+# ----------------------------------- TODO ----------------------------------- #
+################################################################################
+# Add ColorRect that changes color based on roll_strength
+# Color broken into levels, color gets brighter/dimmer based on % within levels
+# 1.0 to >= 0.75: green
+# 0.75 to >= 0.10: yellow
+# 0.10 to > 0: orange
+# 0: red
+# < 0: flashing red
+
+# Add ColorRect progress bar that shrinks based on $RollTimer.time_left
+
+
+
+################################################################################
 # --------------------------------- VARIABLES -------------------------------- #
 ################################################################################
 
@@ -51,6 +66,7 @@ var current_roll: int
 var current_progress: float = 0.0
 var racing: bool = false
 var place_color = Color.WHITE
+var roll_strength: float
 
 
 ################################################################################
@@ -86,6 +102,7 @@ func highest_roll(rolls):
 
 func update_current_roll():
 	current_roll = lowest_roll(number_of_dice)
+	roll_strength = float(current_roll) / float(roll_max)
 	$ColorRect/CurrentRoll.text = str(current_roll)
 
 func update_current_progress(delta):

@@ -56,10 +56,17 @@ func set_title_colors(top_three_racers: Array):
 		else:
 			n.place_color = Color.WHITE
 
-func spawn_racers():
+func spawn_racers(mode: int = 1):
 	for n in number_of_racers:
 		var racer: Racer = racer_scene.instantiate()
 		var padding = racer.padding
+		# TODO add logic for:
+		# if [MODE] == 1: #NORMAL
+		#	racer.roll_min = 1
+		# elif [MODE] == 2: #STALLING
+		#	racer.roll_min = 0
+		# else #PULLBACK
+		#	racer.roll_min = -1
 		racer.position = Vector2(0,y_offset + padding)
 		racer.movie_title = movie_title_array[n]
 		racer.race_end.connect(on_race_end)
