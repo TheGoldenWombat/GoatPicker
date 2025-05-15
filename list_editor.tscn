@@ -1,0 +1,71 @@
+[gd_scene load_steps=2 format=3 uid="uid://bldbn2ol801w6"]
+
+[ext_resource type="Script" uid="uid://ba51itj5c6wlj" path="res://list_editor.gd" id="1_a1eph"]
+
+[node name="ListEditor" type="Node"]
+script = ExtResource("1_a1eph")
+
+[node name="TextEdit" type="TextEdit" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -444.0
+offset_right = 300.0
+offset_bottom = 456.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+wrap_mode = 1
+
+[node name="SaveButton" type="Button" parent="."]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -616.0
+offset_top = -444.0
+offset_right = -316.0
+offset_bottom = -344.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 42
+text = "SAVE"
+
+[node name="LoadButton" type="Button" parent="."]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -616.0
+offset_top = -324.0
+offset_right = -316.0
+offset_bottom = -224.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 42
+text = "LOAD"
+
+[node name="DoneButton" type="Button" parent="."]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -616.0
+offset_top = -204.0
+offset_right = -316.0
+offset_bottom = -104.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 42
+text = "DONE"
+
+[connection signal="text_changed" from="TextEdit" to="." method="_on_text_edit_text_changed"]
+[connection signal="pressed" from="SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="LoadButton" to="." method="_on_load_button_pressed"]
+[connection signal="pressed" from="DoneButton" to="." method="_on_done_button_pressed"]

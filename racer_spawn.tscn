@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://dukssqo5jh57c"]
+
+[ext_resource type="Script" uid="uid://domup2g5hlki5" path="res://racer_spawn.gd" id="1_x4a1m"]
+[ext_resource type="PackedScene" uid="uid://biktyt1vk18a8" path="res://racer.tscn" id="2_qsll1"]
+
+[node name="RacerSpawn" type="Node"]
+script = ExtResource("1_x4a1m")
+racer_scene = ExtResource("2_qsll1")
