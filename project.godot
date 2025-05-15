@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Racing Lines 2.0"
+config/name="Goat's Choice Picker"
 run/main_scene="uid://cyqtlpi5jjyn5"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
