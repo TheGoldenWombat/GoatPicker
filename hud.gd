@@ -1,15 +1,31 @@
 extends CanvasLayer
 
 ################################################################################
+# --------------------------------- VARIABLES -------------------------------- #
+################################################################################
+@export var center_message: Label
+@export var top_three_list: Label
+@export var mode_1_button: Button
+@export var mode_2_button: Button
+@export var mode_3_button: Button
+@export var abort_race: Button
+@export var edit_list_button: Button
+@export var list_editor: ListEditor
+
+const TITLE_MESSAGE: String = "Movie Picker 3000"
+
+
+################################################################################
 # --------------------------------- PROCESSES -------------------------------- #
 ################################################################################
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$MovieAnnouncement.hide()
-	$AbortRaceButton.hide()
-	$TopThree.hide()
-	$ListEditor.hide()
+	#center_message.hide()
+	#abort_race.hide()
+	#top_three_list.hide()
+	#list_editor.hide()
+	initialize_main_menu()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -23,30 +39,31 @@ func _process(delta: float) -> void:
 
 func initialize_main_menu():
 	show_main_menu_buttons()
-	$TopThree.hide()
-	$ListEditor.hide()
-	$AbortRaceButton.hide()
-	$MovieAnnouncement.hide()
+	top_three_list.hide()
+	list_editor.hide()
+	abort_race.hide()
+	center_message.text = TITLE_MESSAGE
+	center_message.show()
 	emit_signal("clear_racers")
 
 func start_race(mode: int = 1):
 	hide_main_menu_buttons()
-	$AbortRaceButton.show()
-	$MovieAnnouncement.hide()
-	$TopThree.show()
+	abort_race.show()
+	center_message.hide()
+	top_three_list.show()
 	emit_signal("race_start", mode)
 	
 func hide_main_menu_buttons():
-	$StartMode1Button.hide()
-	$StartMode2Button.hide()
-	$StartMode3Button.hide()
-	$EditListButton.hide()
+	mode_1_button.hide()
+	mode_2_button.hide()
+	mode_3_button.hide()
+	edit_list_button.hide()
 	
 func show_main_menu_buttons():
-	$StartMode1Button.show()
-	$StartMode2Button.show()
-	$StartMode3Button.show()
-	$EditListButton.show()
+	mode_1_button.show()
+	mode_2_button.show()
+	mode_3_button.show()
+	edit_list_button.show()
 	
 
 ################################################################################
@@ -57,11 +74,11 @@ signal race_start
 signal clear_racers
 
 func _on_racer_spawn_race_over(movie_title) -> void:
-	$MovieAnnouncement.text = "The winner is: \n" + movie_title
-	$MovieAnnouncement.show()
-	$AbortRaceButton.hide()
+	center_message.text = "The winner is: \n" + movie_title
+	center_message.show()
+	abort_race.hide()
 	show_main_menu_buttons()
-	$TopThree.show()
+	top_three_list.show()
 
 func _on_racer_spawn_top_three(top_three) -> void:
 	var first_progress = str(clamp(top_three[0][0],0.00,100.00)).pad_decimals(2) + "%"
@@ -70,13 +87,13 @@ func _on_racer_spawn_top_three(top_three) -> void:
 	var second_title = top_three[1][1]
 	var third_progress = str(clamp(top_three[2][0],0.00,100.00)).pad_decimals(2) + "%"
 	var third_title = top_three[2][1]
-	$TopThree.text = first_progress + " - " + first_title + "\n" + \
+	top_three_list.text = first_progress + " - " + first_title + "\n" + \
 					  second_progress + " - " + second_title + "\n" + \
 					  third_progress + " - " + third_title
 
 
 func _on_edit_list_button_pressed() -> void:
-	$ListEditor.show()
+	list_editor.show()
 
 
 func _on_start_mode_1_button_pressed() -> void:
@@ -93,11 +110,11 @@ func _on_start_mode_3_button_pressed() -> void:
 
 func _on_abort_race_button_pressed() -> void:
 	get_tree().call_group("racers", "end_race")
-	$MovieAnnouncement.text = "Race aborted!"
-	$MovieAnnouncement.show()
-	$AbortRaceButton.hide()
+	center_message.text = "Race aborted!"
+	center_message.show()
+	abort_race.hide()
 	show_main_menu_buttons()
-	$TopThree.show()
+	top_three_list.show()
 
 
 func _on_list_editor_close_editor() -> void:

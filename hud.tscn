@@ -21,21 +21,34 @@ action = &"start_mode_3"
 [sub_resource type="Shortcut" id="Shortcut_rftc2"]
 events = [SubResource("InputEventAction_1xsix")]
 
-[node name="HUD" type="CanvasLayer"]
+[node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("center_message", "top_three_list", "mode_1_button", "mode_2_button", "mode_3_button", "abort_race", "edit_list_button", "list_editor")]
 script = ExtResource("1_37p78")
+center_message = NodePath("CenterMessage")
+top_three_list = NodePath("TopThree")
+mode_1_button = NodePath("StartMode1Button")
+mode_2_button = NodePath("StartMode2Button")
+mode_3_button = NodePath("StartMode3Button")
+abort_race = NodePath("AbortRaceButton")
+edit_list_button = NodePath("EditListButton")
+list_editor = NodePath("ListEditor")
 
-[node name="MovieAnnouncement" type="Label" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="CenterMessage" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -868.0
+offset_top = -340.0
+offset_right = 868.0
+offset_bottom = -139.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 0
 theme_override_constants/shadow_outline_size = 15
 theme_override_font_sizes/font_size = 72
-text = "Tonight's Movie is:
-Talladega Nights: The Ballad of Ricky Bobby (2006)"
+text = "Movie Picker 3000"
 horizontal_alignment = 1
 vertical_alignment = 1
 
