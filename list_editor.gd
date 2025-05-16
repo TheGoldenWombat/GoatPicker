@@ -16,10 +16,14 @@ func save_list():
 	file.store_var($TextEdit.text)
 	
 func load_list():
-	if FileAccess.file_exists(save_path):
-		var file = FileAccess.open(save_path, FileAccess.READ)
-		$TextEdit.text = file.get_var()
+	if !FileAccess.file_exists(save_path): create_blank_file() 
+	var file = FileAccess.open(save_path, FileAccess.READ)
+	if file.get_length() < 1: create_blank_file()
+	$TextEdit.text = str(file.get_var())
 
+func create_blank_file():
+	var file = FileAccess.open(save_path,FileAccess.WRITE)
+	file.store_var("Dog")
 
 ################################################################################
 # --------------------------------- PROCESSES -------------------------------- #
