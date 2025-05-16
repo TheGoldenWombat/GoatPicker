@@ -102,4 +102,3 @@ func _on_abort_race_button_pressed() -> void:
 
 func _on_list_editor_close_editor() -> void:
 	initialize_main_menu()
-	print("editor closed")

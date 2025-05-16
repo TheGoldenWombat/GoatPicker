@@ -126,4 +126,3 @@ func _on_hud_race_start(mode) -> void:
 func _on_hud_clear_racers() -> void:
 	racing = false
 	remove_racers()
-	print("racers removed")

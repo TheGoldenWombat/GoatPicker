@@ -54,7 +54,7 @@ extends Area2D
 @onready var line = $ColorRect/Line
 @onready var gradient = $ColorRect/Line/LineGradient
 @onready var gradient2 = $ColorRect/Line/LineGradient2
-@onready var screen_size =  get_viewport().size
+@onready var screen_size =  get_viewport_rect().size
 
 #@onready var screen_size = get_window().content_scale_size
 @onready var rect_size = Vector2(screen_size.x - (padding * 2), $ColorRect.size.y)
@@ -125,7 +125,7 @@ func update_line():
 	line.size.x = current_progress * line_max_length / 100
 	# GRADIENT
 	# Gradient length fluctuates based on roll strength
-	var gradient_new_size_x = line.size.x * clamp(roll_strength,0.7,1.0)
+	var gradient_new_size_x = line.size.x/4 * clamp(roll_strength,0.7,1.0)
 	gradient.size.x = lerp(gradient.size.x, gradient_new_size_x,0.02)
 	gradient.position.x = ceil(line.size.x - gradient.size.x)
 	# GRADIENT HIGHLIGHT
