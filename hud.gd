@@ -21,6 +21,14 @@ func _process(delta: float) -> void:
 # --------------------------------- FUNCTIONS -------------------------------- #
 ################################################################################
 
+func initialize_main_menu():
+	show_main_menu_buttons()
+	$TopThree.hide()
+	$ListEditor.hide()
+	$AbortRaceButton.hide()
+	$MovieAnnouncement.hide()
+	emit_signal("clear_racers")
+
 func start_race(mode: int = 1):
 	hide_main_menu_buttons()
 	$AbortRaceButton.show()
@@ -39,12 +47,14 @@ func show_main_menu_buttons():
 	$StartMode2Button.show()
 	$StartMode3Button.show()
 	$EditListButton.show()
+	
 
 ################################################################################
 # ---------------------------------- SIGNALS --------------------------------- #
 ################################################################################
 
 signal race_start
+signal clear_racers
 
 func _on_racer_spawn_race_over(movie_title) -> void:
 	$MovieAnnouncement.text = "The winner is: \n" + movie_title
@@ -88,3 +98,8 @@ func _on_abort_race_button_pressed() -> void:
 	$AbortRaceButton.hide()
 	show_main_menu_buttons()
 	$TopThree.show()
+
+
+func _on_list_editor_close_editor() -> void:
+	initialize_main_menu()
+	print("editor closed")

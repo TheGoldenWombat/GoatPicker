@@ -144,3 +144,4 @@ visible = false
 [connection signal="pressed" from="StartMode3Button" to="." method="_on_start_mode_3_button_pressed"]
 [connection signal="pressed" from="EditListButton" to="." method="_on_edit_list_button_pressed"]
 [connection signal="pressed" from="AbortRaceButton" to="." method="_on_abort_race_button_pressed"]
+[connection signal="close_editor" from="ListEditor" to="." method="_on_list_editor_close_editor"]

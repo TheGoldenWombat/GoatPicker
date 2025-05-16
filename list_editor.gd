@@ -39,6 +39,8 @@ func _process(delta: float) -> void:
 # ---------------------------------- SIGNALS --------------------------------- #
 ################################################################################
 
+signal close_editor
+
 func _on_save_button_pressed() -> void:
 	save_list()
 
@@ -46,4 +48,6 @@ func _on_load_button_pressed() -> void:
 	load_list()
 
 func _on_done_button_pressed() -> void:
+	save_list()
+	emit_signal("close_editor")
 	hide()

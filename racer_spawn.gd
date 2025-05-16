@@ -122,3 +122,8 @@ func on_race_end(movie_title):
 
 func _on_hud_race_start(mode) -> void:
 	setup_race(mode)
+	
+func _on_hud_clear_racers() -> void:
+	racing = false
+	remove_racers()
+	print("racers removed")
