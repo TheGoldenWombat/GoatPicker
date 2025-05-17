@@ -4,7 +4,7 @@ extends Node
 ################################################################################
 # ----------------------------------- TODO ----------------------------------- #
 ################################################################################
-# Add slider for choosing number of racers, between 1 and 12
+# Adjust number of racers based on slider on HUD main menu
 
 
 ################################################################################
@@ -27,7 +27,7 @@ func setup_race(mode: int) -> void:
 	# Initialize spawner
 	# TODO Change number_of_racers to number of lines in choices.list
 	#        if number_of_choices < number_of_racers
-	#      Dipslay error and don't continue if choices.list is blank
+	#      Display error and don't continue if choices.list is blank
 	remove_racers()
 	y_offset = 0
 	# Get choices array, shuffle the array, and spawn racers

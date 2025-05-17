@@ -2,10 +2,12 @@ class_name HUD
 extends CanvasLayer
 
 ################################################################################
-# --------------------------------- VARIABLES -------------------------------- #
+# ----------------------------------- TODO ----------------------------------- #
 ################################################################################
-# Add selector to choose number of racers
-# Maximum should be based on the number of lines in choices.list
+# Add slider to choose number of racers
+# Maximum racers should be based on the number of lines in choices.list
+# If lines < maximum then maximum = lines
+
 
 ################################################################################
 # --------------------------------- VARIABLES -------------------------------- #
@@ -94,6 +96,7 @@ func _on_racer_spawn_top_three(top_three: Array) -> void:
 					 	   third_progress + " - " + third_title
 
 func _on_edit_list_button_pressed() -> void:
+	list_editor.load_list()
 	list_editor.show()
 
 func _on_start_mode_1_button_pressed() -> void:

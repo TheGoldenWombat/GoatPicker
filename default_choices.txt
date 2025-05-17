@@ -1,0 +1,17 @@
+Cat
+Dog
+Frog
+Goat
+Rabbit
+Tortoise
+Turtle
+Bear
+Deer
+Boar
+Rat
+Puma
+Hamster
+Beaver
+Zebra
+Lion
+Pig

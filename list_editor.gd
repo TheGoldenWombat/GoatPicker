@@ -7,10 +7,12 @@ extends CanvasLayer
 # Add check to see if choices.list contains enough entries
 # Error message if list is blank or doesn't contain enough entries for race
 
+
 ################################################################################
 # --------------------------------- VARIABLES -------------------------------- #
 ################################################################################
 @export var text_box: TextEdit
+var default_list_path: String = "res://default_choices.txt"
 var save_path: String = "user://choices.list"
 
 
@@ -24,13 +26,19 @@ func save_list() -> void:
 func load_list() -> void:
 	if !FileAccess.file_exists(save_path): create_default_file() 
 	var file: = FileAccess.open(save_path, FileAccess.READ)
-	if file.get_length() < 1: create_default_file()
-	text_box.text = str(file.get_var())
+	var choices: String = str(file.get_var())
+	if choices.length() < 1:
+		create_default_file()
+		file = FileAccess.open(save_path, FileAccess.READ) #Reload file
+		choices = str(file.get_var())
+	text_box.text = choices
 
 func create_default_file() -> void:
 	var file: = FileAccess.open(save_path,FileAccess.WRITE)
-	# TODO Add default list of at least 12 choice
-	file.store_var("")
+	var default_list: = FileAccess.open(default_list_path, FileAccess.READ)
+	var default_choices: String = default_list.get_as_text()
+	print(default_choices)
+	file.store_var(default_choices)
 
 
 ################################################################################
