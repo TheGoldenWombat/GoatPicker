@@ -21,7 +21,7 @@ extends CanvasLayer
 @export var edit_list_button: Button
 @export var list_editor: ListEditor
 
-const TITLE_MESSAGE: String = "Movie Picker 3000"
+const TITLE_MESSAGE: String = "Goat's Choice Picker 3000"
 
 
 ################################################################################
