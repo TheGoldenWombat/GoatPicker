@@ -1,4 +1,11 @@
+class_name HUD
 extends CanvasLayer
+
+################################################################################
+# --------------------------------- VARIABLES -------------------------------- #
+################################################################################
+# Add selector to choose number of racers
+# Maximum should be based on the number of lines in choices.list
 
 ################################################################################
 # --------------------------------- VARIABLES -------------------------------- #
@@ -21,23 +28,18 @@ const TITLE_MESSAGE: String = "Movie Picker 3000"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	#center_message.hide()
-	#abort_race.hide()
-	#top_three_list.hide()
-	#list_editor.hide()
 	initialize_main_menu()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 
 ################################################################################
 # --------------------------------- FUNCTIONS -------------------------------- #
 ################################################################################
-
-func initialize_main_menu():
+func initialize_main_menu() -> void:
 	show_main_menu_buttons()
 	top_three_list.hide()
 	list_editor.hide()
@@ -46,20 +48,20 @@ func initialize_main_menu():
 	center_message.show()
 	emit_signal("clear_racers")
 
-func start_race(mode: int = 1):
+func start_race(mode: int = 1) -> void:
 	hide_main_menu_buttons()
 	abort_race.show()
 	center_message.hide()
 	top_three_list.show()
 	emit_signal("race_start", mode)
 	
-func hide_main_menu_buttons():
+func hide_main_menu_buttons() -> void:
 	mode_1_button.hide()
 	mode_2_button.hide()
 	mode_3_button.hide()
 	edit_list_button.hide()
 	
-func show_main_menu_buttons():
+func show_main_menu_buttons() -> void:
 	mode_1_button.show()
 	mode_2_button.show()
 	mode_3_button.show()
@@ -73,40 +75,35 @@ func show_main_menu_buttons():
 signal race_start
 signal clear_racers
 
-func _on_racer_spawn_race_over(movie_title) -> void:
-	center_message.text = "The winner is: \n" + movie_title
+func _on_racer_spawn_race_over(choice: String) -> void:
+	center_message.text = "The winner is: \n" + choice
 	center_message.show()
 	abort_race.hide()
 	show_main_menu_buttons()
 	top_three_list.show()
 
-func _on_racer_spawn_top_three(top_three) -> void:
-	var first_progress = str(clamp(top_three[0][0],0.00,100.00)).pad_decimals(2) + "%"
-	var first_title = top_three[0][1]
-	var second_progress = str(clamp(top_three[1][0],0.00,100.00)).pad_decimals(2) + "%"
-	var second_title = top_three[1][1]
-	var third_progress = str(clamp(top_three[2][0],0.00,100.00)).pad_decimals(2) + "%"
-	var third_title = top_three[2][1]
+func _on_racer_spawn_top_three(top_three: Array) -> void:
+	var first_progress: = str(clamp(top_three[0][0],0.00,100.00)).pad_decimals(2) + "%"
+	var first_title: String = top_three[0][1]
+	var second_progress: = str(clamp(top_three[1][0],0.00,100.00)).pad_decimals(2) + "%"
+	var second_title: String = top_three[1][1]
+	var third_progress: = str(clamp(top_three[2][0],0.00,100.00)).pad_decimals(2) + "%"
+	var third_title: String = top_three[2][1]
 	top_three_list.text = first_progress + " - " + first_title + "\n" + \
-					  second_progress + " - " + second_title + "\n" + \
-					  third_progress + " - " + third_title
-
+					 	   second_progress + " - " + second_title + "\n" + \
+					 	   third_progress + " - " + third_title
 
 func _on_edit_list_button_pressed() -> void:
 	list_editor.show()
 
-
 func _on_start_mode_1_button_pressed() -> void:
 	start_race(1)
-
 
 func _on_start_mode_2_button_pressed() -> void:
 	start_race(2)
 
-
 func _on_start_mode_3_button_pressed() -> void:
 	start_race(3)
-
 
 func _on_abort_race_button_pressed() -> void:
 	get_tree().call_group("racers", "end_race")
@@ -115,7 +112,6 @@ func _on_abort_race_button_pressed() -> void:
 	abort_race.hide()
 	show_main_menu_buttons()
 	top_three_list.show()
-
 
 func _on_list_editor_close_editor() -> void:
 	initialize_main_menu()

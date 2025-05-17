@@ -1,11 +1,10 @@
-#@tool
 class_name Racer
 extends Area2D
 
 ################################################################################
 # ----------------------------------- TODO ----------------------------------- #
 ################################################################################
-# Add ColorRect that changes color based on roll_strength
+# Add ColorRect that changes color based on roll_str
 # Color broken into levels, color gets brighter/dimmer based on % within levels
 # 1.0 to >= 0.75: green
 # 0.75 to >= 0.10: yellow
@@ -13,28 +12,27 @@ extends Area2D
 # 0: red
 # < 0: flashing red
 
-# Add ColorRect progress bar that shrinks based on $RollTimer.time_left
+# Add ColorRect progress bar that shrinks based on roll_timer.time_left
 
 
 
 ################################################################################
 # --------------------------------- VARIABLES -------------------------------- #
 ################################################################################
-
 @export_group("Dice")
 ## Number of dice to roll at once [br]
 ## Lower to raise chance of rolling larger numbers
-@export var number_of_dice = 10 
+@export var number_of_dice: int = 10 
 
 ## Lowest number on each die [br]
 ## Use 1 or greater for a regular race [br]
 ## Use 0 for a stop/start race with frequent stalling [br]
 ## Use -1 or less for the racers to frequently lose progress [br]
 ## 1=NORMAL, 0=STALLING, -1=PULLBACK
-@export var roll_min = -1 
+@export var roll_min: int = -1 
 
 ## Highest number on each die
-@export var roll_max = 20
+@export var roll_max: int = 20
 
 @export_group("Timer")
 ## Time scale applied to current_progress each tick [br]
@@ -42,136 +40,140 @@ extends Area2D
 @export_range(0.0, 2.0, 0.5) var time_scale: float = 1.0 
 
 ## Minimum time between rolls
-@export var timer_min = 1
+@export var timer_min: float = 1.0
 
 ## Maximum time between rolls
-@export var timer_max = 8
+@export var timer_max: float = 8.0
 
 @export_group("Padding")
 ## Padding around each racer
-@export var padding = 5
+@export var padding: float = 5.0
 
-@onready var line = $ColorRect/Line
-@onready var gradient = $ColorRect/Line/LineGradient
-@onready var gradient2 = $ColorRect/Line/LineGradient2
-@onready var screen_size =  get_viewport_rect().size
+@export_group("Components")
+@export var rect: ColorRect
+@export var line: ColorRect
+@export var line_grad: TextureRect
+@export var line_grad2: TextureRect
+@export var roll_timer: Timer
+@export var top_three_mask: TextureRect
+@export var top_three_color: ColorRect
 
-#@onready var screen_size = get_window().content_scale_size
-@onready var rect_size = Vector2(screen_size.x - (padding * 2), $ColorRect.size.y)
-@onready var line_margin_x = $ColorRect/Line.position.x
-@onready var line_max_length = rect_size.x - (line_margin_x * 2)
+@export_group("Labels")
+@export var choice_label: Label
+@export var current_progress_label: Label
+@export var roll_timer_wait_label: Label
+@export var current_roll_label: Label
 
-var movie_title: String = "Default"
+@onready var screen_size: Vector2 =  get_viewport_rect().size
+@onready var rect_size: = Vector2(screen_size.x - (padding * 2), rect.size.y)
+@onready var line_max_length: float = rect_size.x - (line.position.x * 2)
+
+var choice: String = "Default"
 var current_roll: int
 var current_progress: float = 0.0
 var racing: bool = false
-var place_color = Color.WHITE
-var roll_strength: float
+var medal_color: = Color.WHITE
+var roll_str: float
 
 
 ################################################################################
 # --------------------------------- FUNCTIONS -------------------------------- #
 ################################################################################
-
-func resize_racer():
-	#print("screen_size:" + str(screen_size))
-	#print("rect_size: " + str(rect_size))
-	#print("get_viewport().content_scale_size" + str(get_viewport().content_scale_size))
-	$ColorRect.position.x = padding
-	$ColorRect.size = rect_size
+func resize_racer() -> void:
+	rect.position.x = padding
+	rect.size = rect_size
 	
-func init_racer():
-	gradient.size.x = 0
-	gradient2.size.x = 0
+func init_racer() -> void:
+	line_grad.size.x = 0
+	line_grad2.size.x = 0
 	line.size.x = 0
 
 func roll() -> int:
 	return randi_range(roll_min, roll_max)
 	
-func lowest_roll(rolls):
-	var roll_array = []
+func lowest_roll(rolls: int) -> int:
+	var roll_array: Array = []
 	for n in rolls:
 		roll_array.append(roll())
 	return roll_array.min()
 	
-func highest_roll(rolls):
-	var roll_array = []
+func highest_roll(rolls: int) -> int:
+	var roll_array: Array = []
 	for n in rolls:
 		roll_array.append(roll())
 	return roll_array.max()
 
-func update_current_roll():
+func update_current_roll() -> void:
 	current_roll = lowest_roll(number_of_dice)
-	roll_strength = float(current_roll) / float(roll_max)
-	$ColorRect/CurrentRoll.text = str(current_roll)
+	roll_str = float(current_roll) / float(roll_max)
+	current_roll_label.text = str(current_roll)
 
-func update_current_progress(delta):
+func update_current_progress(delta: float) -> void:
 	current_progress += current_roll * delta * time_scale
-	var clamped_progress = clamp(current_progress,0.00,100.00)
-	$ColorRect/CurrentProgress.text = str(clamped_progress).pad_decimals(2) + "%"
+	var clamped_progress: float = clamp(current_progress,0.00,100.00)
+	current_progress_label.text = str(clamped_progress).pad_decimals(2) + "%"
 
-func randomize_roll_timer_wait():
-	$RollTimer.wait_time = randf_range(timer_min,timer_max)
+func randomize_roll_timer_wait() -> void:
+	roll_timer.wait_time = randf_range(timer_min,timer_max)
 	
-func update_roll_timer_wait():
-	$ColorRect/RollTimerWait.text = str($RollTimer.time_left).pad_decimals(2)
+func update_roll_timer_wait() -> void:
+	roll_timer_wait_label.text = str(roll_timer.time_left).pad_decimals(2)
 
-func update_line():
+func update_line() -> void:
 	# Roll strength modulates gradient length, gradient alpha, and line intensity
-	roll_strength = float(current_roll) / float(roll_max)
-	
+	roll_str = float(current_roll) / float(roll_max)
+	# LENGTHS
 	# Update line and gradient length based on current progress percent
-	# LINE
+	# 	LINE
 	line.size.x = current_progress * line_max_length / 100
-	# GRADIENT
+	# 	GRADIENT
 	# Gradient length fluctuates based on roll strength
-	var gradient_new_size_x = line.size.x/4 * clamp(roll_strength,0.7,1.0)
-	gradient.size.x = lerp(gradient.size.x, gradient_new_size_x,0.02)
-	gradient.position.x = ceil(line.size.x - gradient.size.x)
-	# GRADIENT HIGHLIGHT
-	var gradient2_size_max = line_max_length * 0.005
-	var gradient2_new_size_x = float(clamp(line.size.x, line.size.x, gradient2_size_max))
-	gradient2.size.x = lerp(gradient2.size.x, gradient2_new_size_x,0.02)
-	gradient2.position.x = ceil(line.size.x - gradient2.size.x)
-	
+	var grad_new_size_x: float = line.size.x/4 * clamp(roll_str,0.7,1.0)
+	line_grad.size.x = lerp(line_grad.size.x, grad_new_size_x,0.02)
+	line_grad.position.x = ceil(line.size.x - line_grad.size.x)
+	# 	GRADIENT HIGHLIGHT
+	var grad2_size_max: float = line_max_length * 0.005
+	var grad2_new_size_x: = float(clamp(line.size.x, line.size.x, grad2_size_max))
+	line_grad2.size.x = lerp(line_grad2.size.x, grad2_new_size_x,0.02)
+	line_grad2.position.x = ceil(line.size.x - line_grad2.size.x)
+	# COLORS
 	# Update line color based on current progress percent
 	# Changes from red to green as the race progresses
-	var hue = clamp(current_progress * 0.003,0.0,1.0)
-	# LINE
-	var line_value = lerp (line.color.v, clamp(roll_strength*2, 0.6, 0.9), 0.6)
-	var new_line_color = Color.from_hsv(hue, 0.95, line_value)
+	var hue: float = clamp(current_progress * 0.003,0.0,1.0)
+	# 	LINE
+	var line_value: float = lerp (line.color.v, clamp(roll_str*2, 0.6, 0.9), 0.6)
+	var new_line_color: = Color.from_hsv(hue, 0.95, line_value)
 	line.color = lerp(line.color, new_line_color, 0.06)
-	# GRADIENT
-	var gradient_hue = hue + 0.03
-	var gradient_alpha = clamp(roll_strength*2, 0.1, 1.0)
-	var new_gradient_color = Color.from_hsv(gradient_hue, 1.0, 1.0, gradient_alpha)
-	gradient.modulate = lerp(gradient.modulate, new_gradient_color, 0.03)
+	# 	GRADIENT
+	var grad_hue: float = hue + 0.03
+	var grad_alpha: float = clamp(roll_str*2, 0.1, 1.0)
+	var new_grad_color: = Color.from_hsv(grad_hue, 1.0, 1.0, grad_alpha)
+	line_grad.modulate = lerp(line_grad.modulate, new_grad_color, 0.03)
 	# GRADIENT HIGHLIGHT
-	var gradient2_alpha = clamp(roll_strength, 0.5, 0.7) if roll_strength >= 0.5 else 0
-	var new_gradient2_color = Color.from_hsv(0.0, 0.0, 1.0, gradient2_alpha)
-	gradient2.modulate = lerp(gradient2.modulate, new_gradient2_color, 0.02)
+	var grad2_alpha: float = clamp(roll_str, 0.5, 0.7) if roll_str >= 0.5 else 0
+	var new_grad2_color: = Color.from_hsv(0.0, 0.0, 1.0, grad2_alpha)
+	line_grad2.modulate = lerp(line_grad2.modulate, new_grad2_color, 0.02)
 
-func update_place():
-		#$ColorRect/MovieTitle.modulate = place_color
-		if place_color == Color.WHITE:
-			$ColorRect/TopThreeMask.hide()
+func update_medal() -> void:
+		if medal_color == Color.WHITE:
+			top_three_mask.hide()
 		else:
-			$ColorRect/TopThreeMask/TopThreeColor.color = place_color
-			$ColorRect/TopThreeMask.show()
+			top_three_color.color = medal_color
+			top_three_mask.show()
 
-func reset_line():
+func reset_line() -> void:
 	line.size.x = 0
 
-func start_race():
+func start_race() -> void:
 	racing = true
 	reset_line()
 	randomize_roll_timer_wait()
-	$RollTimer.start()
+	roll_timer.start()
 	update_current_roll()
 	
-func end_race():
+func end_race() -> void:
 	racing = false
-	$RollTimer.stop()
+	roll_timer.stop()
 	update_line()
 	
 	
@@ -184,8 +186,8 @@ func _ready() -> void:
 	resize_racer()
 	init_racer()
 	update_current_roll()
-	$ColorRect/TopThreeMask.hide()
-	$ColorRect/MovieTitle.text = movie_title
+	top_three_mask.hide()
+	choice_label.text = choice
 	update_line()
 	start_race()
 
@@ -194,12 +196,12 @@ func _process(delta: float) -> void:
 	if racing:
 		if current_progress >= 100.00:
 			current_progress = 100.00
-			emit_signal("race_end", movie_title)
+			emit_signal("race_end", choice)
 			get_tree().call_group("racers", "end_race")
 		#else:
 		update_current_progress(delta)
 		update_roll_timer_wait()
-		update_place()
+		update_medal()
 		update_line()
 
 
