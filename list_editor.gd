@@ -37,7 +37,6 @@ func create_default_file() -> void:
 	var file: = FileAccess.open(save_path,FileAccess.WRITE)
 	var default_list: = FileAccess.open(default_list_path, FileAccess.READ)
 	var default_choices: String = default_list.get_as_text()
-	print(default_choices)
 	file.store_var(default_choices)
 
 
