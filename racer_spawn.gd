@@ -67,7 +67,7 @@ func set_medal_colors(top_three_racers: Array) -> void:
 func spawn_racers(mode: int = 1) -> void:
 	for n in number_of_racers:
 		var racer: Racer = racer_scene.instantiate()
-		var padding: float = racer.padding
+		var padding: float = racer.outside_padding
 		# Set roll_min based on mode
 		if mode == 1: #NORMAL
 			racer.roll_min = 1

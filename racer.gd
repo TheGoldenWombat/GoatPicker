@@ -1,18 +1,19 @@
 class_name Racer
-extends Area2D
+extends Node2D
 
 ################################################################################
 # ----------------------------------- TODO ----------------------------------- #
 ################################################################################
+# Break out the line into it's own seperate scene called ProgressMeter
+
 # Add ColorRect that changes color based on roll_str
+# Maybe color the RollTimerMeter instead of a ColorRect? Need to test.
 # Color broken into levels, color gets brighter/dimmer based on % within levels
 # 1.0 to >= 0.75: green
 # 0.75 to >= 0.10: yellow
 # 0.10 to > 0: orange
 # 0: red
 # < 0: flashing red
-
-# Add ColorRect progress bar that shrinks based on roll_timer.time_left
 
 
 
@@ -47,7 +48,8 @@ extends Area2D
 
 @export_group("Padding")
 ## Padding around each racer
-@export var padding: float = 5.0
+@export var outside_padding: float = 5.0
+@export var end_padding: float = 15.0
 
 @export_group("Components")
 @export var rect: ColorRect
@@ -55,6 +57,7 @@ extends Area2D
 @export var line_grad: TextureRect
 @export var line_grad2: TextureRect
 @export var roll_timer: Timer
+@export var roll_timer_meter: RollTimerMeter
 @export var top_three_mask: TextureRect
 @export var top_three_color: ColorRect
 
@@ -65,8 +68,8 @@ extends Area2D
 @export var current_roll_label: Label
 
 @onready var screen_size: Vector2 =  get_viewport_rect().size
-@onready var rect_size: = Vector2(screen_size.x - (padding * 2), rect.size.y)
-@onready var line_max_length: float = rect_size.x - (line.position.x * 2)
+@onready var rect_size: = Vector2(screen_size.x - (outside_padding * 2), rect.size.y)
+@onready var line_max_length: float = rect_size.x - line.position.x - end_padding
 
 var choice: String = "Default"
 var current_roll: int
@@ -74,13 +77,14 @@ var current_progress: float = 0.0
 var racing: bool = false
 var medal_color: = Color.WHITE
 var roll_str: float
+var meter_percent: float
 
 
 ################################################################################
 # --------------------------------- FUNCTIONS -------------------------------- #
 ################################################################################
 func resize_racer() -> void:
-	rect.position.x = padding
+	rect.position.x = outside_padding
 	rect.size = rect_size
 	
 func init_racer() -> void:
@@ -118,6 +122,13 @@ func randomize_roll_timer_wait() -> void:
 	
 func update_roll_timer_wait() -> void:
 	roll_timer_wait_label.text = str(roll_timer.time_left).pad_decimals(2)
+	
+func update_roll_timer_meter() -> void:
+	meter_percent = roll_timer.time_left / roll_timer.wait_time
+	#print("time left: " + str(roll_timer.time_left))
+	#print("wait time: " + str(roll_timer.wait_time))
+	#print(meter_percent)
+	roll_timer_meter.update_meter(meter_percent)
 
 func update_line() -> void:
 	# Roll strength modulates gradient length, gradient alpha, and line intensity
@@ -155,11 +166,11 @@ func update_line() -> void:
 	line_grad2.modulate = lerp(line_grad2.modulate, new_grad2_color, 0.02)
 
 func update_medal() -> void:
-		if medal_color == Color.WHITE:
-			top_three_mask.hide()
-		else:
-			top_three_color.color = medal_color
-			top_three_mask.show()
+	if medal_color == Color.WHITE:
+		top_three_mask.hide()
+	else:
+		top_three_color.color = medal_color
+		top_three_mask.show()
 
 func reset_line() -> void:
 	line.size.x = 0
@@ -201,6 +212,7 @@ func _process(delta: float) -> void:
 		#else:
 		update_current_progress(delta)
 		update_roll_timer_wait()
+		update_roll_timer_meter()
 		update_medal()
 		update_line()
 
@@ -213,4 +225,6 @@ signal race_end
 
 func _on_roll_timer_timeout() -> void:
 	randomize_roll_timer_wait()
+	#roll_timer.stop()
+	roll_timer.start()
 	update_current_roll()

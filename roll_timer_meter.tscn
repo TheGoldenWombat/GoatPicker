@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3csk7xnoxe23"]
+
+[ext_resource type="Script" uid="uid://bqd8fd614ut8m" path="res://roll_timer_meter.gd" id="1_nh4vs"]
+
+[node name="RollTimerMeter" type="Control" node_paths=PackedStringArray("meter")]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_nh4vs")
+meter = NodePath("Meter")
+
+[node name="Meter" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -26.0
+offset_right = 10.0
+offset_bottom = 26.0
+grow_vertical = 2
+rotation = 3.14159
+pivot_offset = Vector2(5, 26)
