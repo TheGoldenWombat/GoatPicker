@@ -6,3 +6,4 @@
 [node name="RacerSpawn" type="Node"]
 script = ExtResource("1_x4a1m")
 racer_scene = ExtResource("2_qsll1")
+max_racers = 12

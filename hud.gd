@@ -13,6 +13,7 @@ extends CanvasLayer
 # --------------------------------- VARIABLES -------------------------------- #
 ################################################################################
 @export var center_message: Label
+@export var error_message: Label
 @export var top_three_list: Label
 @export var mode_1_button: Button
 @export var mode_2_button: Button
@@ -22,6 +23,7 @@ extends CanvasLayer
 @export var list_editor: ListEditor
 
 const TITLE_MESSAGE: String = "Goat's Choice Picker 3000"
+var choices_path: String = "user://choices.list"
 
 
 ################################################################################
@@ -48,20 +50,51 @@ func initialize_main_menu() -> void:
 	abort_race.hide()
 	center_message.text = TITLE_MESSAGE
 	center_message.show()
+	error_message.hide()
 	emit_signal("clear_racers")
 
+
+## Get list of choices from choices.list and read them into an array
+func get_choices_array(choices_path: String) -> Array:
+	var file: = FileAccess.open(choices_path,FileAccess.READ)
+	var choices: String = file.get_var()
+	var array: Array = choices.split("\n")
+	#Filter null and blanks
+	array = array.filter(func(element): return element!=null)
+	array = array.filter(func(element): return element!="")
+	return array
+
+
+func choices_available() -> bool:
+	return get_choices_array(choices_path).size() > 0
+
+
+func error_choices_unavailable() -> void:
+	if !error_message.visible:
+		error_message.text = "No valid choices available! \n" + \
+							  "Add choices using the 'Edit List' button"
+		error_message.show()
+		await get_tree().create_timer(3).timeout
+		error_message.hide()
+
+
 func start_race(mode: int = 1) -> void:
-	hide_main_menu_buttons()
-	abort_race.show()
-	center_message.hide()
-	top_three_list.show()
-	emit_signal("race_start", mode)
+	if choices_available():
+		hide_main_menu_buttons()
+		abort_race.show()
+		center_message.hide()
+		top_three_list.show()
+		emit_signal("race_start", mode)
+	else:
+		error_choices_unavailable()
+	
 	
 func hide_main_menu_buttons() -> void:
 	mode_1_button.hide()
 	mode_2_button.hide()
 	mode_3_button.hide()
 	edit_list_button.hide()
+	
 	
 func show_main_menu_buttons() -> void:
 	mode_1_button.show()
@@ -84,29 +117,27 @@ func _on_racer_spawn_race_over(choice: String) -> void:
 	show_main_menu_buttons()
 	top_three_list.show()
 
-func _on_racer_spawn_top_three(top_three: Array) -> void:
-	var first_progress: = str(clamp(top_three[0][0],0.00,100.00)).pad_decimals(2) + "%"
-	var first_title: String = top_three[0][1]
-	var second_progress: = str(clamp(top_three[1][0],0.00,100.00)).pad_decimals(2) + "%"
-	var second_title: String = top_three[1][1]
-	var third_progress: = str(clamp(top_three[2][0],0.00,100.00)).pad_decimals(2) + "%"
-	var third_title: String = top_three[2][1]
-	top_three_list.text = first_progress + " - " + first_title + "\n" + \
-					 	   second_progress + " - " + second_title + "\n" + \
-					 	   third_progress + " - " + third_title
+
+func _on_racer_spawn_top_three(top_three_text: String) -> void:
+	top_three_list.text = top_three_text
+
 
 func _on_edit_list_button_pressed() -> void:
 	list_editor.load_list()
 	list_editor.show()
 
+
 func _on_start_mode_1_button_pressed() -> void:
 	start_race(1)
+
 
 func _on_start_mode_2_button_pressed() -> void:
 	start_race(2)
 
+
 func _on_start_mode_3_button_pressed() -> void:
 	start_race(3)
+
 
 func _on_abort_race_button_pressed() -> void:
 	get_tree().call_group("racers", "end_race")
@@ -115,6 +146,7 @@ func _on_abort_race_button_pressed() -> void:
 	abort_race.hide()
 	show_main_menu_buttons()
 	top_three_list.show()
+
 
 func _on_list_editor_close_editor() -> void:
 	initialize_main_menu()

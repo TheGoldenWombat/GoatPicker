@@ -16,9 +16,6 @@ var meter_current: float = 0.0
 func update_meter(meter_percent: float) -> void:
 	meter_current = meter_max * meter_percent
 	meter.size.y = meter_current
-	#print(meter_max)
-	#print(meter_percent)
-	#print(meter_current)
 
 
 ################################################################################
