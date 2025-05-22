@@ -55,13 +55,13 @@ func initialize_main_menu() -> void:
 
 
 ## Get list of choices from choices.list and read them into an array
-func get_choices_array(choices_path: String) -> Array:
-	var file: = FileAccess.open(choices_path,FileAccess.READ)
+func get_choices_array(path: String) -> Array:
+	var file: = FileAccess.open(path,FileAccess.READ)
 	var choices: String = file.get_var()
 	var array: Array = choices.split("\n")
 	#Filter null and blanks
-	array = array.filter(func(element): return element!=null)
-	array = array.filter(func(element): return element!="")
+	array = array.filter(func(element: Variant) -> bool: return element!=null)
+	array = array.filter(func(element: Variant) -> bool: return element!="")
 	return array
 
 
@@ -109,6 +109,7 @@ func show_main_menu_buttons() -> void:
 
 signal race_start
 signal clear_racers
+
 
 func _on_racer_spawn_race_over(choice: String) -> void:
 	center_message.text = "The winner is: \n" + choice

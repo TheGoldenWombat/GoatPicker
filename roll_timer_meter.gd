@@ -25,6 +25,7 @@ func update_meter(meter_percent: float) -> void:
 func _ready() -> void:
 	meter.size.y = 0
 
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass

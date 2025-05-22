@@ -4,8 +4,6 @@ extends CanvasLayer
 ################################################################################
 # ----------------------------------- TODO ----------------------------------- #
 ################################################################################
-# Add check to see if choices.list contains enough entries
-# Error message if list is blank or doesn't contain enough entries for race
 
 
 ################################################################################
@@ -23,6 +21,7 @@ func save_list() -> void:
 	var file: = FileAccess.open(save_path,FileAccess.WRITE)
 	file.store_var(text_box.text)
 	
+	
 func load_list() -> void:
 	if !FileAccess.file_exists(save_path): create_default_file() 
 	var file: = FileAccess.open(save_path, FileAccess.READ)
@@ -32,6 +31,7 @@ func load_list() -> void:
 		file = FileAccess.open(save_path, FileAccess.READ) #Reload file
 		choices = str(file.get_var())
 	text_box.text = choices
+
 
 func create_default_file() -> void:
 	var file: = FileAccess.open(save_path,FileAccess.WRITE)
@@ -60,11 +60,14 @@ func _process(_delta: float) -> void:
 
 signal close_editor
 
+
 func _on_save_button_pressed() -> void:
 	save_list()
 
+
 func _on_load_button_pressed() -> void:
 	load_list()
+
 
 func _on_done_button_pressed() -> void:
 	save_list()

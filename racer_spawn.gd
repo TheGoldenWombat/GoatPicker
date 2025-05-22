@@ -14,6 +14,7 @@ extends Node
 @export var racer_scene: PackedScene
 @export_range(0, 12) var max_racers: int
 
+
 var number_of_racers: int = max_racers
 var list_path: String = "user://choices.list"
 var y_offset: float = 0.0
@@ -52,8 +53,8 @@ func get_choices_array(path: String) -> Array:
 	var choices: String = file.get_var()
 	var array: Array = choices.split("\n")
 	#Filter null and blanks
-	array = array.filter(func(element): return element!=null)
-	array = array.filter(func(element): return element!="")
+	array = array.filter(func(element: Variant) -> bool: return element!=null)
+	array = array.filter(func(element: Variant) -> bool: return element!="")
 	return array
 
 
@@ -86,29 +87,31 @@ func get_top_three_array() -> Array:
 	racers.sort()
 	racers.reverse()
 	racers.resize(3)
-	racers = racers.filter(func(element): return element!=null)
+	racers = racers.filter(func(element: Variant) -> bool: return element!=null)
 	return racers
 	
+	
 func top_three_text() -> String:
+	# TODO Refactor this
 	var first_label: String = ""
 	var second_label: String = ""
 	var third_label: String = ""
-	var top_three_array = get_top_three_array()
+	var top_three_array: Array = get_top_three_array()
 	
 	if top_three_array.size() >= 1:
-		var first_progress_percent = clamp(top_three_array[0][0],0.00,100.00)
+		var first_progress_percent: float = clamp(top_three_array[0][0],0.00,100.00)
 		var first_progress: = str(first_progress_percent).pad_decimals(2) + "%"
 		var first_title: String = top_three_array[0][1]
 		first_label = first_progress + " - " + first_title
 		
 	if top_three_array.size() >= 2:
-		var second_progress_percent = clamp(top_three_array[1][0],0.00,100.00)
+		var second_progress_percent: float = clamp(top_three_array[1][0],0.00,100.00)
 		var second_progress: = str(second_progress_percent).pad_decimals(2) + "%"
 		var second_title: String = top_three_array[1][1]
 		second_label = second_progress + " - " + second_title
 		
 	if top_three_array.size() >= 3:
-		var third_progress_percent = clamp(top_three_array[2][0],0.00,100.00)
+		var third_progress_percent: float = clamp(top_three_array[2][0],0.00,100.00)
 		var third_progress: = str(third_progress_percent).pad_decimals(2) + "%"
 		var third_title: String = top_three_array[2][1]
 		third_label =  third_progress + " - " + third_title
@@ -148,6 +151,7 @@ func _ready() -> void:
 	#setup_race()
 	pass
 
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	if racing:
@@ -162,12 +166,15 @@ func _process(_delta: float) -> void:
 signal race_over
 signal top_three
 
+
 func on_race_end(choice: String) -> void:
 	racing = false
 	emit_signal("race_over", choice)
 
+
 func _on_hud_race_start(mode: int) -> void:
 	setup_race(mode)
+	
 	
 func _on_hud_clear_racers() -> void:
 	racing = false
