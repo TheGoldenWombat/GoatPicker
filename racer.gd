@@ -4,6 +4,7 @@ extends Node2D
 ################################################################################
 # ----------------------------------- TODO ----------------------------------- #
 ################################################################################
+
 # Break out the line into it's own seperate scene called ProgressMeter
 
 # Add ColorRect that changes color based on roll_str
@@ -19,6 +20,7 @@ extends Node2D
 ################################################################################
 # --------------------------------- VARIABLES -------------------------------- #
 ################################################################################
+
 @export_group("Dice")
 ## Number of dice to roll at once [br]
 ## Lower to raise chance of rolling larger numbers
@@ -45,6 +47,7 @@ extends Node2D
 
 ## Maximum time between rolls
 @export var timer_max: float = 8.0
+
 
 @export_group("Padding")
 ## Padding around each racer
@@ -86,28 +89,35 @@ var meter_percent: float
 ################################################################################
 # --------------------------------- FUNCTIONS -------------------------------- #
 ################################################################################
+
 func resize_racer() -> void:
 	rect.position.x = outside_padding
 	rect.size = rect_size
-	
-	
+
+
 func init_racer() -> void:
+	reset_line()
+	top_three_mask.hide()
+	choice_label.text = choice
+
+
+func reset_line() -> void:
+	line.size.x = 0
 	line_grad.size.x = 0
 	line_grad2.size.x = 0
-	line.size.x = 0
 
 
 func roll() -> int:
 	return randi_range(roll_min, roll_max)
-	
-	
+
+
 func lowest_roll(rolls: int) -> int:
 	var roll_array: Array = []
 	for n in rolls:
 		roll_array.append(roll())
 	return roll_array.min()
-	
-	
+
+
 func highest_roll(rolls: int) -> int:
 	var roll_array: Array = []
 	for n in rolls:
@@ -129,26 +139,29 @@ func update_current_progress(delta: float) -> void:
 
 func randomize_roll_timer_wait() -> void:
 	roll_timer.wait_time = randf_range(timer_min,timer_max)
-	
-	
-func update_roll_timer_wait() -> void:
+	roll_timer.start()
+
+
+func update_roll_timer_text() -> void:
 	roll_timer_wait_label.text = str(roll_timer.time_left).pad_decimals(2)
-	
-	
+
+
 func update_roll_timer_meter() -> void:
 	meter_percent = roll_timer.time_left / roll_timer.wait_time
 	roll_timer_meter.update_meter(meter_percent)
 
 
 func update_line() -> void:
+	# TODO Refactor this
 	# Roll strength modulates gradient length, gradient alpha, and line intensity
 	roll_str = float(current_roll) / float(roll_max)
+	
 	# LENGTHS
 	# Update line and gradient length based on current progress percent
 	# 	LINE
 	line.size.x = current_progress * line_max_length / 100
 	# 	GRADIENT
-	# Gradient length fluctuates based on roll strength
+	# 	Gradient length fluctuates based on roll strength
 	var grad_new_size_x: float = line.size.x/4 * clamp(roll_str,0.7,1.0)
 	line_grad.size.x = lerp(line_grad.size.x, grad_new_size_x,0.02)
 	line_grad.position.x = ceil(line.size.x - line_grad.size.x)
@@ -157,6 +170,7 @@ func update_line() -> void:
 	var grad2_new_size_x: = float(clamp(line.size.x, line.size.x, grad2_size_max))
 	line_grad2.size.x = lerp(line_grad2.size.x, grad2_new_size_x,0.02)
 	line_grad2.position.x = ceil(line.size.x - line_grad2.size.x)
+	
 	# COLORS
 	# Update line color based on current progress percent
 	# Changes from red to green as the race progresses
@@ -170,7 +184,7 @@ func update_line() -> void:
 	var grad_alpha: float = clamp(roll_str*2, 0.1, 1.0)
 	var new_grad_color: = Color.from_hsv(grad_hue, 1.0, 1.0, grad_alpha)
 	line_grad.modulate = lerp(line_grad.modulate, new_grad_color, 0.03)
-	# GRADIENT HIGHLIGHT
+	# 	GRADIENT HIGHLIGHT
 	var grad2_alpha: float = clamp(roll_str, 0.5, 0.7) if roll_str >= 0.5 else 0
 	var new_grad2_color: = Color.from_hsv(0.0, 0.0, 1.0, grad2_alpha)
 	line_grad2.modulate = lerp(line_grad2.modulate, new_grad2_color, 0.02)
@@ -184,24 +198,27 @@ func update_medal() -> void:
 		top_three_mask.show()
 
 
-func reset_line() -> void:
-	line.size.x = 0
-
-
 func start_race() -> void:
 	racing = true
 	reset_line()
 	randomize_roll_timer_wait()
 	roll_timer.start()
 	update_current_roll()
-	
-	
+
+
+func check_for_winner() -> void:
+	if current_progress >= 100.00:
+		current_progress = 100.00
+		emit_signal("race_end", choice)
+		get_tree().call_group("racers", "end_race")
+
+
 func end_race() -> void:
 	racing = false
 	roll_timer.stop()
 	update_line()
-	
-	
+
+
 ################################################################################
 # --------------------------------- PROCESSES -------------------------------- #
 ################################################################################
@@ -211,8 +228,6 @@ func _ready() -> void:
 	resize_racer()
 	init_racer()
 	update_current_roll()
-	top_three_mask.hide()
-	choice_label.text = choice
 	update_line()
 	start_race()
 
@@ -220,13 +235,9 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if racing:
-		if current_progress >= 100.00:
-			current_progress = 100.00
-			emit_signal("race_end", choice)
-			get_tree().call_group("racers", "end_race")
-		#else:
+		check_for_winner()
 		update_current_progress(delta)
-		update_roll_timer_wait()
+		update_roll_timer_text()
 		update_roll_timer_meter()
 		update_medal()
 		update_line()
@@ -241,6 +252,4 @@ signal race_end
 
 func _on_roll_timer_timeout() -> void:
 	randomize_roll_timer_wait()
-	#roll_timer.stop()
-	roll_timer.start()
 	update_current_roll()

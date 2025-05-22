@@ -9,6 +9,7 @@ extends CanvasLayer
 ################################################################################
 # --------------------------------- VARIABLES -------------------------------- #
 ################################################################################
+
 @export var text_box: TextEdit
 var default_list_path: String = "res://default_choices.txt"
 var save_path: String = "user://choices.list"
@@ -17,11 +18,12 @@ var save_path: String = "user://choices.list"
 ################################################################################
 # --------------------------------- FUNCTIONS -------------------------------- #
 ################################################################################
+
 func save_list() -> void:
 	var file: = FileAccess.open(save_path,FileAccess.WRITE)
 	file.store_var(text_box.text)
-	
-	
+
+
 func load_list() -> void:
 	if !FileAccess.file_exists(save_path): create_default_file() 
 	var file: = FileAccess.open(save_path, FileAccess.READ)

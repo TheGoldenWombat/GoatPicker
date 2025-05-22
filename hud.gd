@@ -4,14 +4,16 @@ extends CanvasLayer
 ################################################################################
 # ----------------------------------- TODO ----------------------------------- #
 ################################################################################
+
 # Add slider to choose number of racers
-# Maximum racers should be based on the number of lines in choices.list
-# If lines < maximum then maximum = lines
+# 	Maximum racers should be based on the number of lines in choices.list
+# 	If lines < maximum then maximum = lines
 
 
 ################################################################################
 # --------------------------------- VARIABLES -------------------------------- #
 ################################################################################
+
 @export var center_message: Label
 @export var error_message: Label
 @export var top_three_list: Label
@@ -43,6 +45,7 @@ func _process(_delta: float) -> void:
 ################################################################################
 # --------------------------------- FUNCTIONS -------------------------------- #
 ################################################################################
+
 func initialize_main_menu() -> void:
 	show_main_menu_buttons()
 	top_three_list.hide()
@@ -87,21 +90,21 @@ func start_race(mode: int = 1) -> void:
 		emit_signal("race_start", mode)
 	else:
 		error_choices_unavailable()
-	
-	
+
+
 func hide_main_menu_buttons() -> void:
 	mode_1_button.hide()
 	mode_2_button.hide()
 	mode_3_button.hide()
 	edit_list_button.hide()
-	
-	
+
+
 func show_main_menu_buttons() -> void:
 	mode_1_button.show()
 	mode_2_button.show()
 	mode_3_button.show()
 	edit_list_button.show()
-	
+
 
 ################################################################################
 # ---------------------------------- SIGNALS --------------------------------- #

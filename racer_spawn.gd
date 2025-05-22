@@ -4,12 +4,14 @@ extends Node
 ################################################################################
 # ----------------------------------- TODO ----------------------------------- #
 ################################################################################
+
 # Adjust number of racers based on slider on HUD main menu
 
 
 ################################################################################
 # --------------------------------- VARIABLES -------------------------------- #
 ################################################################################
+
 @export_group("Racers")
 @export var racer_scene: PackedScene
 @export_range(0, 12) var max_racers: int
@@ -25,6 +27,8 @@ var racing: bool = false
 ################################################################################
 # --------------------------------- FUNCTIONS -------------------------------- #
 ################################################################################
+
+## Initializes spawner properties, gets the list of choices, and spawns the racers
 func setup_race(mode: int) -> void:
 	# Initialize spawner
 	remove_racers()
@@ -58,6 +62,16 @@ func get_choices_array(path: String) -> Array:
 	return array
 
 
+## Spawns racers with three possible race modes: [br]
+##   Mode 1 - NORMAL [br]
+##   - The racers constantly move forward [br]
+##   - Rolls dice between 1 and racer.roll_max [br]
+##   Mode 2 - STALLING [br]
+##   - The racers will frequently stall [br]
+##   - Rolls dice between 0 and racer.roll_max [br]
+##   Mode 3 - PULLBACK [br]
+##   - The racers will frequently stall and creep backward [br]
+##   - Rolls dice between -1 and racer.roll_max [br]
 func spawn_racers(mode: int = 1) -> void:
 	for n in number_of_racers:
 		var racer: Racer = racer_scene.instantiate()
@@ -65,14 +79,11 @@ func spawn_racers(mode: int = 1) -> void:
 		# Set roll_min based on mode
 		if mode == 1: #NORMAL
 			racer.roll_min = 1
+			racer.time_scale = racer.time_scale * 0.5
 		elif mode == 2: #STALLING
 			racer.roll_min = 0
 		else: #PULLBACK
 			racer.roll_min = -1
-		# Halve time_scale for mode 1
-		if mode == 1:
-			racer.time_scale = racer.time_scale * 0.5
-		#print("mode: " + str(mode))
 		racer.position = Vector2(0,y_offset + padding)
 		racer.choice = choices_array[n]
 		racer.race_end.connect(on_race_end)
@@ -80,6 +91,7 @@ func spawn_racers(mode: int = 1) -> void:
 		y_offset += racer.rect_size.y + padding
 
 
+## Get array of the top three racers, or fewer if there aren't three racers total
 func get_top_three_array() -> Array:
 	var racers: Array = []
 	for racer in get_children():
@@ -89,8 +101,8 @@ func get_top_three_array() -> Array:
 	racers.resize(3)
 	racers = racers.filter(func(element: Variant) -> bool: return element!=null)
 	return racers
-	
-	
+
+## Generates text to be sent to the top three leaderboard in the HUD
 func top_three_text() -> String:
 	# TODO Refactor this
 	var first_label: String = ""
@@ -121,6 +133,7 @@ func top_three_text() -> String:
 		   third_label
 
 
+## Sets the medal colors next to the top three racers
 func set_medal_colors() -> void:
 	var top_three_array: Array = get_top_three_array()
 	var first_place_racer: String = ""
@@ -131,15 +144,11 @@ func set_medal_colors() -> void:
 	if top_three_array.size() >= 2: second_place_racer = top_three_array[1][1]
 	if top_three_array.size() >= 3: third_place_racer = top_three_array[2][1]
 	
-	for r in get_children():
-		if r.choice == first_place_racer:
-			r.medal_color = Color.GOLD
-		elif r.choice == second_place_racer:
-			r.medal_color = Color.SILVER
-		elif r.choice == third_place_racer:
-			r.medal_color = Color.PERU
-		else:
-			r.medal_color = Color.WHITE
+	for racer in get_children():
+		if racer.choice == first_place_racer: racer.medal_color = Color.GOLD
+		elif racer.choice == second_place_racer: racer.medal_color = Color.SILVER
+		elif racer.choice == third_place_racer: racer.medal_color = Color.PERU
+		else: racer.medal_color = Color.WHITE
 
 
 ################################################################################
@@ -166,16 +175,16 @@ func _process(_delta: float) -> void:
 signal race_over
 signal top_three
 
-
+## Stops the race and emits a signal that contains the name of the winner
 func on_race_end(choice: String) -> void:
 	racing = false
 	emit_signal("race_over", choice)
 
-
+## Starts the race using the specified mode
 func _on_hud_race_start(mode: int) -> void:
 	setup_race(mode)
-	
-	
+
+## Clears the racers when the main menu is initialized
 func _on_hud_clear_racers() -> void:
 	racing = false
 	remove_racers()
