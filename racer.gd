@@ -76,14 +76,17 @@ extends Node2D
 @onready var screen_size: Vector2 =  get_viewport_rect().size
 @onready var rect_size: = Vector2(screen_size.x - (outside_padding * 2), rect.size.y)
 @onready var line_max_length: float = rect_size.x - line.position.x - end_padding
+@onready var choices_array: Array = get_choices_array(list_path)
 
 var choice: String = "Default"
 var current_roll: int
 var current_progress: float = 0.0
 var racing: bool = false
+var randomizing_choice:bool = false
 var medal_color: = Color.WHITE
 var roll_str: float
 var meter_percent: float
+var list_path: String = "user://choices.list"
 
 
 ################################################################################
@@ -98,6 +101,7 @@ func resize_racer() -> void:
 func init_racer() -> void:
 	reset_line()
 	top_three_mask.hide()
+	#current_progress_label.hide()
 	choice_label.text = choice
 
 
@@ -198,8 +202,19 @@ func update_medal() -> void:
 		top_three_mask.show()
 
 
+func get_choices_array(path: String) -> Array:
+	var file: = FileAccess.open(path,FileAccess.READ)
+	var choices: String = file.get_var()
+	var array: Array = choices.split("\n")
+	#Filter null and blanks
+	array = array.filter(func(element: Variant) -> bool: return element!=null)
+	array = array.filter(func(element: Variant) -> bool: return element!="")
+	return array
+
+
 func start_race() -> void:
 	racing = true
+	#current_progress_label.show()
 	reset_line()
 	randomize_roll_timer_wait()
 	roll_timer.start()
@@ -229,7 +244,7 @@ func _ready() -> void:
 	init_racer()
 	update_current_roll()
 	update_line()
-	start_race()
+	#start_race()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -241,6 +256,10 @@ func _process(delta: float) -> void:
 		update_roll_timer_meter()
 		update_medal()
 		update_line()
+	if randomizing_choice:
+		# TODO Add simple delta timer to slow this down
+		choice_label.text = choices_array.pick_random()
+		
 
 
 ################################################################################

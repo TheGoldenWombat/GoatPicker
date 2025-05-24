@@ -86,7 +86,7 @@ func start_race(mode: int = 1) -> void:
 		hide_main_menu_buttons()
 		abort_race.show()
 		center_message.hide()
-		top_three_list.show()
+		#top_three_list.show()
 		emit_signal("race_start", mode)
 	else:
 		error_choices_unavailable()
@@ -149,8 +149,12 @@ func _on_abort_race_button_pressed() -> void:
 	center_message.show()
 	abort_race.hide()
 	show_main_menu_buttons()
-	top_three_list.show()
+	top_three_list.hide()
 
 
 func _on_list_editor_close_editor() -> void:
 	initialize_main_menu()
+
+
+func _on_racer_spawn_show_top_three() -> void:
+	top_three_list.show()

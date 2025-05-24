@@ -22,6 +22,7 @@ var list_path: String = "user://choices.list"
 var y_offset: float = 0.0
 var choices_array: Array
 var racing: bool = false
+var medal_delay: bool = true
 
 
 ################################################################################
@@ -41,7 +42,7 @@ func setup_race(mode: int) -> void:
 	choices_array.shuffle()
 	choices_array.resize(number_of_racers)
 	spawn_racers(mode)
-	racing = true
+	#racing = true
 
 
 ## Removes all racers from racer_spawn
@@ -85,10 +86,19 @@ func spawn_racers(mode: int = 1) -> void:
 		else: #PULLBACK
 			racer.roll_min = -1
 		racer.position = Vector2(0,y_offset + padding)
-		racer.choice = choices_array[n]
+		
 		racer.race_end.connect(on_race_end)
+		racer.randomizing_choice = true
 		add_child(racer)
+		await get_tree().create_timer(0.5).timeout # Replace with audio cue
+		racer.randomizing_choice = false
+		racer.choice = choices_array[n]
+		racer.choice_label.text = racer.choice
 		y_offset += racer.rect_size.y + padding
+	await get_tree().create_timer(3.0).timeout # Replace with audio cue
+	racing = true
+	get_tree().call_group("racers", "start_race")
+	emit_signal("show_top_three")
 
 
 ## Get array of the top three racers, or fewer if there aren't three racers total
@@ -165,7 +175,11 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if racing:
 		emit_signal("top_three", top_three_text())
-		set_medal_colors()
+		if medal_delay:
+			await get_tree().create_timer(0.3).timeout
+			medal_delay = false
+		else:
+			set_medal_colors()
 
 
 ################################################################################
@@ -173,6 +187,7 @@ func _process(_delta: float) -> void:
 ################################################################################
 
 signal race_over
+signal show_top_three
 signal top_three
 
 ## Stops the race and emits a signal that contains the name of the winner

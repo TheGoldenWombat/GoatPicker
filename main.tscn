@@ -12,6 +12,7 @@ script = ExtResource("1_0xm2m")
 [node name="HUD" parent="." instance=ExtResource("3_h2yge")]
 
 [connection signal="race_over" from="RacerSpawn" to="HUD" method="_on_racer_spawn_race_over"]
+[connection signal="show_top_three" from="RacerSpawn" to="HUD" method="_on_racer_spawn_show_top_three"]
 [connection signal="top_three" from="RacerSpawn" to="HUD" method="_on_racer_spawn_top_three"]
 [connection signal="clear_racers" from="HUD" to="RacerSpawn" method="_on_hud_clear_racers"]
 [connection signal="race_start" from="HUD" to="RacerSpawn" method="_on_hud_race_start"]
