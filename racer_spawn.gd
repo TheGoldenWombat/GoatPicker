@@ -51,9 +51,10 @@ func setup_race(mode: int) -> void:
 
 ## Removes all racers from racer_spawn
 func remove_racers() -> void:
-	for r in find_children("*", "Racer"):
-		remove_child(r)
-		r.queue_free()
+	for r in get_children():
+		if r is Racer:
+			remove_child(r)
+			r.queue_free()
 
 
 ## Get list of choices from choices.list and read them into an array
@@ -95,7 +96,7 @@ func spawn_racers(mode: int = 1) -> void:
 		racer.randomizing_choice = true
 		add_child(racer)
 		sfx_reel_spin.play(randf_range(0.0,6.0))
-		await get_tree().create_timer(2.0).timeout # Replace with audio cue
+		await get_tree().create_timer(1.5).timeout # Replace with audio cue
 		sfx_reel_spin.stop()
 		sfx_reel_stop.play()
 		racer.randomizing_choice = false
@@ -163,11 +164,12 @@ func set_medal_colors() -> void:
 	if top_three_array.size() >= 2: second_place_racer = top_three_array[1][1]
 	if top_three_array.size() >= 3: third_place_racer = top_three_array[2][1]
 	
-	for racer in find_children("*", "Racer"):
-		if racer.choice == first_place_racer: racer.medal_color = Color.GOLD
-		elif racer.choice == second_place_racer: racer.medal_color = Color.SILVER
-		elif racer.choice == third_place_racer: racer.medal_color = Color.PERU
-		else: racer.medal_color = Color.WHITE
+	for r in get_children():
+		if r is Racer:
+			if r.choice == first_place_racer: r.medal_color = Color.GOLD
+			elif r.choice == second_place_racer: r.medal_color = Color.SILVER
+			elif r.choice == third_place_racer: r.medal_color = Color.PERU
+			else: r.medal_color = Color.WHITE
 
 
 ################################################################################
