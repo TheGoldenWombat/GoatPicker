@@ -88,7 +88,7 @@ func start_race(mode: int = 1) -> void:
 		hide_main_menu_buttons()
 		abort_race.show()
 		center_message.hide()
-		#top_three_list.show()
+		top_three_list.hide()
 		emit_signal("race_start", mode)
 	else:
 		error_choices_unavailable()

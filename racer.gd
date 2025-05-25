@@ -264,7 +264,7 @@ func _process(delta: float) -> void:
 			while new_choice == choice_label.text:
 				new_choice = choices_array.pick_random()
 			choice_label.text = new_choice
-			roulette_timer = 0.1
+			roulette_timer = 0.08
 		else:
 			roulette_timer -= delta
 		
