@@ -16,6 +16,10 @@ extends Node
 #@export var racer_scene: PackedScene
 @export_range(0, 12) var max_racers: int
 
+@export_group("SFX")
+@export var sfx_reel_spin: AudioStreamPlayer
+@export var sfx_reel_stop: AudioStreamPlayer
+
 var racer_scene: PackedScene = preload("res://racer.tscn")
 var number_of_racers: int = max_racers
 var list_path: String = "user://choices.list"
@@ -47,7 +51,7 @@ func setup_race(mode: int) -> void:
 
 ## Removes all racers from racer_spawn
 func remove_racers() -> void:
-	for r in get_children():
+	for r in find_children("*", "Racer"):
 		remove_child(r)
 		r.queue_free()
 
@@ -90,7 +94,10 @@ func spawn_racers(mode: int = 1) -> void:
 		racer.race_end.connect(on_race_end)
 		racer.randomizing_choice = true
 		add_child(racer)
+		sfx_reel_spin.play(randf_range(0.0,6.0))
 		await get_tree().create_timer(2.0).timeout # Replace with audio cue
+		sfx_reel_spin.stop()
+		sfx_reel_stop.play()
 		racer.randomizing_choice = false
 		racer.choice = choices_array[n]
 		racer.choice_label.text = racer.choice
@@ -106,7 +113,8 @@ func spawn_racers(mode: int = 1) -> void:
 func get_top_three_array() -> Array:
 	var racers: Array = []
 	for racer in get_children():
-		racers.append([racer.current_progress, racer.choice])
+		if racer is Racer:
+			racers.append([racer.current_progress, racer.choice])
 	racers.sort()
 	racers.reverse()
 	racers.resize(3)
@@ -155,7 +163,7 @@ func set_medal_colors() -> void:
 	if top_three_array.size() >= 2: second_place_racer = top_three_array[1][1]
 	if top_three_array.size() >= 3: third_place_racer = top_three_array[2][1]
 	
-	for racer in get_children():
+	for racer in find_children("*", "Racer"):
 		if racer.choice == first_place_racer: racer.medal_color = Color.GOLD
 		elif racer.choice == second_place_racer: racer.medal_color = Color.SILVER
 		elif racer.choice == third_place_racer: racer.medal_color = Color.PERU
