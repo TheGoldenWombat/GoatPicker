@@ -9,12 +9,13 @@ extends Node2D
 
 # Add ColorRect that changes color based on roll_str
 # Maybe color the RollTimerMeter instead of a ColorRect? Need to test.
-# Color broken into levels, color gets brighter/dimmer based on % within levels
-# 1.0 to >= 0.75: green
-# 0.75 to >= 0.10: yellow
-# 0.10 to > 0: orange
-# 0: red
-# < 0: flashing red
+# Blink at a rate of roll / roll_max * x; higher = faster blink
+# Color brighter at higher rolls
+# 1.0 to >= 0.3: green
+# 0.3 to >= 0.1: yellow
+# 0.1 to > 0.0: orange
+# 0.0: solid red
+# < 0.0: flashing red
 
 
 ################################################################################
@@ -87,6 +88,7 @@ var medal_color: = Color.WHITE
 var roll_str: float
 var meter_percent: float
 var list_path: String = "user://choices.list"
+var roulette_timer: float = 0
 
 
 ################################################################################
@@ -257,8 +259,14 @@ func _process(delta: float) -> void:
 		update_medal()
 		update_line()
 	if randomizing_choice:
-		# TODO Add simple delta timer to slow this down
-		choice_label.text = choices_array.pick_random()
+		if roulette_timer <= 0:
+			var new_choice: String = choices_array.pick_random()
+			while new_choice == choice_label.text:
+				new_choice = choices_array.pick_random()
+			choice_label.text = new_choice
+			roulette_timer = 0.1
+		else:
+			roulette_timer -= delta
 		
 
 

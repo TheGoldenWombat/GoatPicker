@@ -23,7 +23,9 @@ extends CanvasLayer
 @export var abort_race: Button
 @export var edit_list_button: Button
 @export var list_editor: ListEditor
+@export var racer_spawn: RacerSpawn
 
+var racer_spawn_scene: PackedScene = preload("res://racer_spawn.tscn")
 const TITLE_MESSAGE: String = "Goat's Choice Picker 3000"
 var choices_path: String = "user://choices.list"
 
@@ -105,6 +107,19 @@ func show_main_menu_buttons() -> void:
 	mode_3_button.show()
 	edit_list_button.show()
 
+func refresh_RacerSpawn():
+	racer_spawn.queue_free()
+	racer_spawn = racer_spawn_scene.instantiate()
+	add_sibling(racer_spawn)
+	race_start.connect(racer_spawn._on_hud_race_start)
+	clear_racers.connect(racer_spawn._on_hud_clear_racers)
+	racer_spawn.race_over.connect(_on_racer_spawn_race_over)
+	racer_spawn.show_top_three.connect(_on_racer_spawn_show_top_three)
+	racer_spawn.top_three.connect(_on_racer_spawn_top_three)
+	mode_1_button.pressed.connect(_on_start_mode_1_button_pressed)
+	mode_2_button.pressed.connect(_on_start_mode_2_button_pressed)
+	mode_3_button.pressed.connect(_on_start_mode_3_button_pressed)
+	#racer_spawn.racer_scene = Racer.new()
 
 ################################################################################
 # ---------------------------------- SIGNALS --------------------------------- #
@@ -145,6 +160,7 @@ func _on_start_mode_3_button_pressed() -> void:
 
 func _on_abort_race_button_pressed() -> void:
 	get_tree().call_group("racers", "end_race")
+	refresh_RacerSpawn()
 	center_message.text = "Race aborted!"
 	center_message.show()
 	abort_race.hide()

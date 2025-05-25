@@ -13,10 +13,10 @@ extends Node
 ################################################################################
 
 @export_group("Racers")
-@export var racer_scene: PackedScene
+#@export var racer_scene: PackedScene
 @export_range(0, 12) var max_racers: int
 
-
+var racer_scene: PackedScene = preload("res://racer.tscn")
 var number_of_racers: int = max_racers
 var list_path: String = "user://choices.list"
 var y_offset: float = 0.0
@@ -90,10 +90,11 @@ func spawn_racers(mode: int = 1) -> void:
 		racer.race_end.connect(on_race_end)
 		racer.randomizing_choice = true
 		add_child(racer)
-		await get_tree().create_timer(0.5).timeout # Replace with audio cue
+		await get_tree().create_timer(2.0).timeout # Replace with audio cue
 		racer.randomizing_choice = false
 		racer.choice = choices_array[n]
 		racer.choice_label.text = racer.choice
+		await get_tree().create_timer(0.3).timeout
 		y_offset += racer.rect_size.y + padding
 	await get_tree().create_timer(3.0).timeout # Replace with audio cue
 	racing = true

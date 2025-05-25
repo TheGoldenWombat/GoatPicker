@@ -9,7 +9,8 @@ script = ExtResource("1_0xm2m")
 
 [node name="RacerSpawn" parent="." instance=ExtResource("2_0xm2m")]
 
-[node name="HUD" parent="." instance=ExtResource("3_h2yge")]
+[node name="HUD" parent="." node_paths=PackedStringArray("racer_spawn") instance=ExtResource("3_h2yge")]
+racer_spawn = NodePath("../RacerSpawn")
 
 [connection signal="race_over" from="RacerSpawn" to="HUD" method="_on_racer_spawn_race_over"]
 [connection signal="show_top_three" from="RacerSpawn" to="HUD" method="_on_racer_spawn_show_top_three"]
