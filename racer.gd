@@ -25,7 +25,7 @@ extends Node2D
 @export_group("Dice")
 ## Number of dice to roll at once [br]
 ## Lower to raise chance of rolling larger numbers
-@export var number_of_dice: int = 10 
+@export var number_of_dice: int = 10
 
 ## Lowest number on each die [br]
 ## Use 1 or greater for a regular race [br]
@@ -65,6 +65,7 @@ extends Node2D
 @export var roll_timer_meter: RollTimerMeter
 @export var top_three_mask: TextureRect
 @export var top_three_color: ColorRect
+@export var roll_indicator: RollIndicator
 
 
 @export_group("Labels")
@@ -80,7 +81,7 @@ extends Node2D
 @onready var choices_array: Array = get_choices_array(list_path)
 
 var choice: String = "Default"
-var current_roll: int
+var current_roll: int = 0
 var current_progress: float = 0.0
 var racing: bool = false
 var randomizing_choice:bool = false
@@ -88,7 +89,7 @@ var medal_color: = Color.WHITE
 var roll_str: float
 var meter_percent: float
 var list_path: String = "user://choices.list"
-var roulette_timer: float = 0
+var reel_timer: float = 0
 
 
 ################################################################################
@@ -114,7 +115,8 @@ func reset_line() -> void:
 
 
 func roll() -> int:
-	return randi_range(roll_min, roll_max)
+	var rolled: int = randi_range(roll_min, roll_max)
+	return rolled
 
 
 func lowest_roll(rolls: int) -> int:
@@ -133,14 +135,18 @@ func highest_roll(rolls: int) -> int:
 
 func update_current_roll() -> void:
 	current_roll = lowest_roll(number_of_dice)
-	roll_str = float(current_roll) / float(roll_max)
+	roll_str = get_roll_str()
+	roll_indicator.set_roll_strength(roll_str)
+	roll_indicator.set_current_roll(current_roll)
+	roll_indicator.get_new_indicator_color()
 	current_roll_label.text = str(current_roll)
 
 
 func update_current_progress(delta: float) -> void:
 	current_progress += current_roll * delta * time_scale
-	var clamped_progress: float = clamp(current_progress,0.00,100.00)
-	current_progress_label.text = str(clamped_progress).pad_decimals(2) + "%"
+	#var clamped_progress: float = clamp(current_progress,0.00,100.00)
+	current_progress = clamp(current_progress,0.00,100.00)
+	current_progress_label.text = str(current_progress).pad_decimals(2) + "%"
 
 
 func randomize_roll_timer_wait() -> void:
@@ -156,11 +162,17 @@ func update_roll_timer_meter() -> void:
 	meter_percent = roll_timer.time_left / roll_timer.wait_time
 	roll_timer_meter.update_meter(meter_percent)
 
+func get_roll_str() -> float:
+	return float(current_roll) / float(roll_max)
+	
+func update_roll_indicator() -> void:
+	roll_indicator.current_color = roll_indicator.get_indicator_color()
+	#roll_indicator.set_indicator_blink()
 
 func update_line() -> void:
 	# TODO Refactor this
 	# Roll strength modulates gradient length, gradient alpha, and line intensity
-	roll_str = float(current_roll) / float(roll_max)
+	roll_str = get_roll_str()
 	
 	# LENGTHS
 	# Update line and gradient length based on current progress percent
@@ -197,11 +209,12 @@ func update_line() -> void:
 
 
 func update_medal() -> void:
-	if medal_color == Color.WHITE:
-		top_three_mask.hide()
-	else:
-		top_three_color.color = medal_color
-		top_three_mask.show()
+	pass
+	#if medal_color == Color.WHITE:
+		#top_three_mask.hide()
+	#else:
+		#top_three_color.color = medal_color
+		#top_three_mask.show()
 
 
 func get_choices_array(path: String) -> Array:
@@ -244,7 +257,7 @@ func end_race() -> void:
 func _ready() -> void:
 	resize_racer()
 	init_racer()
-	update_current_roll()
+	#update_current_roll()
 	update_line()
 	#start_race()
 
@@ -259,14 +272,14 @@ func _process(delta: float) -> void:
 		update_medal()
 		update_line()
 	if randomizing_choice:
-		if roulette_timer <= 0:
+		if reel_timer <= 0:
 			var new_choice: String = choices_array.pick_random()
 			while new_choice == choice_label.text:
 				new_choice = choices_array.pick_random()
 			choice_label.text = new_choice
-			roulette_timer = 0.08
+			reel_timer = 0.08
 		else:
-			roulette_timer -= delta
+			reel_timer -= delta
 		
 
 
@@ -280,3 +293,4 @@ signal race_end
 func _on_roll_timer_timeout() -> void:
 	randomize_roll_timer_wait()
 	update_current_roll()
+	#update_roll_indicator()

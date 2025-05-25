@@ -1,0 +1,69 @@
+[gd_scene load_steps=3 format=3 uid="uid://odndt2746eye"]
+
+[ext_resource type="Texture2D" uid="uid://c0qt68x0egtvo" path="res://circle_mask.png" id="1_mus0y"]
+[ext_resource type="Script" uid="uid://t03ojyojcryh" path="res://roll_indicator.gd" id="1_x4own"]
+
+[node name="RollIndicator" type="Control" node_paths=PackedStringArray("indicator_color", "current_roll_label")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1920.0
+offset_bottom = -1080.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_x4own")
+indicator_color = NodePath("IndicatorMask/IndicatorColor")
+current_roll_label = NodePath("IndicatorMask/IndicatorColor/CurrentRollLabel")
+
+[node name="IndicatorMask" type="TextureRect" parent="."]
+clip_children = 1
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_mus0y")
+
+[node name="IndicatorColor" type="ColorRect" parent="IndicatorMask"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.0
+offset_top = -35.0
+offset_right = 35.0
+offset_bottom = 35.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CurrentRollLabel" type="Label" parent="IndicatorMask/IndicatorColor"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -22.5
+offset_right = 20.0
+offset_bottom = 22.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 36
+text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1

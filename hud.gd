@@ -107,7 +107,7 @@ func show_main_menu_buttons() -> void:
 	mode_3_button.show()
 	edit_list_button.show()
 
-func refresh_RacerSpawn():
+func refresh_RacerSpawn() -> void:
 	racer_spawn.queue_free()
 	racer_spawn = racer_spawn_scene.instantiate()
 	add_sibling(racer_spawn)
