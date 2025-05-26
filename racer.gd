@@ -44,7 +44,7 @@ extends Node2D
 @export_range(0.0, 2.0, 0.5) var time_scale: float = 1.0 
 
 ## Minimum time between rolls
-@export var timer_min: float = 1.0
+@export var timer_min: float = 2.0
 
 ## Maximum time between rolls
 @export var timer_max: float = 8.0
