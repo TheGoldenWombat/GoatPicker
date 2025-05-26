@@ -144,7 +144,6 @@ func update_current_roll() -> void:
 
 func update_current_progress(delta: float) -> void:
 	current_progress += current_roll * delta * time_scale
-	#var clamped_progress: float = clamp(current_progress,0.00,100.00)
 	current_progress = clamp(current_progress,0.00,100.00)
 	current_progress_label.text = str(current_progress).pad_decimals(2) + "%"
 
@@ -162,12 +161,10 @@ func update_roll_timer_meter() -> void:
 	meter_percent = roll_timer.time_left / roll_timer.wait_time
 	roll_timer_meter.update_meter(meter_percent)
 
+
 func get_roll_str() -> float:
 	return float(current_roll) / float(roll_max)
-	
-func update_roll_indicator() -> void:
-	roll_indicator.current_color = roll_indicator.get_indicator_color()
-	#roll_indicator.set_indicator_blink()
+
 
 func update_line() -> void:
 	# TODO Refactor this
@@ -208,6 +205,7 @@ func update_line() -> void:
 	line_grad2.modulate = lerp(line_grad2.modulate, new_grad2_color, 0.02)
 
 
+# TODO Revisit this at some point
 func update_medal() -> void:
 	pass
 	#if medal_color == Color.WHITE:
@@ -257,9 +255,7 @@ func end_race() -> void:
 func _ready() -> void:
 	resize_racer()
 	init_racer()
-	#update_current_roll()
 	update_line()
-	#start_race()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -280,7 +276,6 @@ func _process(delta: float) -> void:
 			reel_timer = 0.08
 		else:
 			reel_timer -= delta
-		
 
 
 ################################################################################
@@ -293,4 +288,3 @@ signal race_end
 func _on_roll_timer_timeout() -> void:
 	randomize_roll_timer_wait()
 	update_current_roll()
-	#update_roll_indicator()
