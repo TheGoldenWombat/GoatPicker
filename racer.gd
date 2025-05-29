@@ -127,8 +127,11 @@ func combo_check() -> void:
 		combo_controller.combo()
 	else:
 		if current_combo > 2:
-			current_roll = current_roll * current_combo
+			print("Roll before breaker: " + str(current_roll))
+			print("Combo before breaker: " + str(current_combo))
+			current_roll = ceil(current_roll + current_combo + (current_combo * 0.5))
 			combo_controller.combo_breaker()
+			print("Combo breaker roll: " + str(current_roll))
 		else:
 			combo_controller.reset_combo()
 

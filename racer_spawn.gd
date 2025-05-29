@@ -95,8 +95,8 @@ func spawn_racers(mode: int = 1) -> void:
 		racer.randomizing_choice = true
 		add_child(racer)
 		sfx_reel_spin.play(randf_range(0.0,6.0))
-		await get_tree().create_timer(0.1).timeout # For debugging
-		#await get_tree().create_timer(1.5).timeout
+		#await get_tree().create_timer(0.1).timeout # For debugging
+		await get_tree().create_timer(1.5).timeout
 		sfx_reel_spin.stop()
 		sfx_reel_stop.play()
 		racer.randomizing_choice = false

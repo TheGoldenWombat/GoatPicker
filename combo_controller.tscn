@@ -70,11 +70,15 @@ stream_2/stream = ExtResource("25_6vrde")
 
 [node name="ComboController" type="Control" node_paths=PackedStringArray("combo_counter", "combo_alert", "combo_3", "combo_4", "combo_5", "combo_6", "combo_7", "combo_8", "combo_9", "combo_10", "combo_breaker_alert", "combo_breaker_sfx")]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 script = ExtResource("1_ojmwt")
 combo_counter = NodePath("ComboCounter")
 combo_alert = NodePath("ComboAlert")
@@ -91,10 +95,18 @@ combo_breaker_sfx = NodePath("ComboBreakerAlert/ComboBreakerSFX")
 
 [node name="ComboCounter" type="Label" parent="."]
 layout_mode = 1
-offset_left = -51.0
-offset_top = -24.0
-offset_right = 49.0
-offset_bottom = 21.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -22.5
+offset_right = 50.0
+offset_bottom = 22.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(50, 22.5)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
 theme_override_constants/outline_size = 5
@@ -104,6 +116,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ComboBreakerAlert" type="Sprite2D" parent="."]
+visible = false
 texture_filter = 1
 texture = ExtResource("3_5rcld")
 
@@ -111,6 +124,7 @@ texture = ExtResource("3_5rcld")
 stream = ExtResource("3_y3mdo")
 
 [node name="ComboAlert" type="Sprite2D" parent="."]
+visible = false
 texture_filter = 1
 texture = ExtResource("2_5rcld")
 offset = Vector2(20, -26)

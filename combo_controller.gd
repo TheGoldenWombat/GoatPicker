@@ -24,6 +24,7 @@ extends Control
 @export var combo_breaker_alert: Sprite2D
 @export var combo_breaker_sfx: AudioStreamPlayer
 
+@onready var default_font_size: int = combo_counter.get("theme_override_font_sizes/font_size")
 var current_combo: int = 0
 
 const ALERT_ROTATE_MIN = -10
@@ -45,6 +46,16 @@ func combo() -> void:
 	combo_counter.text = "x" + str(current_combo)
 	spawn_combo_alert()
 	if combo_counter.hidden: combo_counter.show()
+	var tween: Tween = get_tree().create_tween()
+	var font_size_override: String = "theme_override_font_sizes/font_size"
+	var new_font_size: int = default_font_size + (current_combo * 6)
+	tween.tween_property(combo_counter, font_size_override, new_font_size, 0.1)
+	tween.tween_property(combo_counter, "rotation_degrees", 10, 0.05)
+	tween.tween_property(combo_counter, "rotation_degrees", -10, 0.1)
+	tween.tween_property(combo_counter, "rotation_degrees", 10, 0.1)
+	tween.tween_property(combo_counter, "rotation_degrees", -10, 0.1)
+	tween.tween_property(combo_counter, "rotation_degrees", 0, 0.05)
+	tween.tween_property(combo_counter, font_size_override, default_font_size, 0.5)
 
 
 func reset_combo() -> void:
@@ -85,7 +96,6 @@ func play_combo_sfx() -> void:
 		10: combo_10.play()
 
 
-
 ################################################################################
 # --------------------------------- PROCESSES -------------------------------- #
 ################################################################################
@@ -93,6 +103,8 @@ func play_combo_sfx() -> void:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	init_combo_controller()
+	# Center text pivot
+	combo_counter.pivot_offset = combo_counter.size / 2
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
