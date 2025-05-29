@@ -31,20 +31,6 @@ var choices_path: String = "user://choices.list"
 
 
 ################################################################################
-# --------------------------------- PROCESSES -------------------------------- #
-################################################################################
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	initialize_main_menu()
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
-
-
-################################################################################
 # --------------------------------- FUNCTIONS -------------------------------- #
 ################################################################################
 
@@ -119,7 +105,7 @@ func refresh_RacerSpawn() -> void:
 	mode_1_button.pressed.connect(_on_start_mode_1_button_pressed)
 	mode_2_button.pressed.connect(_on_start_mode_2_button_pressed)
 	mode_3_button.pressed.connect(_on_start_mode_3_button_pressed)
-	#racer_spawn.racer_scene = Racer.new()
+
 
 ################################################################################
 # ---------------------------------- SIGNALS --------------------------------- #
@@ -174,3 +160,17 @@ func _on_list_editor_close_editor() -> void:
 
 func _on_racer_spawn_show_top_three() -> void:
 	top_three_list.show()
+
+
+################################################################################
+# --------------------------------- PROCESSES -------------------------------- #
+################################################################################
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	initialize_main_menu()
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta: float) -> void:
+	pass

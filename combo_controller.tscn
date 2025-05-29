@@ -1,0 +1,140 @@
+[gd_scene load_steps=33 format=3 uid="uid://bsxw18dibebsa"]
+
+[ext_resource type="Script" uid="uid://ceqku4uremty7" path="res://combo_controller.gd" id="1_ojmwt"]
+[ext_resource type="Texture2D" uid="uid://bmc1tcxjbjnd" path="res://combo_alert.png" id="2_5rcld"]
+[ext_resource type="Texture2D" uid="uid://b0ojl0k1umvi1" path="res://combo_breaker_alert.png" id="3_5rcld"]
+[ext_resource type="AudioStream" uid="uid://qxpk1xk8u2l8" path="res://sfx/combo/ANN_ComboBreaker.wav" id="3_y3mdo"]
+[ext_resource type="AudioStream" uid="uid://cxw16k5lk0yyv" path="res://sfx/combo/3_combo/ANN_TripleCombo_MW_01.wav" id="5_1thvj"]
+[ext_resource type="AudioStream" uid="uid://2ennrvogos1d" path="res://sfx/combo/3_combo/ANN_TripleCombo_MW_02.wav" id="6_4ggtc"]
+[ext_resource type="AudioStream" uid="uid://dn8f2cbcbbf7x" path="res://sfx/combo/3_combo/ANN_TripleCombo_MW_03.wav" id="7_47i6l"]
+[ext_resource type="AudioStream" uid="uid://dswhnyiynj2wo" path="res://sfx/combo/4_combo/ANN_QuadCombo_MW_01.wav" id="8_46ehu"]
+[ext_resource type="AudioStream" uid="uid://dd412f2kx6kx5" path="res://sfx/combo/4_combo/ANN_QuadCombo_MW_02.wav" id="9_8rce7"]
+[ext_resource type="AudioStream" uid="uid://bfngxwrbeayt6" path="res://sfx/combo/4_combo/ANN_QuadCombo_MW_03.wav" id="10_1a6gi"]
+[ext_resource type="AudioStream" uid="uid://btei7c04yj50o" path="res://sfx/combo/5_combo/ANN_SolidCombo_MW_01.wav" id="11_ccqpa"]
+[ext_resource type="AudioStream" uid="uid://s2x3a5kyhqim" path="res://sfx/combo/5_combo/ANN_SolidCombo_MW_02.wav" id="12_obxdm"]
+[ext_resource type="AudioStream" uid="uid://cceh8opbhpnce" path="res://sfx/combo/5_combo/ANN_SolidCombo_MW_03.wav" id="13_ga7b3"]
+[ext_resource type="AudioStream" uid="uid://chn2s3vrfgk86" path="res://sfx/combo/6_combo/ANN_HyperCombo_MW_01.wav" id="14_q2plw"]
+[ext_resource type="AudioStream" uid="uid://c4bpxuacvb7nt" path="res://sfx/combo/6_combo/ANN_HyperCombo_MW_02.wav" id="15_yx806"]
+[ext_resource type="AudioStream" uid="uid://208prtav3jh0" path="res://sfx/combo/6_combo/ANN_HyperCombo_MW_03.wav" id="16_1h0aq"]
+[ext_resource type="AudioStream" uid="uid://buug6ftd2x15c" path="res://sfx/combo/7_combo/ANN_ExtremeCombo_MW_01.wav" id="17_lpbax"]
+[ext_resource type="AudioStream" uid="uid://b84kvph5ygw6o" path="res://sfx/combo/7_combo/ANN_ExtremeCombo_MW_02.wav" id="18_8abem"]
+[ext_resource type="AudioStream" uid="uid://pnuesdhdoov2" path="res://sfx/combo/7_combo/ANN_ExtremeCombo_MW_03.wav" id="19_7s3ce"]
+[ext_resource type="AudioStream" uid="uid://dhkm2j2afsqbk" path="res://sfx/combo/8_combo/ANN_AwesomeCombo_MW_01.wav" id="20_k8gbn"]
+[ext_resource type="AudioStream" uid="uid://bcxxq5qwhspud" path="res://sfx/combo/8_combo/ANN_AwesomeCombo_MW_02.wav" id="21_tfx4p"]
+[ext_resource type="AudioStream" uid="uid://creuv2nkhylwo" path="res://sfx/combo/8_combo/ANN_AwesomeCombo_MW_03.wav" id="22_der5e"]
+[ext_resource type="AudioStream" uid="uid://b82pyovpoksfc" path="res://sfx/combo/9_combo/ANN_InsaneCombo_MW_01.wav" id="23_ci1cy"]
+[ext_resource type="AudioStream" uid="uid://b4sh1rm245v6r" path="res://sfx/combo/9_combo/ANN_InsaneCombo_MW_02.wav" id="24_u7mlk"]
+[ext_resource type="AudioStream" uid="uid://caeadijut63qs" path="res://sfx/combo/9_combo/ANN_InsaneCombo_MW_03.wav" id="25_6vrde"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_7su0f"]
+streams_count = 3
+stream_0/stream = ExtResource("5_1thvj")
+stream_1/stream = ExtResource("6_4ggtc")
+stream_2/stream = ExtResource("7_47i6l")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_o4ihc"]
+streams_count = 3
+stream_0/stream = ExtResource("8_46ehu")
+stream_1/stream = ExtResource("9_8rce7")
+stream_2/stream = ExtResource("10_1a6gi")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_pdbkj"]
+streams_count = 3
+stream_0/stream = ExtResource("11_ccqpa")
+stream_1/stream = ExtResource("12_obxdm")
+stream_2/stream = ExtResource("13_ga7b3")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_l4q13"]
+streams_count = 3
+stream_0/stream = ExtResource("14_q2plw")
+stream_1/stream = ExtResource("15_yx806")
+stream_2/stream = ExtResource("16_1h0aq")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ucwt8"]
+streams_count = 3
+stream_0/stream = ExtResource("17_lpbax")
+stream_1/stream = ExtResource("18_8abem")
+stream_2/stream = ExtResource("19_7s3ce")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_1e68u"]
+streams_count = 3
+stream_0/stream = ExtResource("20_k8gbn")
+stream_1/stream = ExtResource("21_tfx4p")
+stream_2/stream = ExtResource("22_der5e")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_71xhj"]
+streams_count = 3
+stream_0/stream = ExtResource("23_ci1cy")
+stream_1/stream = ExtResource("24_u7mlk")
+stream_2/stream = ExtResource("25_6vrde")
+
+[node name="ComboController" type="Control" node_paths=PackedStringArray("combo_counter", "combo_alert", "combo_3", "combo_4", "combo_5", "combo_6", "combo_7", "combo_8", "combo_9", "combo_10", "combo_breaker_alert", "combo_breaker_sfx")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ojmwt")
+combo_counter = NodePath("ComboCounter")
+combo_alert = NodePath("ComboAlert")
+combo_3 = NodePath("ComboAlert/Combo3")
+combo_4 = NodePath("ComboAlert/Combo4")
+combo_5 = NodePath("ComboAlert/Combo5")
+combo_6 = NodePath("ComboAlert/Combo6")
+combo_7 = NodePath("ComboAlert/Combo7")
+combo_8 = NodePath("ComboAlert/Combo8")
+combo_9 = NodePath("ComboAlert/Combo9")
+combo_10 = NodePath("ComboAlert/Combo10")
+combo_breaker_alert = NodePath("ComboBreakerAlert")
+combo_breaker_sfx = NodePath("ComboBreakerAlert/ComboBreakerSFX")
+
+[node name="ComboCounter" type="Label" parent="."]
+layout_mode = 1
+offset_left = -51.0
+offset_top = -24.0
+offset_right = 49.0
+offset_bottom = 21.0
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 32
+text = "x10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ComboBreakerAlert" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("3_5rcld")
+
+[node name="ComboBreakerSFX" type="AudioStreamPlayer" parent="ComboBreakerAlert"]
+stream = ExtResource("3_y3mdo")
+
+[node name="ComboAlert" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_5rcld")
+offset = Vector2(20, -26)
+
+[node name="Combo3" type="AudioStreamPlayer" parent="ComboAlert"]
+stream = SubResource("AudioStreamRandomizer_7su0f")
+
+[node name="Combo4" type="AudioStreamPlayer" parent="ComboAlert"]
+stream = SubResource("AudioStreamRandomizer_o4ihc")
+
+[node name="Combo5" type="AudioStreamPlayer" parent="ComboAlert"]
+stream = SubResource("AudioStreamRandomizer_pdbkj")
+
+[node name="Combo6" type="AudioStreamPlayer" parent="ComboAlert"]
+stream = SubResource("AudioStreamRandomizer_l4q13")
+
+[node name="Combo7" type="AudioStreamPlayer" parent="ComboAlert"]
+stream = SubResource("AudioStreamRandomizer_ucwt8")
+
+[node name="Combo8" type="AudioStreamPlayer" parent="ComboAlert"]
+stream = SubResource("AudioStreamRandomizer_1e68u")
+
+[node name="Combo9" type="AudioStreamPlayer" parent="ComboAlert"]
+stream = SubResource("AudioStreamRandomizer_71xhj")
+
+[node name="Combo10" type="AudioStreamPlayer" parent="ComboAlert"]
+stream = ExtResource("25_6vrde")

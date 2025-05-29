@@ -66,6 +66,7 @@ extends Node2D
 @export var top_three_mask: TextureRect
 @export var top_three_color: ColorRect
 @export var roll_indicator: RollIndicator
+@export var combo_controller: ComboController
 
 
 @export_group("Labels")
@@ -81,6 +82,7 @@ extends Node2D
 @onready var choices_array: Array = get_choices_array(list_path)
 
 var choice: String = "Default"
+var previous_roll: int
 var current_roll: int = 0
 var current_progress: float = 0.0
 var racing: bool = false
@@ -119,6 +121,18 @@ func roll() -> int:
 	return rolled
 
 
+func combo_check() -> void:
+	var current_combo: int = combo_controller.current_combo
+	if current_roll == previous_roll:
+		combo_controller.combo()
+	else:
+		if current_combo > 2:
+			current_roll = current_roll * current_combo
+			combo_controller.combo_breaker()
+		else:
+			combo_controller.reset_combo()
+
+
 func lowest_roll(rolls: int) -> int:
 	var roll_array: Array = []
 	for n in rolls:
@@ -143,7 +157,8 @@ func update_current_roll() -> void:
 
 
 func update_current_progress(delta: float) -> void:
-	current_progress += current_roll * delta * time_scale
+	var combo_bonus: float = 1 + (combo_controller.current_combo * 0.1)
+	current_progress += current_roll * delta * time_scale * combo_bonus
 	current_progress = clamp(current_progress,0.00,100.00)
 	current_progress_label.text = str(current_progress).pad_decimals(2) + "%"
 
@@ -288,3 +303,6 @@ signal race_end
 func _on_roll_timer_timeout() -> void:
 	randomize_roll_timer_wait()
 	update_current_roll()
+	combo_check()
+	previous_roll = current_roll
+	
