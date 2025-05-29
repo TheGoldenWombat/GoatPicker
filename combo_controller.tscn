@@ -1,10 +1,11 @@
-[gd_scene load_steps=33 format=3 uid="uid://bsxw18dibebsa"]
+[gd_scene load_steps=34 format=3 uid="uid://bsxw18dibebsa"]
 
 [ext_resource type="Script" uid="uid://ceqku4uremty7" path="res://combo_controller.gd" id="1_ojmwt"]
 [ext_resource type="Texture2D" uid="uid://bmc1tcxjbjnd" path="res://combo_alert.png" id="2_5rcld"]
 [ext_resource type="Texture2D" uid="uid://b0ojl0k1umvi1" path="res://combo_breaker_alert.png" id="3_5rcld"]
 [ext_resource type="AudioStream" uid="uid://qxpk1xk8u2l8" path="res://sfx/combo/ANN_ComboBreaker.wav" id="3_y3mdo"]
 [ext_resource type="AudioStream" uid="uid://cxw16k5lk0yyv" path="res://sfx/combo/3_combo/ANN_TripleCombo_MW_01.wav" id="5_1thvj"]
+[ext_resource type="AudioStream" uid="uid://baucepnmq28xr" path="res://sfx/combo/TheLibrarybyMTC_UI_GlassTicks_25.wav" id="5_obxdm"]
 [ext_resource type="AudioStream" uid="uid://2ennrvogos1d" path="res://sfx/combo/3_combo/ANN_TripleCombo_MW_02.wav" id="6_4ggtc"]
 [ext_resource type="AudioStream" uid="uid://dn8f2cbcbbf7x" path="res://sfx/combo/3_combo/ANN_TripleCombo_MW_03.wav" id="7_47i6l"]
 [ext_resource type="AudioStream" uid="uid://dswhnyiynj2wo" path="res://sfx/combo/4_combo/ANN_QuadCombo_MW_01.wav" id="8_46ehu"]
@@ -68,7 +69,7 @@ stream_0/stream = ExtResource("23_ci1cy")
 stream_1/stream = ExtResource("24_u7mlk")
 stream_2/stream = ExtResource("25_6vrde")
 
-[node name="ComboController" type="Control" node_paths=PackedStringArray("combo_counter", "combo_alert", "combo_3", "combo_4", "combo_5", "combo_6", "combo_7", "combo_8", "combo_9", "combo_10", "combo_breaker_alert", "combo_breaker_sfx")]
+[node name="ComboController" type="Control" node_paths=PackedStringArray("combo_counter", "combo_alert", "combo_1", "combo_2", "combo_3", "combo_4", "combo_5", "combo_6", "combo_7", "combo_8", "combo_9", "combo_10", "combo_breaker_alert", "combo_breaker_sfx")]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -82,6 +83,8 @@ size_flags_vertical = 4
 script = ExtResource("1_ojmwt")
 combo_counter = NodePath("ComboCounter")
 combo_alert = NodePath("ComboAlert")
+combo_1 = NodePath("ComboAlert/Combo1")
+combo_2 = NodePath("ComboAlert/Combo2")
 combo_3 = NodePath("ComboAlert/Combo3")
 combo_4 = NodePath("ComboAlert/Combo4")
 combo_5 = NodePath("ComboAlert/Combo5")
@@ -128,6 +131,13 @@ visible = false
 texture_filter = 1
 texture = ExtResource("2_5rcld")
 offset = Vector2(20, -26)
+
+[node name="Combo1" type="AudioStreamPlayer" parent="ComboAlert"]
+stream = ExtResource("5_obxdm")
+
+[node name="Combo2" type="AudioStreamPlayer" parent="ComboAlert"]
+stream = ExtResource("5_obxdm")
+pitch_scale = 0.75
 
 [node name="Combo3" type="AudioStreamPlayer" parent="ComboAlert"]
 stream = SubResource("AudioStreamRandomizer_7su0f")

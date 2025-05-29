@@ -75,6 +75,8 @@ func combo_breaker() -> void:
 
 
 func spawn_combo_alert() -> void:
+	var combo_alert_scale: float = clamp(current_combo / 1.75, 1.0, 5.0)
+	combo_alert.scale = Vector2(combo_alert_scale, combo_alert_scale)
 	combo_alert.rotation_degrees = randf_range(ALERT_ROTATE_MIN, ALERT_ROTATE_MAX)
 	combo_alert.show()
 	play_combo_sfx()
@@ -91,8 +93,8 @@ func spawn_combo_breaker_alert() -> void:
 
 func play_combo_sfx() -> void:
 	match current_combo:
-		#1: combo_1.play()
-		#2: combo_2.play()
+		1: combo_1.play()
+		2: combo_2.play()
 		3: combo_3.play()
 		4: combo_4.play()
 		5: combo_5.play()
