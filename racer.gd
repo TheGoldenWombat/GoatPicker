@@ -7,15 +7,7 @@ extends Node2D
 
 # Break out the line into it's own seperate scene called ProgressMeter
 
-# Add ColorRect that changes color based on roll_str
-# Maybe color the RollTimerMeter instead of a ColorRect? Need to test.
-# Blink at a rate of roll / roll_max * x; higher = faster blink
-# Color brighter at higher rolls
-# 1.0 to >= 0.3: green
-# 0.3 to >= 0.1: yellow
-# 0.1 to > 0.0: orange
-# 0.0: solid red
-# < 0.0: flashing red
+# The Great Capybara Overhaul?
 
 
 ################################################################################

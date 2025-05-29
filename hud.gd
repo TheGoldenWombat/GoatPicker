@@ -22,6 +22,7 @@ extends CanvasLayer
 @export var mode_3_button: Button
 @export var abort_race: Button
 @export var edit_list_button: Button
+@export var exit_button: Button
 @export var list_editor: ListEditor
 @export var racer_spawn: RacerSpawn
 
@@ -85,6 +86,7 @@ func hide_main_menu_buttons() -> void:
 	mode_2_button.hide()
 	mode_3_button.hide()
 	edit_list_button.hide()
+	exit_button.hide()
 
 
 func show_main_menu_buttons() -> void:
@@ -92,6 +94,7 @@ func show_main_menu_buttons() -> void:
 	mode_2_button.show()
 	mode_3_button.show()
 	edit_list_button.show()
+	exit_button.show()
 
 func refresh_RacerSpawn() -> void:
 	racer_spawn.queue_free()
@@ -132,6 +135,10 @@ func _on_edit_list_button_pressed() -> void:
 	list_editor.show()
 
 
+func _on_list_editor_close_editor() -> void:
+	initialize_main_menu()
+
+
 func _on_start_mode_1_button_pressed() -> void:
 	start_race(1)
 
@@ -144,6 +151,10 @@ func _on_start_mode_3_button_pressed() -> void:
 	start_race(3)
 
 
+func _on_exit_button_pressed() -> void:
+	get_tree().quit()
+
+
 func _on_abort_race_button_pressed() -> void:
 	get_tree().call_group("racers", "end_race")
 	refresh_RacerSpawn()
@@ -152,10 +163,6 @@ func _on_abort_race_button_pressed() -> void:
 	abort_race.hide()
 	show_main_menu_buttons()
 	top_three_list.hide()
-
-
-func _on_list_editor_close_editor() -> void:
-	initialize_main_menu()
 
 
 func _on_racer_spawn_show_top_three() -> void:

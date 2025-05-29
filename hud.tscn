@@ -21,7 +21,7 @@ action = &"start_mode_3"
 [sub_resource type="Shortcut" id="Shortcut_rftc2"]
 events = [SubResource("InputEventAction_1xsix")]
 
-[node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("center_message", "error_message", "top_three_list", "mode_1_button", "mode_2_button", "mode_3_button", "abort_race", "edit_list_button", "list_editor")]
+[node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("center_message", "error_message", "top_three_list", "mode_1_button", "mode_2_button", "mode_3_button", "abort_race", "edit_list_button", "exit_button", "list_editor")]
 script = ExtResource("1_37p78")
 center_message = NodePath("CenterMessage")
 error_message = NodePath("ErrorMessage")
@@ -31,7 +31,9 @@ mode_2_button = NodePath("StartMode2Button")
 mode_3_button = NodePath("StartMode3Button")
 abort_race = NodePath("AbortRaceButton")
 edit_list_button = NodePath("EditListButton")
+exit_button = NodePath("ExitButton")
 list_editor = NodePath("ListEditor")
+metadata/_edit_horizontal_guides_ = [1060.0]
 
 [node name="CenterMessage" type="Label" parent="."]
 anchors_preset = 8
@@ -94,9 +96,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -1080.0
+offset_left = -1032.0
 offset_top = -130.0
-offset_right = -830.0
+offset_right = -782.0
 offset_bottom = -20.0
 grow_horizontal = 0
 grow_vertical = 0
@@ -111,9 +113,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -810.0
+offset_left = -778.0
 offset_top = -130.0
-offset_right = -560.0
+offset_right = -528.0
 offset_bottom = -20.0
 grow_horizontal = 0
 grow_vertical = 0
@@ -128,9 +130,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -540.0
+offset_left = -524.0
 offset_top = -130.0
-offset_right = -290.0
+offset_right = -274.0
 offset_bottom = -20.0
 grow_horizontal = 0
 grow_vertical = 0
@@ -148,13 +150,30 @@ anchor_bottom = 1.0
 offset_left = -270.0
 offset_top = -130.0
 offset_right = -20.0
-offset_bottom = -20.0
+offset_bottom = -77.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 32
 text = "Edit List"
 
+[node name="ExitButton" type="Button" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -270.0
+offset_top = -73.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+pivot_offset = Vector2(0, 53)
+theme_override_font_sizes/font_size = 32
+text = "Exit"
+
 [node name="AbortRaceButton" type="Button" parent="."]
+visible = false
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -178,5 +197,6 @@ visible = false
 [connection signal="pressed" from="StartMode2Button" to="." method="_on_start_mode_2_button_pressed"]
 [connection signal="pressed" from="StartMode3Button" to="." method="_on_start_mode_3_button_pressed"]
 [connection signal="pressed" from="EditListButton" to="." method="_on_edit_list_button_pressed"]
+[connection signal="pressed" from="ExitButton" to="." method="_on_exit_button_pressed"]
 [connection signal="pressed" from="AbortRaceButton" to="." method="_on_abort_race_button_pressed"]
 [connection signal="close_editor" from="ListEditor" to="." method="_on_list_editor_close_editor"]

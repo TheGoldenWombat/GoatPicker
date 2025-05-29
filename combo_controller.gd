@@ -13,6 +13,8 @@ extends Control
 
 @export var combo_counter: Label
 @export var combo_alert: Sprite2D
+@export var combo_1: AudioStreamPlayer
+@export var combo_2: AudioStreamPlayer
 @export var combo_3: AudioStreamPlayer
 @export var combo_4: AudioStreamPlayer
 @export var combo_5: AudioStreamPlayer
@@ -46,6 +48,9 @@ func combo() -> void:
 	combo_counter.text = "x" + str(current_combo)
 	spawn_combo_alert()
 	if combo_counter.hidden: combo_counter.show()
+	animate_combo_counter()
+	
+func animate_combo_counter() -> void:
 	var tween: Tween = get_tree().create_tween()
 	var font_size_override: String = "theme_override_font_sizes/font_size"
 	var new_font_size: int = default_font_size + (current_combo * 6)
@@ -86,6 +91,8 @@ func spawn_combo_breaker_alert() -> void:
 
 func play_combo_sfx() -> void:
 	match current_combo:
+		#1: combo_1.play()
+		#2: combo_2.play()
 		3: combo_3.play()
 		4: combo_4.play()
 		5: combo_5.play()
@@ -103,8 +110,7 @@ func play_combo_sfx() -> void:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	init_combo_controller()
-	# Center text pivot
-	combo_counter.pivot_offset = combo_counter.size / 2
+	combo_counter.pivot_offset = combo_counter.size / 2 # Center text pivot
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
