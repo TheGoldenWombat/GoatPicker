@@ -87,7 +87,7 @@ func spawn_combo_alert() -> void:
 func spawn_combo_breaker_alert() -> void:
 	combo_breaker_alert.show()
 	combo_breaker_sfx.play()
-	await get_tree().create_timer(3).timeout
+	await get_tree().create_timer(2).timeout
 	combo_breaker_alert.hide()
 
 

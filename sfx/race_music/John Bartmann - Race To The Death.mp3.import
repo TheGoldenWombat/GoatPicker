@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://0fumfpbshkin"
+path="res://.godot/imported/John Bartmann - Race To The Death.mp3-bf04ae46c2a38220e094aea659d4cec1.mp3str"
+
+[deps]
+
+source_file="res://sfx/race_music/John Bartmann - Race To The Death.mp3"
+dest_files=["res://.godot/imported/John Bartmann - Race To The Death.mp3-bf04ae46c2a38220e094aea659d4cec1.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

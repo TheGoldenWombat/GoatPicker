@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cryfi7mlqv2wr"
+path="res://.godot/imported/Darkfluxx - Reloaded.mp3.mp3-d11147e2c1e8ef40c10f6857548b3b7a.mp3str"
+
+[deps]
+
+source_file="res://sfx/race_music/Darkfluxx - Reloaded.mp3.mp3"
+dest_files=["res://.godot/imported/Darkfluxx - Reloaded.mp3.mp3-d11147e2c1e8ef40c10f6857548b3b7a.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -105,9 +105,9 @@ func refresh_RacerSpawn() -> void:
 	racer_spawn.race_over.connect(_on_racer_spawn_race_over)
 	racer_spawn.show_top_three.connect(_on_racer_spawn_show_top_three)
 	racer_spawn.top_three.connect(_on_racer_spawn_top_three)
-	mode_1_button.pressed.connect(_on_start_mode_1_button_pressed)
-	mode_2_button.pressed.connect(_on_start_mode_2_button_pressed)
-	mode_3_button.pressed.connect(_on_start_mode_3_button_pressed)
+	#mode_1_button.pressed.connect(_on_start_mode_1_button_pressed)
+	#mode_2_button.pressed.connect(_on_start_mode_2_button_pressed)
+	#mode_3_button.pressed.connect(_on_start_mode_3_button_pressed)
 
 
 ################################################################################

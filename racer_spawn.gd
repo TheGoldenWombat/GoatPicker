@@ -19,6 +19,11 @@ extends Node
 @export_group("SFX")
 @export var sfx_reel_spin: AudioStreamPlayer
 @export var sfx_reel_stop: AudioStreamPlayer
+@export var sfx_trumpet: AudioStreamPlayer
+@export var sfx_gunshot: AudioStreamPlayer
+@export var race_music: AudioStreamPlayer
+@export var race_end_jingle: AudioStreamPlayer
+@export var race_end_music: AudioStreamPlayer
 
 var racer_scene: PackedScene = preload("res://racer.tscn")
 var number_of_racers: int = max_racers
@@ -36,6 +41,7 @@ var medal_delay: bool = true
 ## Initializes spawner properties, gets the list of choices, and spawns the racers
 func setup_race(mode: int) -> void:
 	# Initialize spawner
+	stop_all_audio()
 	remove_racers()
 	y_offset = 0
 	number_of_racers = max_racers
@@ -106,10 +112,30 @@ func spawn_racers(mode: int = 1) -> void:
 		racer.choice_label.text = racer.choice
 		await get_tree().create_timer(0.3).timeout
 		y_offset += racer.rect_size.y + padding
-	await get_tree().create_timer(3.0).timeout # Replace with audio cue
+		
+	#await get_tree().create_timer(3.0).timeout # Replace with audio cue
+	sfx_trumpet.play()
+	await sfx_trumpet.finished
+	
 	racing = true
+	sfx_gunshot.play()
 	get_tree().call_group("racers", "start_race")
 	emit_signal("show_top_three")
+	#await sfx_gunshot.finished
+	race_music.play()
+
+
+func sfx_race_end() -> void:
+	if race_music.playing: race_music.stop()
+	race_end_jingle.play()
+	await race_end_jingle.finished
+	race_end_music.play()
+
+
+func stop_all_audio() -> void:
+	for a in get_children():
+		if a is AudioStreamPlayer && a.playing:
+			a.stop()
 
 
 ## Get array of the top three racers, or fewer if there aren't three racers total
@@ -207,6 +233,7 @@ signal top_three
 func on_race_end(choice: String) -> void:
 	racing = false
 	emit_signal("race_over", choice)
+	sfx_race_end()
 
 ## Starts the race using the specified mode
 func _on_hud_race_start(mode: int) -> void:

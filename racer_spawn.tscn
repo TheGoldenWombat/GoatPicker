@@ -1,17 +1,57 @@
-[gd_scene load_steps=4 format=3 uid="uid://dukssqo5jh57c"]
+[gd_scene load_steps=15 format=3 uid="uid://dukssqo5jh57c"]
 
 [ext_resource type="Script" uid="uid://domup2g5hlki5" path="res://racer_spawn.gd" id="1_x4a1m"]
 [ext_resource type="AudioStream" uid="uid://dcurcwxjedesc" path="res://sfx/reel_spin/reel_spin.mp3" id="2_qsll1"]
 [ext_resource type="AudioStream" uid="uid://cmcieyn2iejsl" path="res://sfx/reel_spin/reel_end.mp3" id="3_prert"]
+[ext_resource type="AudioStream" uid="uid://dyqum5dy0idlf" path="res://sfx/race_start/trumpet.wav" id="4_b2v0g"]
+[ext_resource type="AudioStream" uid="uid://cphb8xywlfrrh" path="res://sfx/race_start/gunshot.wav" id="5_101sb"]
+[ext_resource type="AudioStream" uid="uid://cbjdt0bavbwvi" path="res://sfx/race_music/Darkfluxx - Open Inside.mp3.mp3" id="6_urjny"]
+[ext_resource type="AudioStream" uid="uid://cpmpw8xm1axyp" path="res://sfx/race_music/Darkfluxx - Predator.mp3.mp3" id="7_tkn7j"]
+[ext_resource type="AudioStream" uid="uid://cryfi7mlqv2wr" path="res://sfx/race_music/Darkfluxx - Reloaded.mp3.mp3" id="8_kujk5"]
+[ext_resource type="AudioStream" uid="uid://dk4d5wpe5pacx" path="res://sfx/race_music/Denys Brodovskyi - Speed Freak.mp3.mp3" id="9_vomd4"]
+[ext_resource type="AudioStream" uid="uid://0fumfpbshkin" path="res://sfx/race_music/John Bartmann - Race To The Death.mp3" id="10_a5o03"]
+[ext_resource type="AudioStream" uid="uid://dqieeev7pkcy" path="res://sfx/race_music/Speed Limit 35 - HTML.mp3" id="11_gti6o"]
+[ext_resource type="AudioStream" uid="uid://rtkqc508dj8k" path="res://sfx/race_end/race_end_jingle.mp3" id="12_kujk5"]
+[ext_resource type="AudioStream" uid="uid://d0ds6sq0i1etb" path="res://sfx/race_end/race_end_music.mp3" id="13_vomd4"]
 
-[node name="RacerSpawn" type="Node" node_paths=PackedStringArray("sfx_reel_spin", "sfx_reel_stop") groups=["racer_spawn"]]
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_sohk8"]
+streams_count = 6
+stream_0/stream = ExtResource("6_urjny")
+stream_1/stream = ExtResource("7_tkn7j")
+stream_2/stream = ExtResource("8_kujk5")
+stream_3/stream = ExtResource("9_vomd4")
+stream_4/stream = ExtResource("10_a5o03")
+stream_5/stream = ExtResource("11_gti6o")
+
+[node name="RacerSpawn" type="Node" node_paths=PackedStringArray("sfx_reel_spin", "sfx_reel_stop", "sfx_trumpet", "sfx_gunshot", "race_music", "race_end_jingle", "race_end_music") groups=["racer_spawn"]]
 script = ExtResource("1_x4a1m")
 max_racers = 12
 sfx_reel_spin = NodePath("ReelSpin")
 sfx_reel_stop = NodePath("ReelStop")
+sfx_trumpet = NodePath("Trumpet")
+sfx_gunshot = NodePath("Gunshot")
+race_music = NodePath("RaceMusic")
+race_end_jingle = NodePath("RaceEndJingle")
+race_end_music = NodePath("RaceEndMusic")
 
 [node name="ReelSpin" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_qsll1")
 
 [node name="ReelStop" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_prert")
+
+[node name="Trumpet" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_b2v0g")
+
+[node name="Gunshot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_101sb")
+
+[node name="RaceMusic" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_sohk8")
+volume_db = -5.0
+
+[node name="RaceEndJingle" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_kujk5")
+
+[node name="RaceEndMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_vomd4")

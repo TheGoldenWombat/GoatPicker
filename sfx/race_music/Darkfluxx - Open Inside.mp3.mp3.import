@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cbjdt0bavbwvi"
+path="res://.godot/imported/Darkfluxx - Open Inside.mp3.mp3-3566be433d7dbdcd8f853966a059e3fd.mp3str"
+
+[deps]
+
+source_file="res://sfx/race_music/Darkfluxx - Open Inside.mp3.mp3"
+dest_files=["res://.godot/imported/Darkfluxx - Open Inside.mp3.mp3-3566be433d7dbdcd8f853966a059e3fd.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
