@@ -36,10 +36,10 @@ extends Node2D
 @export_range(0.0, 2.0, 0.5) var time_scale: float = 1.0 
 
 ## Minimum time between rolls
-@export var timer_min: float = 2.0
+@export var timer_min: float = 1.5
 
 ## Maximum time between rolls
-@export var timer_max: float = 8.0
+@export var timer_max: float = 6.0
 
 
 @export_group("Padding")
@@ -123,6 +123,9 @@ func combo_check() -> void:
 			print("Combo before breaker: " + str(current_combo))
 			current_roll = ceil(current_roll + current_combo + (current_combo * 0.5))
 			combo_controller.combo_breaker()
+			roll_indicator.set_roll_strength(get_roll_str())
+			roll_indicator.set_current_roll(current_roll)
+			roll_indicator.get_new_indicator_color()
 			print("Combo breaker roll: " + str(current_roll))
 		else:
 			combo_controller.reset_combo()
@@ -283,7 +286,7 @@ func _process(delta: float) -> void:
 			while new_choice == choice_label.text:
 				new_choice = choices_array.pick_random()
 			choice_label.text = new_choice
-			reel_timer = 0.08
+			reel_timer = 0.07
 		else:
 			reel_timer -= delta
 

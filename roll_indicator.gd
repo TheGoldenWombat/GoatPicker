@@ -40,7 +40,7 @@ func set_default_indicator_color() -> void:
 
 
 func get_indicator_color() -> Color:
-	var hue: float = clamp(roll_strength * 0.5,0.0,0.5)
+	var hue: float = clamp(roll_strength * 0.7,0.0,0.5)
 	var value: float = clamp (roll_strength * 2 + 0.3, 0.0, 1.0)
 	return Color.from_hsv(hue, 1.0, value)
 
