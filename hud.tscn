@@ -104,6 +104,7 @@ grow_horizontal = 0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 32
 shortcut = SubResource("Shortcut_8sq4i")
+shortcut_in_tooltip = false
 text = "Start: Mode 1
 NORMAL"
 
@@ -121,6 +122,7 @@ grow_horizontal = 0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 32
 shortcut = SubResource("Shortcut_a2258")
+shortcut_in_tooltip = false
 text = "Start: Mode 2
 STALLING"
 
@@ -138,6 +140,7 @@ grow_horizontal = 0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 32
 shortcut = SubResource("Shortcut_rftc2")
+shortcut_in_tooltip = false
 text = "Start: Mode 3
 PULLBACK"
 

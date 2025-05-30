@@ -120,7 +120,6 @@ vertical_alignment = 1
 
 [node name="ComboBreakerAlert" type="Sprite2D" parent="."]
 visible = false
-texture_filter = 1
 texture = ExtResource("3_5rcld")
 
 [node name="ComboBreakerSFX" type="AudioStreamPlayer" parent="ComboBreakerAlert"]
@@ -128,7 +127,6 @@ stream = ExtResource("3_y3mdo")
 
 [node name="ComboAlert" type="Sprite2D" parent="."]
 visible = false
-texture_filter = 1
 texture = ExtResource("2_5rcld")
 offset = Vector2(20, -26)
 
