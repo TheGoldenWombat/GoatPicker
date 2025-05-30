@@ -42,7 +42,7 @@ stream = ExtResource("3_prert")
 
 [node name="Trumpet" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_b2v0g")
-volume_db = -3.0
+volume_db = -5.0
 
 [node name="Gunshot" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_101sb")
@@ -53,7 +53,7 @@ volume_db = -10.0
 
 [node name="RaceEndJingle" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_kujk5")
-volume_db = -3.0
+volume_db = -5.0
 
 [node name="RaceEndMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("13_vomd4")
