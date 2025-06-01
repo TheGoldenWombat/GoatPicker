@@ -9,6 +9,22 @@ extends Node2D
 
 # The Great Capybara Overhaul?
 
+# Add attack mechanic:
+#  - On combo breaker: fire projectiles at random other racers
+#  - Number of projectiles = combo multiplier
+#  - Different kinds of projectiles:
+#    - Damage: Removes 10% of victim's current progress
+#      - No indicator
+#    - Poison: Subtract 3 from victim's rolls for the next 10(?) seconds
+#      - Line is green-tinted
+#    - Freeze: Divide victim's rolls by 2 for 10(?) seconds
+#      - Line is blue-tinted
+#    - Frenzy: Roll timer reduced to 0.5(0.25?) seconds between rolls for 5(?) seconds
+#      - Line flashes red
+#    - Silence: Cannot gain combo for 15(?) seconds
+#      - Line saturation lowered
+#  - Projectiles launch from random angles from tip of attacker line
+#    - Flying projectiles slowly turn towards victim's RollIndicator
 
 ################################################################################
 # --------------------------------- VARIABLES -------------------------------- #
