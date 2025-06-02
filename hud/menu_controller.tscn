@@ -2,14 +2,14 @@
 
 [ext_resource type="Script" uid="uid://pdx4jnx8pd63" path="res://hud/menu_controller.gd" id="1_qln68"]
 [ext_resource type="PackedScene" uid="uid://bwjkhynp2wy7f" path="res://hud/main_menu.tscn" id="2_remlu"]
-[ext_resource type="PackedScene" uid="uid://b3q6ra1le5vl5" path="res://hud/list_editor_scene.tscn" id="3_hi8bn"]
+[ext_resource type="PackedScene" uid="uid://bldbn2ol801w6" path="res://hud/list_editor.tscn" id="3_remlu"]
 [ext_resource type="PackedScene" uid="uid://c8m01tw56ovff" path="res://hud/race_setup_menu.tscn" id="4_0ktcg"]
 [ext_resource type="PackedScene" uid="uid://c7odapil05vte" path="res://hud/race_scene.tscn" id="5_wj0iw"]
 [ext_resource type="PackedScene" uid="uid://dwkhgddpt8idc" path="res://hud/post_race_menu.tscn" id="6_mmt8c"]
 [ext_resource type="PackedScene" uid="uid://cy2upw5jpfq6v" path="res://hud/options_menu.tscn" id="7_v04ml"]
 [ext_resource type="PackedScene" uid="uid://t1g6vmxn76at" path="res://hud/credits_menu.tscn" id="8_0pq88"]
 
-[node name="MenuController" type="Control"]
+[node name="MenuController" type="Control" node_paths=PackedStringArray("main_menu", "list_editor", "race_setup_menu", "race_scene", "post_race_menu", "options_menu", "credits_menu")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,13 +17,21 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qln68")
+main_menu = NodePath("MainMenu")
+list_editor = NodePath("ListEditor")
+race_setup_menu = NodePath("RaceSetupMenu")
+race_scene = NodePath("RaceScene")
+post_race_menu = NodePath("PostRaceMenu")
+options_menu = NodePath("OptionsMenu")
+credits_menu = NodePath("CreditsMenu")
 
 [node name="MainMenu" parent="." instance=ExtResource("2_remlu")]
 layout_mode = 1
+offset_top = -2.0
+offset_bottom = -2.0
 
-[node name="ListEditorScene" parent="." instance=ExtResource("3_hi8bn")]
+[node name="ListEditor" parent="." instance=ExtResource("3_remlu")]
 visible = false
-layout_mode = 1
 
 [node name="RaceSetupMenu" parent="." instance=ExtResource("4_0ktcg")]
 visible = false
@@ -44,3 +52,8 @@ layout_mode = 1
 [node name="CreditsMenu" parent="." instance=ExtResource("8_0pq88")]
 visible = false
 layout_mode = 1
+
+[connection signal="edit_list_button_pressed" from="MainMenu" to="." method="_on_main_menu_edit_list_button_pressed"]
+[connection signal="options_button_pressed" from="MainMenu" to="." method="_on_main_menu_options_button_pressed"]
+[connection signal="setup_race_button_pressed" from="MainMenu" to="." method="_on_main_menu_setup_race_button_pressed"]
+[connection signal="done_button_pressed" from="ListEditor" to="." method="_on_list_editor_done_button_pressed"]

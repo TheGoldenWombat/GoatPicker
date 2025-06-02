@@ -1,5 +1,5 @@
 class_name ListEditor
-extends CanvasLayer
+extends Control
 
 ################################################################################
 # ----------------------------------- TODO ----------------------------------- #
@@ -60,7 +60,8 @@ func _process(_delta: float) -> void:
 # ---------------------------------- SIGNALS --------------------------------- #
 ################################################################################
 
-signal close_editor
+signal close_editor # DEPRECATED
+signal done_button_pressed
 
 
 func _on_save_button_pressed() -> void:
@@ -73,5 +74,6 @@ func _on_load_button_pressed() -> void:
 
 func _on_done_button_pressed() -> void:
 	save_list()
-	emit_signal("close_editor")
+	emit_signal("close_editor") # DEPRECATED
+	emit_signal("done_button_pressed")
 	hide()

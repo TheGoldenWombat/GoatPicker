@@ -1,0 +1,14 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://di5jg08o28qo7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wikag"]
+
+[resource]
+Button/font_sizes/font_size = 48
+GridContainer/constants/h_separation = 8
+GridContainer/constants/v_separation = 8
+Label/font_sizes/font_size = 48
+MarginContainer/constants/margin_bottom = 10
+MarginContainer/constants/margin_left = 10
+MarginContainer/constants/margin_right = 10
+MarginContainer/constants/margin_top = 10
+PanelContainer/styles/panel = SubResource("StyleBoxEmpty_wikag")

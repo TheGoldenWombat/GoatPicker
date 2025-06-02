@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://bwjkhynp2wy7f"]
+[gd_scene load_steps=5 format=3 uid="uid://bwjkhynp2wy7f"]
 
 [ext_resource type="Script" uid="uid://csg02mq5a1h0s" path="res://hud/main_menu.gd" id="1_lxge1"]
+[ext_resource type="Theme" uid="uid://di5jg08o28qo7" path="res://hud/themes/menu_theme.tres" id="2_m54ne"]
+[ext_resource type="Theme" uid="uid://c46ic64ovpuk8" path="res://hud/themes/title_theme.tres" id="3_tjwcq"]
+
+[sub_resource type="Theme" id="Theme_tjwcq"]
+Button/font_sizes/font_size = 28
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -10,3 +15,97 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_lxge1")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.647923, 0.598181, 0.600395, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -626.0
+offset_top = -458.0
+offset_right = 628.0
+offset_bottom = 181.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_tjwcq")
+text = "Goat-o-matic
+Pickerator
+3001"
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -499.5
+offset_top = -321.0
+offset_right = 500.5
+offset_bottom = -121.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("2_m54ne")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="ButtonGridH" type="GridContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+columns = 3
+
+[node name="SetupRaceButton" type="Button" parent="PanelContainer/MarginContainer/ButtonGridH"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Setup Race"
+autowrap_mode = 2
+
+[node name="ButtonGridV" type="GridContainer" parent="PanelContainer/MarginContainer/ButtonGridH"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_tjwcq")
+
+[node name="Options Button" type="Button" parent="PanelContainer/MarginContainer/ButtonGridH/ButtonGridV"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Options"
+
+[node name="FullscreenButton" type="Button" parent="PanelContainer/MarginContainer/ButtonGridH/ButtonGridV"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Toggle Fullscreen"
+
+[node name="ExitButton" type="Button" parent="PanelContainer/MarginContainer/ButtonGridH/ButtonGridV"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Exit"
+
+[node name="EditListButton" type="Button" parent="PanelContainer/MarginContainer/ButtonGridH"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Edit List"
+autowrap_mode = 2
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/ButtonGridH/SetupRaceButton" to="." method="_on_setup_race_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/ButtonGridH/ButtonGridV/Options Button" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/ButtonGridH/ButtonGridV/FullscreenButton" to="." method="_on_fullscreen_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/ButtonGridH/ButtonGridV/ExitButton" to="." method="_on_exit_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/ButtonGridH/EditListButton" to="." method="_on_edit_list_button_pressed"]

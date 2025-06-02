@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://8w0h0i3plbqg"]
 
 [ext_resource type="Script" uid="uid://bo1skgqcpu3od" path="res://hud.gd" id="1_37p78"]
-[ext_resource type="PackedScene" uid="uid://bldbn2ol801w6" path="res://list_editor.tscn" id="2_64ctp"]
+[ext_resource type="PackedScene" uid="uid://bldbn2ol801w6" path="res://hud/list_editor.tscn" id="2_64ctp"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_64ctp"]
 action = &"start_mode_1"
