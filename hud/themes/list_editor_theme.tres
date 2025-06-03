@@ -1,9 +1,13 @@
-[gd_resource type="Theme" format=3 uid="uid://cbiytg3os5vd2"]
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cbiytg3os5vd2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m5h2y"]
+bg_color = Color(0.227451, 0.25098, 0.254902, 1)
 
 [resource]
 GridContainer/constants/h_separation = 15
 GridContainer/constants/v_separation = 15
-MarginContainer/constants/margin_bottom = 50
-MarginContainer/constants/margin_left = 600
-MarginContainer/constants/margin_right = 400
-MarginContainer/constants/margin_top = 50
+MarginContainer/constants/margin_bottom = 25
+MarginContainer/constants/margin_left = 25
+MarginContainer/constants/margin_right = 25
+MarginContainer/constants/margin_top = 5
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_m5h2y")

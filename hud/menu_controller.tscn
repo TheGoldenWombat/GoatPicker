@@ -57,3 +57,6 @@ layout_mode = 1
 [connection signal="options_button_pressed" from="MainMenu" to="." method="_on_main_menu_options_button_pressed"]
 [connection signal="setup_race_button_pressed" from="MainMenu" to="." method="_on_main_menu_setup_race_button_pressed"]
 [connection signal="done_button_pressed" from="ListEditor" to="." method="_on_list_editor_done_button_pressed"]
+[connection signal="edit_list_button_pressed" from="RaceSetupMenu" to="." method="_on_race_setup_menu_edit_list_button_pressed"]
+[connection signal="menu_button_pressed" from="RaceSetupMenu" to="." method="_on_race_setup_menu_menu_button_pressed"]
+[connection signal="start_race_button_pressed" from="RaceSetupMenu" to="." method="_on_race_setup_menu_start_race_button_pressed"]
