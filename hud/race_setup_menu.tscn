@@ -10,7 +10,7 @@ bg_color = Color(0.2545, 0.195, 0.3, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1y5di"]
 
-[node name="RaceSetupMenu" type="Control"]
+[node name="RaceSetupMenu" type="Control" node_paths=PackedStringArray("race_type_slider")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,6 +18,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_h0jo7")
+race_type_slider = NodePath("PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/GridContainer/GridContainer/GridContainer/RaceTypeSlider")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1

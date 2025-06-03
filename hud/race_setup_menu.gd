@@ -1,6 +1,7 @@
 class_name RaceSetupMenu
 extends Control
 
+@export var race_type_slider: Slider
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

@@ -103,7 +103,6 @@ func _on_list_editor_done_button_pressed() -> void:
 		switch_to_setup_race_menu()
 	else:
 		switch_to_main_menu()
-	
 
 
 # RACE SETUP MENU
@@ -117,3 +116,5 @@ func _on_race_setup_menu_menu_button_pressed() -> void:
 
 func _on_race_setup_menu_start_race_button_pressed() -> void:
 	switch_to_race_scene()
+	var race_type = int(race_setup_menu.race_type_slider.value)
+	race_scene.setup_race(race_type)

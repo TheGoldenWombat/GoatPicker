@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bwjkhynp2wy7f" path="res://hud/main_menu.tscn" id="2_remlu"]
 [ext_resource type="PackedScene" uid="uid://bldbn2ol801w6" path="res://hud/list_editor.tscn" id="3_remlu"]
 [ext_resource type="PackedScene" uid="uid://c8m01tw56ovff" path="res://hud/race_setup_menu.tscn" id="4_0ktcg"]
-[ext_resource type="PackedScene" uid="uid://c7odapil05vte" path="res://hud/race_scene.tscn" id="5_wj0iw"]
+[ext_resource type="PackedScene" uid="uid://b3vb7s0egeiew" path="res://hud/race_scene.tscn" id="5_remlu"]
 [ext_resource type="PackedScene" uid="uid://dwkhgddpt8idc" path="res://hud/post_race_menu.tscn" id="6_mmt8c"]
 [ext_resource type="PackedScene" uid="uid://cy2upw5jpfq6v" path="res://hud/options_menu.tscn" id="7_v04ml"]
 [ext_resource type="PackedScene" uid="uid://t1g6vmxn76at" path="res://hud/credits_menu.tscn" id="8_0pq88"]
@@ -37,9 +37,7 @@ visible = false
 visible = false
 layout_mode = 1
 
-[node name="RaceScene" parent="." instance=ExtResource("5_wj0iw")]
-visible = false
-layout_mode = 1
+[node name="RaceScene" parent="." instance=ExtResource("5_remlu")]
 
 [node name="PostRaceMenu" parent="." instance=ExtResource("6_mmt8c")]
 visible = false
