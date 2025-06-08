@@ -1,16 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://c8m01tw56ovff"]
+[gd_scene load_steps=8 format=3 uid="uid://c8m01tw56ovff"]
 
 [ext_resource type="Script" uid="uid://csqklni8jcf7x" path="res://hud/race_setup_menu.gd" id="1_h0jo7"]
 [ext_resource type="Theme" uid="uid://dpa7dhnrd2tve" path="res://hud/themes/race_setup_theme.tres" id="2_1y5di"]
+[ext_resource type="Texture2D" uid="uid://c0qt68x0egtvo" path="res://circle_mask.png" id="3_t4had"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1y5di"]
 bg_color = Color(0.2545, 0.195, 0.3, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t4had"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3adh0"]
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1y5di"]
 
-[node name="RaceSetupMenu" type="Control" node_paths=PackedStringArray("race_type_slider")]
+[node name="RaceSetupMenu" type="Control" node_paths=PackedStringArray("race_type_slider", "race_mode_label", "num_racers_slider", "num_racers_label")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,7 +21,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_h0jo7")
-race_type_slider = NodePath("PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/GridContainer/GridContainer/GridContainer/RaceTypeSlider")
+race_type_slider = NodePath("PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/GridContainer/GridContainer/GridContainer/HBoxContainer/RaceTypeSlider")
+race_mode_label = NodePath("PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/GridContainer/GridContainer/GridContainer/HBoxContainer/ModeLabel")
+num_racers_slider = NodePath("PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/GridContainer/GridContainer/GridContainer/HBoxContainer2/NumRacersSlider")
+num_racers_label = NodePath("PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/GridContainer/GridContainer/GridContainer/HBoxContainer2/NumRacersLabel")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -82,23 +88,51 @@ layout_mode = 2
 text = "Race Type"
 horizontal_alignment = 2
 
-[node name="RaceTypeSlider" type="HSlider" parent="PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/GridContainer/GridContainer/GridContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/GridContainer/GridContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RaceTypeSlider" type="HSlider" parent="PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/GridContainer/GridContainer/GridContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+theme_override_icons/grabber = ExtResource("3_t4had")
+theme_override_icons/grabber_highlight = ExtResource("3_t4had")
+theme_override_styles/slider = SubResource("StyleBoxEmpty_3adh0")
 min_value = 1.0
 max_value = 3.0
 value = 1.0
+tick_count = 3
+ticks_on_borders = true
+
+[node name="ModeLabel" type="Label" parent="PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/GridContainer/GridContainer/GridContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "1"
+horizontal_alignment = 1
 
 [node name="NumRacersLabel" type="Label" parent="PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/GridContainer/GridContainer/GridContainer"]
 layout_mode = 2
 text = "Number of Racers"
 horizontal_alignment = 2
 
-[node name="NumRacersSlider" type="HSlider" parent="PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/GridContainer/GridContainer/GridContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/GridContainer/GridContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NumRacersSlider" type="HSlider" parent="PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/GridContainer/GridContainer/GridContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+min_value = 1.0
+max_value = 12.0
+value = 1.0
+
+[node name="NumRacersLabel" type="Label" parent="PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/GridContainer/GridContainer/GridContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
 
 [node name="EditListButton" type="Button" parent="PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/GridContainer/GridContainer"]
 layout_mode = 2
@@ -123,6 +157,8 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_1y5di")
 
+[connection signal="value_changed" from="PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/GridContainer/GridContainer/GridContainer/HBoxContainer/RaceTypeSlider" to="." method="_on_race_type_slider_value_changed"]
+[connection signal="value_changed" from="PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/GridContainer/GridContainer/GridContainer/HBoxContainer2/NumRacersSlider" to="." method="_on_num_racers_slider_value_changed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/GridContainer/GridContainer/EditListButton" to="." method="_on_edit_list_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/GridContainer/GridContainer/StartRaceButton" to="." method="_on_start_race_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/GridContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]

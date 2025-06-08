@@ -7,6 +7,7 @@ extends Control
 
 # Add top 3 leaderboard
 # Add abort button
+#  - Abort button removes all racers
 # Modify Racers to spawn inside of a grid container
 
 
@@ -16,7 +17,7 @@ extends Control
 
 @export_group("Racers")
 #@export var racer_scene: PackedScene
-@export_range(0, 12) var max_racers: int
+@export_range(0, 12) var max_racers: int = 12
 
 @export_group("SFX")
 @export var sfx_reel_spin: AudioStreamPlayer
@@ -46,14 +47,24 @@ func setup_race(mode: int) -> void:
 	stop_all_audio()
 	remove_racers()
 	y_offset = 0
-	number_of_racers = max_racers
 	# Get choices array, adjust # of racers, shuffle the array, and spawn racers
-	choices_array = get_choices_array(list_path)
-	var number_of_choices: int = choices_array.size()
-	if number_of_choices < number_of_racers: number_of_racers = number_of_choices
+	set_choices_array()
 	choices_array.shuffle()
 	choices_array.resize(number_of_racers)
 	spawn_racers(mode)
+
+
+func set_number_of_racers() -> void:
+	var number_of_choices: int = choices_array.size()
+	number_of_racers = max_racers
+	if number_of_choices < number_of_racers: 
+		number_of_racers = number_of_choices
+
+
+func get_number_of_racers() -> int:
+	set_choices_array()
+	set_number_of_racers()
+	return number_of_racers
 
 
 ## Removes all racers from racer_spawn
@@ -64,15 +75,20 @@ func remove_racers() -> void:
 			r.queue_free()
 
 
-## Get list of choices from choices.list and read them into an array
-func get_choices_array(path: String) -> Array:
-	var file: = FileAccess.open(path,FileAccess.READ)
+func set_choices_array() -> void:
+	var file: = FileAccess.open(list_path,FileAccess.READ)
 	var choices: String = file.get_var()
 	var array: Array = choices.split("\n")
 	#Filter null and blanks
 	array = array.filter(func(element: Variant) -> bool: return element!=null)
 	array = array.filter(func(element: Variant) -> bool: return element!="")
-	return array
+	choices_array = array
+
+
+## Get list of choices from choices.list and read them into an array
+func get_choices_array() -> Array:
+	set_choices_array()
+	return choices_array
 
 
 ## Spawns racers with three possible race modes: [br]
@@ -209,7 +225,8 @@ func set_medal_colors() -> void:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#setup_race()
-	pass
+	set_choices_array()
+	set_number_of_racers()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -27,7 +27,6 @@ stream_5/stream = ExtResource("11_r7dfq")
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_n55ax")
-max_racers = 12
 sfx_reel_spin = NodePath("ReelSpin")
 sfx_reel_stop = NodePath("ReelStop")
 sfx_trumpet = NodePath("Trumpet")

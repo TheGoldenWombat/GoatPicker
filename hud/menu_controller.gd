@@ -31,12 +31,6 @@ func switch_to_main_menu() -> void:
 		else: x.hide()
 
 
-func switch_to_setup_race_menu() -> void: 
-	for x: Node in get_children():
-		if x is RaceSetupMenu: x.show()
-		else: x.hide()
-
-
 func switch_to_list_editor() -> void: 
 	for x: Node in get_children():
 		if x is ListEditor: x.show()
@@ -55,7 +49,15 @@ func switch_to_credits_menu() -> void:
 		else: x.hide()
 
 
-func switch_to_race_scene() -> void: 
+func switch_to_setup_race_menu() -> void: 
+	race_setup_menu.number_of_racers = race_scene.get_number_of_racers()
+	race_setup_menu.init_race_setup_menu()
+	for x: Node in get_children():
+		if x is RaceSetupMenu: x.show()
+		else: x.hide()
+
+
+func switch_to_race_scene() -> void:
 	for x: Node in get_children():
 		if x is RaceScene: x.show()
 		else: x.hide()
@@ -116,5 +118,6 @@ func _on_race_setup_menu_menu_button_pressed() -> void:
 
 func _on_race_setup_menu_start_race_button_pressed() -> void:
 	switch_to_race_scene()
-	var race_type = int(race_setup_menu.race_type_slider.value)
+	race_scene.number_of_racers = race_setup_menu.number_of_racers
+	var race_type: int = int(race_setup_menu.race_type_slider.value)
 	race_scene.setup_race(race_type)
