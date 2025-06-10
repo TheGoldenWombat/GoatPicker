@@ -112,12 +112,16 @@ func _on_race_setup_menu_edit_list_button_pressed() -> void:
 	switch_to_list_editor()
 	edit_return_menu = "race_setup"	
 
+
 func _on_race_setup_menu_menu_button_pressed() -> void:
 	switch_to_main_menu()
 
 
 func _on_race_setup_menu_start_race_button_pressed() -> void:
-	switch_to_race_scene()
 	race_scene.number_of_racers = race_setup_menu.number_of_racers
+	race_scene.combos_enabled = race_setup_menu.combos_checkbox.button_pressed
+	race_scene.attacks_enabled = race_setup_menu.attacks_checkbox.button_pressed
+	
 	var race_type: int = int(race_setup_menu.race_type_slider.value)
+	switch_to_race_scene()
 	race_scene.setup_race(race_type)

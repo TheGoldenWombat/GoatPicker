@@ -36,6 +36,10 @@ var choices_array: Array
 var racing: bool = false
 var medal_delay: bool = true
 
+# TOGGLES
+var combos_enabled: bool = false
+var attacks_enabled: bool = false
+
 
 ################################################################################
 # --------------------------------- FUNCTIONS -------------------------------- #
@@ -113,6 +117,8 @@ func spawn_racers(mode: int = 1) -> void:
 			racer.roll_min = 0
 		else: #PULLBACK
 			racer.roll_min = -1
+		racer.combos_enabled = combos_enabled
+		racer.attacks_enabled = attacks_enabled
 		racer.position = Vector2(0,y_offset + padding)
 		
 		racer.race_end.connect(on_race_end)

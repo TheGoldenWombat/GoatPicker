@@ -5,6 +5,8 @@ extends Control
 @export var race_mode_label: Label
 @export var num_racers_slider: Slider
 @export var num_racers_label: Label
+@export var combos_checkbox: CheckBox
+@export var attacks_checkbox: CheckBox
 
 var number_of_racers: int = 0
 

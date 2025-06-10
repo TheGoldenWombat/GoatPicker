@@ -23,7 +23,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.647923, 0.598181, 0.600395, 1)
+color = Color(0.254148, 0.2387, 0.31, 1)
 
 [node name="Title" type="Label" parent="."]
 layout_mode = 1
@@ -39,7 +39,7 @@ offset_bottom = 181.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_tjwcq")
-text = "Goat-o-matic
+text = "Goat-a-matic
 Pickerator
 3001"
 horizontal_alignment = 1
@@ -83,6 +83,7 @@ theme = SubResource("Theme_tjwcq")
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+disabled = true
 text = "Options"
 
 [node name="FullscreenButton" type="Button" parent="PanelContainer/MarginContainer/ButtonGridH/ButtonGridV"]

@@ -1,0 +1,13 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://qhhw6a2nwlwb"]
+
+[ext_resource type="Texture2D" uid="uid://bblvbvworwhrp" path="res://hud/checkbox/check_square_grey_checkmark.png" id="1_tpdwf"]
+[ext_resource type="Texture2D" uid="uid://dd8ru3dq8s35j" path="res://hud/checkbox/check_square_grey.png" id="2_kb1jm"]
+[ext_resource type="Texture2D" uid="uid://h3d2jrhptnmm" path="res://hud/checkbox/check_square_grey_disabled.png" id="3_kb1jm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kb1jm"]
+
+[resource]
+CheckBox/icons/checked = ExtResource("1_tpdwf")
+CheckBox/icons/unchecked = ExtResource("2_kb1jm")
+CheckBox/icons/unchecked_disabled = ExtResource("3_kb1jm")
+CheckBox/styles/focus = SubResource("StyleBoxEmpty_kb1jm")

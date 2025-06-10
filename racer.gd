@@ -101,6 +101,10 @@ var meter_percent: float
 var list_path: String = "user://choices.list"
 var reel_timer: float = 0
 
+# TOGGLES
+var combos_enabled: bool = false
+var attacks_enabled: bool = false
+
 
 ################################################################################
 # --------------------------------- FUNCTIONS -------------------------------- #
@@ -317,6 +321,6 @@ signal race_end
 func _on_roll_timer_timeout() -> void:
 	randomize_roll_timer_wait()
 	update_current_roll()
-	combo_check()
+	if combos_enabled: combo_check()
 	previous_roll = current_roll
 	
