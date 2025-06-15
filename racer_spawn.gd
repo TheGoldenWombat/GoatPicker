@@ -86,7 +86,7 @@ func get_choices_array(path: String) -> Array:
 func spawn_racers(mode: int = 1) -> void:
 	for n in number_of_racers:
 		var racer: Racer = racer_scene.instantiate()
-		var padding: float = racer.outside_padding
+		var padding: float = 5
 		# Set roll_min based on mode
 		if mode == 1: #NORMAL
 			racer.roll_min = 1

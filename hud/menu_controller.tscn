@@ -38,6 +38,7 @@ visible = false
 layout_mode = 1
 
 [node name="RaceScene" parent="." instance=ExtResource("5_remlu")]
+visible = false
 
 [node name="PostRaceMenu" parent="." instance=ExtResource("6_mmt8c")]
 visible = false

@@ -1,5 +1,5 @@
 class_name Racer
-extends Node2D
+extends Control
 
 ################################################################################
 # ----------------------------------- TODO ----------------------------------- #
@@ -286,7 +286,7 @@ func end_race() -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	resize_racer()
+	#resize_racer()
 	init_racer()
 	update_line()
 

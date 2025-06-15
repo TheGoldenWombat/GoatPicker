@@ -23,7 +23,11 @@ colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.623262, 1, 1, 1, 0.952433, 1, 1
 gradient = SubResource("Gradient_aicwh")
 width = 24
 
-[node name="Racer" type="Node2D" node_paths=PackedStringArray("rect", "line", "line_grad", "line_grad2", "roll_timer", "roll_timer_meter", "top_three_mask", "top_three_color", "roll_indicator", "combo_controller", "choice_label", "current_progress_label", "roll_timer_wait_label", "current_roll_label") groups=["racers"]]
+[node name="Racer" type="PanelContainer" node_paths=PackedStringArray("rect", "line", "line_grad", "line_grad2", "roll_timer", "roll_timer_meter", "top_three_mask", "top_three_color", "roll_indicator", "combo_controller", "choice_label", "current_progress_label", "roll_timer_wait_label", "current_roll_label") groups=["racers"]]
+custom_minimum_size = Vector2(0, 72)
+offset_right = 1920.0
+offset_bottom = 72.0
+size_flags_horizontal = 3
 script = ExtResource("1_aicwh")
 rect = NodePath("ColorRect")
 line = NodePath("ColorRect/Line")
@@ -40,10 +44,11 @@ current_progress_label = NodePath("ColorRect/CurrentProgressLabel")
 roll_timer_wait_label = NodePath("ColorRect/RollTimerWaitLabel")
 current_roll_label = NodePath("ColorRect/CurrentRollLabel")
 
+[node name="RollTimer" type="Timer" parent="."]
+wait_time = 1.69839
+
 [node name="ColorRect" type="ColorRect" parent="."]
-offset_left = 5.0
-offset_right = 1915.0
-offset_bottom = 72.0
+layout_mode = 2
 color = Color(0.180517, 0.180517, 0.180517, 1)
 
 [node name="Line" type="ColorRect" parent="ColorRect"]
@@ -211,8 +216,5 @@ scale = Vector2(0.6, 0.6)
 
 [node name="ComboController" parent="ColorRect/RollIndicator" instance=ExtResource("5_xk4qi")]
 layout_mode = 1
-
-[node name="RollTimer" type="Timer" parent="."]
-wait_time = 1.69839
 
 [connection signal="timeout" from="RollTimer" to="." method="_on_roll_timer_timeout"]

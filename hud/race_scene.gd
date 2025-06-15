@@ -16,10 +16,11 @@ extends Control
 ################################################################################
 
 @export_group("Racers")
-#@export var racer_scene: PackedScene
+@export var racers_container: VBoxContainer
 @export_range(0, 12) var max_racers: int = 12
 
 @export_group("SFX")
+@export var sounds: Node
 @export var sfx_reel_spin: AudioStreamPlayer
 @export var sfx_reel_stop: AudioStreamPlayer
 @export var sfx_trumpet: AudioStreamPlayer
@@ -27,6 +28,9 @@ extends Control
 @export var race_music: AudioStreamPlayer
 @export var race_end_jingle: AudioStreamPlayer
 @export var race_end_music: AudioStreamPlayer
+
+@export_group("UI")
+@export var leaderboard_label: Label
 
 var racer_scene: PackedScene = preload("res://racer.tscn")
 var number_of_racers: int = max_racers
@@ -108,7 +112,6 @@ func get_choices_array() -> Array:
 func spawn_racers(mode: int = 1) -> void:
 	for n in number_of_racers:
 		var racer: Racer = racer_scene.instantiate()
-		var padding: float = racer.outside_padding
 		# Set roll_min based on mode
 		if mode == 1: #NORMAL
 			racer.roll_min = 1
@@ -119,11 +122,10 @@ func spawn_racers(mode: int = 1) -> void:
 			racer.roll_min = -1
 		racer.combos_enabled = combos_enabled
 		racer.attacks_enabled = attacks_enabled
-		racer.position = Vector2(0,y_offset + padding)
 		
 		racer.race_end.connect(on_race_end)
 		racer.randomizing_choice = true
-		add_child(racer)
+		racers_container.add_child(racer)
 		sfx_reel_spin.play(randf_range(0.0,6.0))
 		
 		#await get_tree().create_timer(0.1).timeout # For debugging
@@ -135,17 +137,13 @@ func spawn_racers(mode: int = 1) -> void:
 		racer.choice = choices_array[n]
 		racer.choice_label.text = racer.choice
 		await get_tree().create_timer(0.3).timeout
-		y_offset += racer.rect_size.y + padding
-		
-	#await get_tree().create_timer(3.0).timeout # Replace with audio cue
+	
 	sfx_trumpet.play()
 	await sfx_trumpet.finished
 	
 	racing = true
 	sfx_gunshot.play()
 	get_tree().call_group("racers", "start_race")
-	emit_signal("show_top_three")
-	#await sfx_gunshot.finished
 	race_music.play()
 
 
@@ -157,7 +155,7 @@ func sfx_race_end() -> void:
 
 
 func stop_all_audio() -> void:
-	for a in get_children():
+	for a in sounds.get_children():
 		if a is AudioStreamPlayer && a.playing:
 			a.stop()
 
@@ -165,7 +163,7 @@ func stop_all_audio() -> void:
 ## Get array of the top three racers, or fewer if there aren't three racers total
 func get_top_three_array() -> Array:
 	var racers: Array = []
-	for racer in get_children():
+	for racer in racers_container.get_children():
 		if racer is Racer:
 			racers.append([racer.current_progress, racer.choice])
 	racers.sort()
@@ -175,7 +173,7 @@ func get_top_three_array() -> Array:
 	return racers
 
 ## Generates text to be sent to the top three leaderboard in the HUD
-func top_three_text() -> String:
+func get_leaderboard_text() -> String:
 	# TODO Refactor this
 	var first_label: String = ""
 	var second_label: String = ""
@@ -231,6 +229,7 @@ func set_medal_colors() -> void:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#setup_race()
+	leaderboard_label.text = ""
 	set_choices_array()
 	set_number_of_racers()
 
@@ -238,7 +237,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	if racing:
-		emit_signal("top_three", top_three_text())
+		leaderboard_label.text = get_leaderboard_text()
 		if medal_delay:
 			await get_tree().create_timer(0.3).timeout
 			medal_delay = false
@@ -251,7 +250,7 @@ func _process(_delta: float) -> void:
 ################################################################################
 
 signal race_over
-signal show_top_three
+#signal show_top_three
 signal top_three
 
 ## Stops the race and emits a signal that contains the name of the winner

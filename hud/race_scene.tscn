@@ -23,39 +23,76 @@ stream_3/stream = ExtResource("9_hcy5e")
 stream_4/stream = ExtResource("10_am0ja")
 stream_5/stream = ExtResource("11_r7dfq")
 
-[node name="RaceScene" type="Control" node_paths=PackedStringArray("sfx_reel_spin", "sfx_reel_stop", "sfx_trumpet", "sfx_gunshot", "race_music", "race_end_jingle", "race_end_music") groups=["racer_spawn"]]
+[node name="RaceScene" type="Control" node_paths=PackedStringArray("racers_container", "sounds", "sfx_reel_spin", "sfx_reel_stop", "sfx_trumpet", "sfx_gunshot", "race_music", "race_end_jingle", "race_end_music", "leaderboard_label") groups=["racer_spawn"]]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_n55ax")
-sfx_reel_spin = NodePath("ReelSpin")
-sfx_reel_stop = NodePath("ReelStop")
-sfx_trumpet = NodePath("Trumpet")
-sfx_gunshot = NodePath("Gunshot")
-race_music = NodePath("RaceMusic")
-race_end_jingle = NodePath("RaceEndJingle")
-race_end_music = NodePath("RaceEndMusic")
+racers_container = NodePath("MainContainer/RacersMargin/RacersContainer")
+sounds = NodePath("Sounds")
+sfx_reel_spin = NodePath("Sounds/ReelSpin")
+sfx_reel_stop = NodePath("Sounds/ReelStop")
+sfx_trumpet = NodePath("Sounds/Trumpet")
+sfx_gunshot = NodePath("Sounds/Gunshot")
+race_music = NodePath("Sounds/RaceMusic")
+race_end_jingle = NodePath("Sounds/RaceEndJingle")
+race_end_music = NodePath("Sounds/RaceEndMusic")
+leaderboard_label = NodePath("MainContainer/LeaderboardContainer/LeaderboardLabel")
 
-[node name="ReelSpin" type="AudioStreamPlayer" parent="."]
+[node name="Sounds" type="Node" parent="."]
+
+[node name="ReelSpin" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("2_khuro")
 
-[node name="ReelStop" type="AudioStreamPlayer" parent="."]
+[node name="ReelStop" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("3_dopr8")
 
-[node name="Trumpet" type="AudioStreamPlayer" parent="."]
+[node name="Trumpet" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("4_g25by")
 volume_db = -5.0
 
-[node name="Gunshot" type="AudioStreamPlayer" parent="."]
+[node name="Gunshot" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("5_skv6g")
 
-[node name="RaceMusic" type="AudioStreamPlayer" parent="."]
+[node name="RaceMusic" type="AudioStreamPlayer" parent="Sounds"]
 stream = SubResource("AudioStreamRandomizer_sohk8")
 volume_db = -10.0
 
-[node name="RaceEndJingle" type="AudioStreamPlayer" parent="."]
+[node name="RaceEndJingle" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("12_sxm6d")
 volume_db = -5.0
 
-[node name="RaceEndMusic" type="AudioStreamPlayer" parent="."]
+[node name="RaceEndMusic" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource("13_t3y6m")
 volume_db = -10.0
+
+[node name="MainContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="RacersMargin" type="MarginContainer" parent="MainContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="RacersContainer" type="VBoxContainer" parent="MainContainer/RacersMargin"]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="LeaderboardContainer" type="MarginContainer" parent="MainContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_bottom = 15
+
+[node name="LeaderboardLabel" type="Label" parent="MainContainer/LeaderboardContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 28
+text = "00.00% - Default
+00.00% - Default
+00.00% - Default"
