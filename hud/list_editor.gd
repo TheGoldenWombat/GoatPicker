@@ -20,13 +20,13 @@ var save_path: String = "user://choices.list"
 ################################################################################
 
 func save_list() -> void:
-	var file: = FileAccess.open(save_path,FileAccess.WRITE)
+	var file: FileAccess = FileAccess.open(save_path,FileAccess.WRITE)
 	file.store_var(text_box.text)
 
 
 func load_list() -> void:
 	if !FileAccess.file_exists(save_path): create_default_file() 
-	var file: = FileAccess.open(save_path, FileAccess.READ)
+	var file: FileAccess = FileAccess.open(save_path, FileAccess.READ)
 	var choices: String = str(file.get_var())
 	if choices.length() < 1:
 		create_default_file()
@@ -36,8 +36,8 @@ func load_list() -> void:
 
 
 func create_default_file() -> void:
-	var file: = FileAccess.open(save_path,FileAccess.WRITE)
-	var default_list: = FileAccess.open(default_list_path, FileAccess.READ)
+	var file: FileAccess = FileAccess.open(save_path,FileAccess.WRITE)
+	var default_list: FileAccess = FileAccess.open(default_list_path, FileAccess.READ)
 	var default_choices: String = default_list.get_as_text()
 	file.store_var(default_choices)
 

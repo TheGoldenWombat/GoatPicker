@@ -60,8 +60,8 @@ extends Control
 
 @export_group("Padding")
 ## Padding around each racer
-@export var outside_padding: float = 5.0
-@export var end_padding: float = 15.0
+@export var outside_padding: float = 5.0 #DEPRECATED
+var end_padding: float = 5
 
 
 @export_group("Components")
@@ -85,8 +85,9 @@ extends Control
 
 
 @onready var screen_size: Vector2 =  get_viewport_rect().size
-@onready var rect_size: = Vector2(screen_size.x - (outside_padding * 2), rect.size.y)
-@onready var line_max_length: float = rect_size.x - line.position.x - end_padding
+#@onready var rect_size: = Vector2(screen_size.x - (outside_padding * 2), rect.size.y)
+#@onready var line_max_length: float = rect_size.x - line.position.x - end_padding
+@onready var line_max_length: float = size.x - line.position.x - end_padding
 @onready var choices_array: Array = get_choices_array(list_path)
 
 var choice: String = "Default"
@@ -95,7 +96,7 @@ var current_roll: int = 0
 var current_progress: float = 0.0
 var racing: bool = false
 var randomizing_choice:bool = false
-var medal_color: = Color.WHITE
+var medal_color: Color = Color.WHITE
 var roll_str: float
 var meter_percent: float
 var list_path: String = "user://choices.list"
@@ -110,15 +111,19 @@ var attacks_enabled: bool = false
 # --------------------------------- FUNCTIONS -------------------------------- #
 ################################################################################
 
-func resize_racer() -> void:
-	rect.position.x = outside_padding
-	rect.size = rect_size
+func resize_racer() -> void: #DEPRECATED
+	pass
+	#rect.position.x = outside_padding
+	#rect.size = rect_size
+
+
+func set_line_max_length() -> void:
+	line_max_length = size.x - line.position.x - end_padding
 
 
 func init_racer() -> void:
 	reset_line()
 	top_three_mask.hide()
-	#current_progress_label.hide()
 	choice_label.text = choice
 
 
@@ -153,14 +158,14 @@ func combo_check() -> void:
 
 func lowest_roll(rolls: int) -> int:
 	var roll_array: Array = []
-	for n in rolls:
+	for i: int in rolls:
 		roll_array.append(roll())
 	return roll_array.min()
 
 
 func highest_roll(rolls: int) -> int:
 	var roll_array: Array = []
-	for n in rolls:
+	for i: int in rolls:
 		roll_array.append(roll())
 	return roll_array.max()
 
@@ -215,7 +220,7 @@ func update_line() -> void:
 	line_grad.position.x = ceil(line.size.x - line_grad.size.x)
 	# 	GRADIENT HIGHLIGHT
 	var grad2_size_max: float = line_max_length * 0.005
-	var grad2_new_size_x: = float(clamp(line.size.x, line.size.x, grad2_size_max))
+	var grad2_new_size_x: float = float(clamp(line.size.x, line.size.x, grad2_size_max))
 	line_grad2.size.x = lerp(line_grad2.size.x, grad2_new_size_x,0.02)
 	line_grad2.position.x = ceil(line.size.x - line_grad2.size.x)
 	
@@ -225,16 +230,16 @@ func update_line() -> void:
 	var hue: float = clamp(current_progress * 0.003,0.0,1.0)
 	# 	LINE
 	var line_value: float = lerp (line.color.v, clamp(roll_str*2, 0.6, 0.9), 0.6)
-	var new_line_color: = Color.from_hsv(hue, 0.95, line_value)
+	var new_line_color: Color = Color.from_hsv(hue, 0.95, line_value)
 	line.color = lerp(line.color, new_line_color, 0.06)
 	# 	GRADIENT
 	var grad_hue: float = hue + 0.03
 	var grad_alpha: float = clamp(roll_str*2, 0.1, 1.0)
-	var new_grad_color: = Color.from_hsv(grad_hue, 1.0, 1.0, grad_alpha)
+	var new_grad_color: Color = Color.from_hsv(grad_hue, 1.0, 1.0, grad_alpha)
 	line_grad.modulate = lerp(line_grad.modulate, new_grad_color, 0.03)
 	# 	GRADIENT HIGHLIGHT
 	var grad2_alpha: float = clamp(roll_str, 0.5, 0.7) if roll_str >= 0.5 else 0
-	var new_grad2_color: = Color.from_hsv(0.0, 0.0, 1.0, grad2_alpha)
+	var new_grad2_color: Color = Color.from_hsv(0.0, 0.0, 1.0, grad2_alpha)
 	line_grad2.modulate = lerp(line_grad2.modulate, new_grad2_color, 0.02)
 
 
@@ -249,7 +254,7 @@ func update_medal() -> void:
 
 
 func get_choices_array(path: String) -> Array:
-	var file: = FileAccess.open(path,FileAccess.READ)
+	var file: FileAccess = FileAccess.open(path,FileAccess.READ)
 	var choices: String = file.get_var()
 	var array: Array = choices.split("\n")
 	#Filter null and blanks

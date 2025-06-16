@@ -29,8 +29,8 @@ extends Control
 @onready var default_font_size: int = combo_counter.get("theme_override_font_sizes/font_size")
 var current_combo: int = 0
 
-const ALERT_ROTATE_MIN = -10
-const ALERT_ROTATE_MAX = 25
+const ALERT_ROTATE_MIN: int = -10
+const ALERT_ROTATE_MAX: int = 25
 
 
 ################################################################################

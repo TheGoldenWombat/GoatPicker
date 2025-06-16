@@ -17,6 +17,7 @@ extends Control
 
 @export_group("Racers")
 @export var racers_container: VBoxContainer
+@export var racers_margin: MarginContainer
 @export_range(0, 12) var max_racers: int = 12
 
 @export_group("SFX")
@@ -77,14 +78,14 @@ func get_number_of_racers() -> int:
 
 ## Removes all racers from racer_spawn
 func remove_racers() -> void:
-	for r in get_children():
-		if r is Racer:
-			remove_child(r)
-			r.queue_free()
+	for node: Node in get_children():
+		if node is Racer:
+			remove_child(node)
+			node.queue_free()
 
 
 func set_choices_array() -> void:
-	var file: = FileAccess.open(list_path,FileAccess.READ)
+	var file: FileAccess = FileAccess.open(list_path,FileAccess.READ)
 	var choices: String = file.get_var()
 	var array: Array = choices.split("\n")
 	#Filter null and blanks
@@ -110,7 +111,7 @@ func get_choices_array() -> Array:
 ##   - The racers will frequently stall and creep backward [br]
 ##   - Rolls dice between -1 and racer.roll_max [br]
 func spawn_racers(mode: int = 1) -> void:
-	for n in number_of_racers:
+	for i: int in number_of_racers:
 		var racer: Racer = racer_scene.instantiate()
 		# Set roll_min based on mode
 		if mode == 1: #NORMAL
@@ -120,6 +121,12 @@ func spawn_racers(mode: int = 1) -> void:
 			racer.roll_min = 0
 		else: #PULLBACK
 			racer.roll_min = -1
+		
+		var right_margin: float = racers_margin.theme.get_constant("margin_right", "MarginContainer")
+		var left_margin: float = racers_margin.theme.get_constant("margin_left", "MarginContainer")
+		racer.end_padding += left_margin + right_margin
+		racer.set_line_max_length()
+		print(racer.end_padding)
 		racer.combos_enabled = combos_enabled
 		racer.attacks_enabled = attacks_enabled
 		
@@ -134,7 +141,7 @@ func spawn_racers(mode: int = 1) -> void:
 		sfx_reel_spin.stop()
 		sfx_reel_stop.play()
 		racer.randomizing_choice = false
-		racer.choice = choices_array[n]
+		racer.choice = choices_array[i]
 		racer.choice_label.text = racer.choice
 		await get_tree().create_timer(0.3).timeout
 	
@@ -155,15 +162,15 @@ func sfx_race_end() -> void:
 
 
 func stop_all_audio() -> void:
-	for a in sounds.get_children():
-		if a is AudioStreamPlayer && a.playing:
-			a.stop()
+	for n: Node in sounds.get_children():
+		if n is AudioStreamPlayer && n.playing:
+			n.stop()
 
 
 ## Get array of the top three racers, or fewer if there aren't three racers total
 func get_top_three_array() -> Array:
 	var racers: Array = []
-	for racer in racers_container.get_children():
+	for racer: Node in racers_container.get_children():
 		if racer is Racer:
 			racers.append([racer.current_progress, racer.choice])
 	racers.sort()
@@ -182,19 +189,19 @@ func get_leaderboard_text() -> String:
 	
 	if top_three_array.size() >= 1:
 		var first_progress_percent: float = clamp(top_three_array[0][0],0.00,100.00)
-		var first_progress: = str(first_progress_percent).pad_decimals(2) + "%"
+		var first_progress: String = str(first_progress_percent).pad_decimals(2) + "%"
 		var first_title: String = top_three_array[0][1]
 		first_label = first_progress + " - " + first_title
 		
 	if top_three_array.size() >= 2:
 		var second_progress_percent: float = clamp(top_three_array[1][0],0.00,100.00)
-		var second_progress: = str(second_progress_percent).pad_decimals(2) + "%"
+		var second_progress: String = str(second_progress_percent).pad_decimals(2) + "%"
 		var second_title: String = top_three_array[1][1]
 		second_label = second_progress + " - " + second_title
 		
 	if top_three_array.size() >= 3:
 		var third_progress_percent: float = clamp(top_three_array[2][0],0.00,100.00)
-		var third_progress: = str(third_progress_percent).pad_decimals(2) + "%"
+		var third_progress: String = str(third_progress_percent).pad_decimals(2) + "%"
 		var third_title: String = top_three_array[2][1]
 		third_label =  third_progress + " - " + third_title
 		
@@ -214,12 +221,12 @@ func set_medal_colors() -> void:
 	if top_three_array.size() >= 2: second_place_racer = top_three_array[1][1]
 	if top_three_array.size() >= 3: third_place_racer = top_three_array[2][1]
 	
-	for r in get_children():
-		if r is Racer:
-			if r.choice == first_place_racer: r.medal_color = Color.GOLD
-			elif r.choice == second_place_racer: r.medal_color = Color.SILVER
-			elif r.choice == third_place_racer: r.medal_color = Color.PERU
-			else: r.medal_color = Color.WHITE
+	for n: Node in racers_container.get_children():
+		if n is Racer:
+			if n.choice == first_place_racer: n.medal_color = Color.GOLD
+			elif n.choice == second_place_racer: n.medal_color = Color.SILVER
+			elif n.choice == third_place_racer: n.medal_color = Color.PERU
+			else: n.medal_color = Color.WHITE
 
 
 ################################################################################
