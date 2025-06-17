@@ -59,3 +59,8 @@ layout_mode = 1
 [connection signal="edit_list_button_pressed" from="RaceSetupMenu" to="." method="_on_race_setup_menu_edit_list_button_pressed"]
 [connection signal="menu_button_pressed" from="RaceSetupMenu" to="." method="_on_race_setup_menu_menu_button_pressed"]
 [connection signal="start_race_button_pressed" from="RaceSetupMenu" to="." method="_on_race_setup_menu_start_race_button_pressed"]
+[connection signal="race_end" from="RaceScene" to="." method="_on_race_scene_race_end"]
+[connection signal="race_end" from="RaceScene" to="PostRaceMenu" method="_on_race_scene_race_end"]
+[connection signal="main_menu_button_pressed" from="PostRaceMenu" to="." method="_on_post_race_menu_main_menu_button_pressed"]
+[connection signal="restart_race_button_pressed" from="PostRaceMenu" to="." method="_on_post_race_menu_restart_race_button_pressed"]
+[connection signal="setup_new_race_button_pressed" from="PostRaceMenu" to="." method="_on_post_race_menu_setup_new_race_button_pressed"]

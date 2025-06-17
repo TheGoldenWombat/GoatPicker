@@ -52,6 +52,7 @@ var attacks_enabled: bool = false
 
 ## Initializes spawner properties, gets the list of choices, and spawns the racers
 func setup_race(mode: int) -> void:
+	leaderboard_label.text = ""
 	# Initialize spawner
 	stop_all_audio()
 	remove_racers()
@@ -78,7 +79,7 @@ func get_number_of_racers() -> int:
 
 ## Removes all racers from racer_spawn
 func remove_racers() -> void:
-	for node: Node in get_children():
+	for node: Node in racers_container.get_children():
 		if node is Racer:
 			remove_child(node)
 			node.queue_free()
@@ -126,7 +127,6 @@ func spawn_racers(mode: int = 1) -> void:
 		var left_margin: float = racers_margin.theme.get_constant("margin_left", "MarginContainer")
 		racer.end_padding += left_margin + right_margin
 		racer.set_line_max_length()
-		print(racer.end_padding)
 		racer.combos_enabled = combos_enabled
 		racer.attacks_enabled = attacks_enabled
 		
@@ -134,13 +134,12 @@ func spawn_racers(mode: int = 1) -> void:
 		racer.randomizing_choice = true
 		racers_container.add_child(racer)
 		sfx_reel_spin.play(randf_range(0.0,6.0))
-		
 		#await get_tree().create_timer(0.1).timeout # For debugging
 		await get_tree().create_timer(1.5).timeout
-		
 		sfx_reel_spin.stop()
 		sfx_reel_stop.play()
 		racer.randomizing_choice = false
+		
 		racer.choice = choices_array[i]
 		racer.choice_label.text = racer.choice
 		await get_tree().create_timer(0.3).timeout
@@ -256,14 +255,15 @@ func _process(_delta: float) -> void:
 # ---------------------------------- SIGNALS --------------------------------- #
 ################################################################################
 
-signal race_over
+signal race_end
 #signal show_top_three
 signal top_three
 
 ## Stops the race and emits a signal that contains the name of the winner
 func on_race_end(choice: String) -> void:
 	racing = false
-	emit_signal("race_over", choice)
+	emit_signal("race_end", choice)
+	print("race_end signal relayed")
 	sfx_race_end()
 
 ## Starts the race using the specified mode

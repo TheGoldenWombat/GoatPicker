@@ -49,7 +49,7 @@ extends Control
 @export_group("Timer")
 ## Time scale applied to current_progress each tick [br]
 ## Recommended: 0.5 for positive roll_min, 1.0 for negative
-@export_range(0.0, 2.0, 0.5) var time_scale: float = 1.0 
+@export_range(0.0, 20.0, 0.5) var time_scale: float = 1.0 
 
 ## Minimum time between rolls
 @export var timer_min: float = 1.5
@@ -276,6 +276,7 @@ func check_for_winner() -> void:
 	if current_progress >= 100.00:
 		current_progress = 100.00
 		emit_signal("race_end", choice)
+		print ("race_end signal fired")
 		get_tree().call_group("racers", "end_race")
 
 
@@ -308,7 +309,7 @@ func _process(delta: float) -> void:
 	if randomizing_choice:
 		if reel_timer <= 0:
 			var new_choice: String = choices_array.pick_random()
-			while new_choice == choice_label.text:
+			while new_choice == choice_label.text && choices_array.size() > 1:
 				new_choice = choices_array.pick_random()
 			choice_label.text = new_choice
 			reel_timer = 0.07
