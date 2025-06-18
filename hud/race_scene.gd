@@ -32,6 +32,7 @@ extends Control
 
 @export_group("UI")
 @export var leaderboard_label: Label
+@export var pause_button: Button
 
 var racer_scene: PackedScene = preload("res://racer.tscn")
 var number_of_racers: int = max_racers
@@ -52,7 +53,8 @@ var attacks_enabled: bool = false
 
 ## Initializes spawner properties, gets the list of choices, and spawns the racers
 func setup_race(mode: int) -> void:
-	leaderboard_label.text = ""
+	leaderboard_label.hide()
+	pause_button.hide()
 	# Initialize spawner
 	stop_all_audio()
 	remove_racers()
@@ -81,7 +83,7 @@ func get_number_of_racers() -> int:
 func remove_racers() -> void:
 	for node: Node in racers_container.get_children():
 		if node is Racer:
-			remove_child(node)
+			#remove_child(node)
 			node.queue_free()
 
 
@@ -151,6 +153,9 @@ func spawn_racers(mode: int = 1) -> void:
 	sfx_gunshot.play()
 	get_tree().call_group("racers", "start_race")
 	race_music.play()
+	
+	leaderboard_label.show()
+	pause_button.show()
 
 
 func sfx_race_end() -> void:
@@ -236,6 +241,7 @@ func set_medal_colors() -> void:
 func _ready() -> void:
 	#setup_race()
 	leaderboard_label.text = ""
+	pause_button.hide()
 	set_choices_array()
 	set_number_of_racers()
 
@@ -256,8 +262,10 @@ func _process(_delta: float) -> void:
 ################################################################################
 
 signal race_end
+signal race_pause
 #signal show_top_three
 signal top_three
+
 
 ## Stops the race and emits a signal that contains the name of the winner
 func on_race_end(choice: String) -> void:
@@ -265,12 +273,28 @@ func on_race_end(choice: String) -> void:
 	emit_signal("race_end", choice)
 	print("race_end signal relayed")
 	sfx_race_end()
+	pause_button.hide()
+
 
 ## Starts the race using the specified mode
 func _on_hud_race_start(mode: int) -> void:
 	setup_race(mode)
 
+
 ## Clears the racers when the main menu is initialized
 func _on_hud_clear_racers() -> void:
 	racing = false
 	remove_racers()
+
+
+func _on_pause_button_pressed() -> void:
+	pause_button.hide()
+	race_music.stream_paused = true
+	get_tree().call_group("racers", "pause_race")
+	emit_signal("race_pause")
+
+
+func _on_post_race_menu_resume_race() -> void:
+	pause_button.show()
+	race_music.stream_paused = false
+	get_tree().call_group("racers", "resume_race")

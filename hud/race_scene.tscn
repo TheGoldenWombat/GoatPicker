@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b3vb7s0egeiew"]
+[gd_scene load_steps=17 format=3 uid="uid://b3vb7s0egeiew"]
 
 [ext_resource type="Script" uid="uid://75sdoq8qqwuq" path="res://hud/race_scene.gd" id="1_n55ax"]
 [ext_resource type="AudioStream" uid="uid://dcurcwxjedesc" path="res://sfx/reel_spin/reel_spin.mp3" id="2_khuro"]
@@ -14,6 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://rtkqc508dj8k" path="res://sfx/race_end/race_end_jingle.mp3" id="12_sxm6d"]
 [ext_resource type="AudioStream" uid="uid://d0ds6sq0i1etb" path="res://sfx/race_end/race_end_music.mp3" id="13_t3y6m"]
 [ext_resource type="Theme" uid="uid://bdne8w23q88jn" path="res://hud/themes/racers_container.tres" id="14_nfeph"]
+[ext_resource type="PackedScene" uid="uid://biktyt1vk18a8" path="res://racer.tscn" id="15_jdbre"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_sohk8"]
 streams_count = 6
@@ -24,7 +25,7 @@ stream_3/stream = ExtResource("9_hcy5e")
 stream_4/stream = ExtResource("10_am0ja")
 stream_5/stream = ExtResource("11_r7dfq")
 
-[node name="RaceScene" type="Control" node_paths=PackedStringArray("racers_container", "racers_margin", "sounds", "sfx_reel_spin", "sfx_reel_stop", "sfx_trumpet", "sfx_gunshot", "race_music", "race_end_jingle", "race_end_music", "leaderboard_label") groups=["racer_spawn"]]
+[node name="RaceScene" type="Control" node_paths=PackedStringArray("racers_container", "racers_margin", "sounds", "sfx_reel_spin", "sfx_reel_stop", "sfx_trumpet", "sfx_gunshot", "race_music", "race_end_jingle", "race_end_music", "leaderboard_label", "pause_button") groups=["racer_spawn"]]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_n55ax")
@@ -38,7 +39,9 @@ sfx_gunshot = NodePath("Sounds/Gunshot")
 race_music = NodePath("Sounds/RaceMusic")
 race_end_jingle = NodePath("Sounds/RaceEndJingle")
 race_end_music = NodePath("Sounds/RaceEndMusic")
-leaderboard_label = NodePath("MainContainer/LeaderboardContainer/LeaderboardLabel")
+leaderboard_label = NodePath("MainContainer/HBoxContainer/LeaderboardMargin/LeaderboardLabel")
+pause_button = NodePath("MainContainer/HBoxContainer/ButtonMargin/PauseButton")
+metadata/_edit_horizontal_guides_ = [930.0]
 
 [node name="Sounds" type="Node" parent="."]
 
@@ -76,22 +79,82 @@ offset_bottom = 1080.0
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("14_nfeph")
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
 [node name="RacersContainer" type="VBoxContainer" parent="MainContainer/RacersMargin"]
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="LeaderboardContainer" type="MarginContainer" parent="MainContainer"]
+[node name="Racer" parent="MainContainer/RacersMargin/RacersContainer" instance=ExtResource("15_jdbre")]
 layout_mode = 2
-theme_override_constants/margin_left = 15
+
+[node name="Racer2" parent="MainContainer/RacersMargin/RacersContainer" instance=ExtResource("15_jdbre")]
+layout_mode = 2
+
+[node name="Racer3" parent="MainContainer/RacersMargin/RacersContainer" instance=ExtResource("15_jdbre")]
+layout_mode = 2
+
+[node name="Racer4" parent="MainContainer/RacersMargin/RacersContainer" instance=ExtResource("15_jdbre")]
+layout_mode = 2
+
+[node name="Racer5" parent="MainContainer/RacersMargin/RacersContainer" instance=ExtResource("15_jdbre")]
+layout_mode = 2
+
+[node name="Racer6" parent="MainContainer/RacersMargin/RacersContainer" instance=ExtResource("15_jdbre")]
+layout_mode = 2
+
+[node name="Racer7" parent="MainContainer/RacersMargin/RacersContainer" instance=ExtResource("15_jdbre")]
+layout_mode = 2
+
+[node name="Racer8" parent="MainContainer/RacersMargin/RacersContainer" instance=ExtResource("15_jdbre")]
+layout_mode = 2
+
+[node name="Racer9" parent="MainContainer/RacersMargin/RacersContainer" instance=ExtResource("15_jdbre")]
+layout_mode = 2
+
+[node name="Racer10" parent="MainContainer/RacersMargin/RacersContainer" instance=ExtResource("15_jdbre")]
+layout_mode = 2
+
+[node name="Racer11" parent="MainContainer/RacersMargin/RacersContainer" instance=ExtResource("15_jdbre")]
+layout_mode = 2
+
+[node name="Racer12" parent="MainContainer/RacersMargin/RacersContainer" instance=ExtResource("15_jdbre")]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainContainer"]
+layout_mode = 2
+
+[node name="LeaderboardMargin" type="MarginContainer" parent="MainContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 30
 theme_override_constants/margin_top = 0
 theme_override_constants/margin_bottom = 15
 
-[node name="LeaderboardLabel" type="Label" parent="MainContainer/LeaderboardContainer"]
+[node name="LeaderboardLabel" type="Label" parent="MainContainer/HBoxContainer/LeaderboardMargin"]
 layout_mode = 2
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 28
 text = "00.00% - Default
 00.00% - Default
 00.00% - Default"
+
+[node name="ButtonMargin" type="MarginContainer" parent="MainContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="PauseButton" type="Button" parent="MainContainer/HBoxContainer/ButtonMargin"]
+visible = false
+custom_minimum_size = Vector2(250, 113)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Pause"
+
+[connection signal="pressed" from="MainContainer/HBoxContainer/ButtonMargin/PauseButton" to="." method="_on_pause_button_pressed"]

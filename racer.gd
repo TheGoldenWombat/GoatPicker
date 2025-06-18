@@ -280,6 +280,16 @@ func check_for_winner() -> void:
 		get_tree().call_group("racers", "end_race")
 
 
+func pause_race() -> void:
+	racing = false
+	roll_timer.paused = true
+	update_line()
+
+func resume_race() -> void:
+	racing = true
+	roll_timer.paused = false
+	update_line()
+
 func end_race() -> void:
 	racing = false
 	roll_timer.stop()

@@ -76,6 +76,10 @@ func show_post_race_menu() -> void:
 	post_race_menu.show()
 
 
+func hide_post_race_menu() -> void:
+	post_race_menu.hide()
+
+
 ################################################################################
 # --------------------------------- PROCESSES -------------------------------- #
 ################################################################################
@@ -130,7 +134,6 @@ func _on_race_setup_menu_start_race_button_pressed() -> void:
 
 # RACE SCENE
 func _on_race_scene_race_end(_choice: String) -> void:
-	print("race_end signal recived by menu_controller")
 	show_post_race_menu()
 
 
@@ -148,3 +151,11 @@ func _on_post_race_menu_setup_new_race_button_pressed() -> void:
 func _on_post_race_menu_main_menu_button_pressed() -> void:
 	race_scene.stop_all_audio()
 	switch_to_main_menu()
+
+
+func _on_race_scene_race_pause() -> void:
+	post_race_menu.set_pause_label()
+	show_post_race_menu()
+
+func _on_post_race_menu_resume_race() -> void:
+	hide_post_race_menu()
