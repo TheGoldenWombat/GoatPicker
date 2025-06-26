@@ -63,7 +63,8 @@ func setup_race(mode: int) -> void:
 	set_choices_array()
 	choices_array.shuffle()
 	choices_array.resize(number_of_racers)
-	spawn_racers(mode)
+	await spawn_racers(mode)
+	start_race()
 
 
 func set_number_of_racers() -> void:
@@ -137,25 +138,31 @@ func spawn_racers(mode: int = 1) -> void:
 		racers_container.add_child(racer)
 		sfx_reel_spin.play(randf_range(0.0,6.0))
 		#await get_tree().create_timer(0.1).timeout # For debugging
-		await get_tree().create_timer(1.5).timeout
+		var timer_length: float = 1.5 / racer.time_scale
+		await get_tree().create_timer(timer_length).timeout
 		sfx_reel_spin.stop()
 		sfx_reel_stop.play()
 		racer.randomizing_choice = false
 		
 		racer.choice = choices_array[i]
-		racer.choice_label.text = racer.choice
+		racer.init_racer()
+		
 		await get_tree().create_timer(0.3).timeout
-	
-	sfx_trumpet.play()
-	await sfx_trumpet.finished
-	
-	racing = true
-	sfx_gunshot.play()
-	get_tree().call_group("racers", "start_race")
+
+
+func start_race() -> void:
+	await sfx_race_start_fanfare()
 	race_music.play()
-	
+	racing = true
+	get_tree().call_group("racers", "start_race")
 	leaderboard_label.show()
 	pause_button.show()
+
+
+func sfx_race_start_fanfare() -> void:
+	sfx_trumpet.play()
+	await sfx_trumpet.finished
+	sfx_gunshot.play()
 
 
 func sfx_race_end() -> void:
@@ -171,12 +178,17 @@ func stop_all_audio() -> void:
 			n.stop()
 
 
-## Get array of the top three racers, or fewer if there aren't three racers total
-func get_top_three_array() -> Array:
+func get_racers() -> Array:
 	var racers: Array = []
 	for racer: Node in racers_container.get_children():
 		if racer is Racer:
 			racers.append([racer.current_progress, racer.choice])
+	return racers
+
+
+## Get array of the top three racers, or fewer if there aren't three racers total
+func get_top_three_array() -> Array:
+	var racers: Array = get_racers()
 	racers.sort()
 	racers.reverse()
 	racers.resize(3)
@@ -264,7 +276,7 @@ func _process(_delta: float) -> void:
 signal race_end
 signal race_pause
 #signal show_top_three
-signal top_three
+#signal top_three
 
 
 ## Stops the race and emits a signal that contains the name of the winner
@@ -298,3 +310,10 @@ func _on_post_race_menu_resume_race() -> void:
 	pause_button.show()
 	race_music.stream_paused = false
 	get_tree().call_group("racers", "resume_race")
+
+
+func _on_post_race_menu_restart_race_button_pressed() -> void:
+	stop_all_audio()
+	leaderboard_label.hide()
+	get_tree().call_group("racers", "init_racer")
+	start_race()

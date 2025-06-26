@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dukssqo5jh57c"]
+[gd_scene load_steps=14 format=3 uid="uid://dukssqo5jh57c"]
 
 [ext_resource type="Script" uid="uid://domup2g5hlki5" path="res://racer_spawn.gd" id="1_x4a1m"]
 [ext_resource type="AudioStream" uid="uid://dcurcwxjedesc" path="res://sfx/reel_spin/reel_spin.mp3" id="2_qsll1"]
@@ -10,18 +10,16 @@
 [ext_resource type="AudioStream" uid="uid://cryfi7mlqv2wr" path="res://sfx/race_music/Darkfluxx - Reloaded.mp3.mp3" id="8_kujk5"]
 [ext_resource type="AudioStream" uid="uid://dk4d5wpe5pacx" path="res://sfx/race_music/Denys Brodovskyi - Speed Freak.mp3.mp3" id="9_vomd4"]
 [ext_resource type="AudioStream" uid="uid://0fumfpbshkin" path="res://sfx/race_music/John Bartmann - Race To The Death.mp3" id="10_a5o03"]
-[ext_resource type="AudioStream" uid="uid://dqieeev7pkcy" path="res://sfx/race_music/Speed Limit 35 - HTML.mp3" id="11_gti6o"]
 [ext_resource type="AudioStream" uid="uid://rtkqc508dj8k" path="res://sfx/race_end/race_end_jingle.mp3" id="12_kujk5"]
 [ext_resource type="AudioStream" uid="uid://d0ds6sq0i1etb" path="res://sfx/race_end/race_end_music.mp3" id="13_vomd4"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_sohk8"]
-streams_count = 6
+streams_count = 5
 stream_0/stream = ExtResource("6_urjny")
 stream_1/stream = ExtResource("7_tkn7j")
 stream_2/stream = ExtResource("8_kujk5")
 stream_3/stream = ExtResource("9_vomd4")
 stream_4/stream = ExtResource("10_a5o03")
-stream_5/stream = ExtResource("11_gti6o")
 
 [node name="RacerSpawn" type="Node" node_paths=PackedStringArray("sfx_reel_spin", "sfx_reel_stop", "sfx_trumpet", "sfx_gunshot", "race_music", "race_end_jingle", "race_end_music") groups=["racer_spawn"]]
 script = ExtResource("1_x4a1m")

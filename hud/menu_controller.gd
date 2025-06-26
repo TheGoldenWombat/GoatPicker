@@ -139,10 +139,10 @@ func _on_race_scene_race_end(_choice: String) -> void:
 
 # POST RACE MENU
 func _on_post_race_menu_restart_race_button_pressed() -> void:
-	race_scene.stop_all_audio()
-	setup_race_scene()
+	#race_scene.stop_all_audio()
+	#setup_race_scene()
 	switch_to_race_scene()
-	start_race_scene()
+	#start_race_scene()
 
 func _on_post_race_menu_setup_new_race_button_pressed() -> void:
 	race_scene.stop_all_audio()

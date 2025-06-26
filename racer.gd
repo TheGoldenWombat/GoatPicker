@@ -75,6 +75,7 @@ var end_padding: float = 5
 @export var top_three_color: ColorRect
 @export var roll_indicator: RollIndicator
 @export var combo_controller: ComboController
+@export var finishline: TextureRect
 
 
 @export_group("Labels")
@@ -84,12 +85,14 @@ var end_padding: float = 5
 @export var current_roll_label: Label
 
 
-@onready var screen_size: Vector2 =  get_viewport_rect().size
+#@onready var screen_size: Vector2 =  get_viewport_rect().size
+#@onready var line_end: float = finishline.position.x
 #@onready var rect_size: = Vector2(screen_size.x - (outside_padding * 2), rect.size.y)
 #@onready var line_max_length: float = rect_size.x - line.position.x - end_padding
-@onready var line_max_length: float = size.x - line.position.x - end_padding
+#@onready var line_max_length: float = size.x - line.position.x - line_end
 @onready var choices_array: Array = get_choices_array(list_path)
 
+var line_max_length: float
 var choice: String = "Default"
 var previous_roll: int
 var current_roll: int = 0
@@ -118,11 +121,15 @@ func resize_racer() -> void: #DEPRECATED
 
 
 func set_line_max_length() -> void:
-	line_max_length = size.x - line.position.x - end_padding
+	line_max_length = finishline.position.x - line.position.x
 
 
 func init_racer() -> void:
+	roll_timer_meter.update_meter(0.0)
+	reset_current_progress()
+	update_finishline()
 	reset_line()
+	set_line_max_length()
 	top_three_mask.hide()
 	choice_label.text = choice
 
@@ -179,10 +186,19 @@ func update_current_roll() -> void:
 	current_roll_label.text = str(current_roll)
 
 
+func reset_current_progress() -> void:
+	current_progress = 0.0
+	update_current_progress_label()
+
+
 func update_current_progress(delta: float) -> void:
 	var combo_bonus: float = 1 + (combo_controller.current_combo * 0.1)
 	current_progress += current_roll * delta * time_scale * combo_bonus
 	current_progress = clamp(current_progress,0.00,100.00)
+	update_current_progress_label()
+
+
+func update_current_progress_label() -> void:
 	current_progress_label.text = str(current_progress).pad_decimals(2) + "%"
 
 
@@ -212,6 +228,7 @@ func update_line() -> void:
 	# LENGTHS
 	# Update line and gradient length based on current progress percent
 	# 	LINE
+	#set_line_max_length()
 	line.size.x = current_progress * line_max_length / 100
 	# 	GRADIENT
 	# 	Gradient length fluctuates based on roll strength
@@ -241,6 +258,11 @@ func update_line() -> void:
 	var grad2_alpha: float = clamp(roll_str, 0.5, 0.7) if roll_str >= 0.5 else 0
 	var new_grad2_color: Color = Color.from_hsv(0.0, 0.0, 1.0, grad2_alpha)
 	line_grad2.modulate = lerp(line_grad2.modulate, new_grad2_color, 0.02)
+
+
+func update_finishline() -> void:
+	var alpha: float = clamp((current_progress / 100) - 0.1, 0.1, 1.0)
+	finishline.self_modulate = Color(1.0, 1.0, 1.0, alpha)
 
 
 # TODO Revisit this at some point
@@ -316,6 +338,7 @@ func _process(delta: float) -> void:
 		update_roll_timer_meter()
 		update_medal()
 		update_line()
+		update_finishline()
 	if randomizing_choice:
 		if reel_timer <= 0:
 			var new_choice: String = choices_array.pick_random()

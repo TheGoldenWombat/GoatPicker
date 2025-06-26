@@ -39,6 +39,7 @@ layout_mode = 1
 
 [node name="RaceScene" parent="." instance=ExtResource("5_remlu")]
 visible = false
+max_racers = 12
 
 [node name="PostRaceMenu" parent="." instance=ExtResource("6_mmt8c")]
 visible = false
@@ -63,9 +64,9 @@ layout_mode = 1
 [connection signal="race_end" from="RaceScene" to="PostRaceMenu" method="_on_race_scene_race_end"]
 [connection signal="race_pause" from="RaceScene" to="." method="_on_race_scene_race_pause"]
 [connection signal="race_pause" from="RaceScene" to="PostRaceMenu" method="_on_race_scene_race_pause"]
-[connection signal="race_resume" from="RaceScene" to="." method="_on_race_scene_race_resume"]
 [connection signal="main_menu_button_pressed" from="PostRaceMenu" to="." method="_on_post_race_menu_main_menu_button_pressed"]
 [connection signal="restart_race_button_pressed" from="PostRaceMenu" to="." method="_on_post_race_menu_restart_race_button_pressed"]
+[connection signal="restart_race_button_pressed" from="PostRaceMenu" to="RaceScene" method="_on_post_race_menu_restart_race_button_pressed"]
 [connection signal="resume_race" from="PostRaceMenu" to="." method="_on_post_race_menu_resume_race"]
 [connection signal="resume_race" from="PostRaceMenu" to="RaceScene" method="_on_post_race_menu_resume_race"]
 [connection signal="setup_new_race_button_pressed" from="PostRaceMenu" to="." method="_on_post_race_menu_setup_new_race_button_pressed"]
