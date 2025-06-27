@@ -39,7 +39,6 @@ layout_mode = 1
 
 [node name="RaceScene" parent="." instance=ExtResource("5_remlu")]
 visible = false
-max_racers = 12
 
 [node name="PostRaceMenu" parent="." instance=ExtResource("6_mmt8c")]
 visible = false
