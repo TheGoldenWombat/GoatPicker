@@ -117,7 +117,7 @@ func get_choices_array() -> Array:
 func spawn_racers(mode: int = 1) -> void:
 	for i: int in number_of_racers:
 		var racer: Racer = racer_scene.instantiate()
-		var original_time_scale = racer.time_scale
+		var original_time_scale: float = racer.time_scale
 		# Set roll_min based on mode
 		if mode == 1: #NORMAL
 			racer.roll_min = 1
@@ -140,8 +140,8 @@ func spawn_racers(mode: int = 1) -> void:
 		racers_container.add_child(racer)
 		sfx_reel_spin.play(randf_range(0.0,6.0))
 		#await get_tree().create_timer(0.1).timeout # For debugging
-		var timer_length: float = 1.75 / original_time_scale
-		await get_tree().create_timer(0.75).timeout
+		var timer_length: float = 1.5 / original_time_scale
+		await get_tree().create_timer(timer_length).timeout
 		sfx_reel_spin.stop()
 		sfx_reel_stop.play()
 		racer.randomizing_choice = false
