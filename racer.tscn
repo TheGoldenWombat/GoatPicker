@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://biktyt1vk18a8"]
+[gd_scene load_steps=12 format=3 uid="uid://biktyt1vk18a8"]
 
 [ext_resource type="Script" uid="uid://4afprd3rqbka" path="res://racer.gd" id="1_aicwh"]
 [ext_resource type="Texture2D" uid="uid://c0qt68x0egtvo" path="res://circle_mask.png" id="2_8bidl"]
@@ -23,6 +23,9 @@ colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.623262, 1, 1, 1, 0.952433, 1, 1
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_qg3ev"]
 gradient = SubResource("Gradient_aicwh")
 width = 24
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fodlf"]
+radius = 13.0
 
 [node name="Racer" type="PanelContainer" node_paths=PackedStringArray("rect", "line", "line_grad", "line_grad2", "roll_timer", "roll_timer_meter", "top_three_mask", "top_three_color", "roll_indicator", "combo_controller", "finishline", "choice_label", "current_progress_label", "roll_timer_wait_label", "current_roll_label") groups=["racers"]]
 custom_minimum_size = Vector2(0, 72)
@@ -97,6 +100,21 @@ grow_horizontal = 0
 grow_vertical = 2
 texture = SubResource("GradientTexture1D_qg3ev")
 expand_mode = 1
+
+[node name="BulletTarget" type="Control" parent="ColorRect/Line"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Area2D" type="Area2D" parent="ColorRect/Line/BulletTarget"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect/Line/BulletTarget/Area2D"]
+shape = SubResource("CircleShape2D_fodlf")
 
 [node name="ChoiceLabel" type="Label" parent="ColorRect"]
 layout_mode = 1

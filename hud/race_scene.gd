@@ -180,7 +180,7 @@ func stop_all_audio() -> void:
 			n.stop()
 
 
-func get_racers() -> Array:
+func get_racers_progress() -> Array:
 	var racers: Array = []
 	for racer: Node in racers_container.get_children():
 		if racer is Racer:
@@ -190,7 +190,8 @@ func get_racers() -> Array:
 
 ## Get array of the top three racers, or fewer if there aren't three racers total
 func get_top_three_array() -> Array:
-	var racers: Array = get_racers()
+	var racers: Array = get_racers_progress()
+	print(racers)
 	racers.sort()
 	racers.reverse()
 	racers.resize(3)
@@ -245,6 +246,8 @@ func set_medal_colors() -> void:
 			elif n.choice == second_place_racer: n.medal_color = Color.SILVER
 			elif n.choice == third_place_racer: n.medal_color = Color.PERU
 			else: n.medal_color = Color.WHITE
+
+
 
 
 ################################################################################
@@ -303,6 +306,7 @@ func _on_hud_clear_racers() -> void:
 
 func _on_pause_button_pressed() -> void:
 	pause_button.hide()
+	racing = false
 	race_music.stream_paused = true
 	get_tree().call_group("racers", "pause_race")
 	emit_signal("race_pause")
@@ -310,6 +314,7 @@ func _on_pause_button_pressed() -> void:
 
 func _on_post_race_menu_resume_race() -> void:
 	pause_button.show()
+	racing = true
 	race_music.stream_paused = false
 	get_tree().call_group("racers", "resume_race")
 
