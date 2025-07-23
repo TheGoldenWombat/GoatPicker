@@ -191,7 +191,7 @@ func get_racers_progress() -> Array:
 ## Get array of the top three racers, or fewer if there aren't three racers total
 func get_top_three_array() -> Array:
 	var racers: Array = get_racers_progress()
-	print(racers)
+	#print(racers)
 	racers.sort()
 	racers.reverse()
 	racers.resize(3)

@@ -27,7 +27,7 @@ width = 24
 [sub_resource type="CircleShape2D" id="CircleShape2D_fodlf"]
 radius = 13.0
 
-[node name="Racer" type="PanelContainer" node_paths=PackedStringArray("rect", "line", "line_grad", "line_grad2", "roll_timer", "roll_timer_meter", "top_three_mask", "top_three_color", "roll_indicator", "combo_controller", "finishline", "choice_label", "current_progress_label", "roll_timer_wait_label", "current_roll_label") groups=["racers"]]
+[node name="Racer" type="PanelContainer" node_paths=PackedStringArray("rect", "line", "line_grad", "line_grad2", "roll_timer", "roll_timer_meter", "top_three_mask", "top_three_color", "roll_indicator", "combo_controller", "finishline", "projectile_collision", "choice_label", "current_progress_label", "roll_timer_wait_label", "current_roll_label") groups=["racers"]]
 custom_minimum_size = Vector2(0, 72)
 offset_right = 1920.0
 offset_bottom = 72.0
@@ -44,6 +44,7 @@ top_three_color = NodePath("ColorRect/TopThreeMask/TopThreeColor")
 roll_indicator = NodePath("ColorRect/RollIndicator")
 combo_controller = NodePath("ColorRect/RollIndicator/ComboController")
 finishline = NodePath("ColorRect/FinishSprite")
+projectile_collision = NodePath("ColorRect/Line/BulletTarget/Area2D")
 choice_label = NodePath("ColorRect/ChoiceLabel")
 current_progress_label = NodePath("ColorRect/CurrentProgressLabel")
 roll_timer_wait_label = NodePath("ColorRect/RollTimerWaitLabel")
@@ -184,6 +185,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="TopThreeMask" type="TextureRect" parent="ColorRect"]
+visible = false
 clip_children = 2
 texture_filter = 2
 layout_mode = 1

@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3 uid="uid://bt6vihwuvkw1n"]
+
+[ext_resource type="Texture2D" uid="uid://c0qt68x0egtvo" path="res://circle_mask.png" id="1_a85iw"]
+[ext_resource type="Script" uid="uid://dbhn1fd0bpqfu" path="res://projectile.gd" id="1_qxf0c"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qxf0c"]
+radius = 4.0
+
+[node name="Projectile" type="Node2D"]
+script = ExtResource("1_qxf0c")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+self_modulate = Color(1, 0.466667, 0, 1)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_a85iw")
+expand_mode = 1
+
+[node name="Area2D" type="Area2D" parent="TextureRect"]
+position = Vector2(8, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TextureRect/Area2D"]
+shape = SubResource("CircleShape2D_qxf0c")
+
+[connection signal="area_entered" from="TextureRect/Area2D" to="." method="_on_area_2d_area_entered"]

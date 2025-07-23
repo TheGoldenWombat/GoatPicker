@@ -23,6 +23,8 @@ extends Control
 #      - Line flashes red
 #    - Silence: Cannot gain combo for 15(?) seconds
 #      - Line saturation lowered
+#    - Stone: Line stops for 3(?) seconds
+#      - Line is gray and cracked
 #  - Projectiles launch from random angles from tip of attacker line
 #    - Flying projectiles slowly turn towards victim's RollIndicator
 
@@ -76,6 +78,7 @@ var end_padding: float = 5
 @export var roll_indicator: RollIndicator
 @export var combo_controller: ComboController
 @export var finishline: TextureRect
+@export var projectile_collision: Area2D
 
 
 @export_group("Labels")
@@ -104,6 +107,7 @@ var roll_str: float
 var meter_percent: float
 var list_path: String = "user://choices.list"
 var reel_timer: float = 0
+var projectile_scene: PackedScene = preload("res://projectile.tscn")
 
 # TOGGLES
 var combos_enabled: bool = false
@@ -154,6 +158,7 @@ func combo_check() -> void:
 			print("Roll before breaker: " + str(current_roll))
 			print("Combo before breaker: " + str(current_combo))
 			current_roll = ceil(current_roll + current_combo + (current_combo * 0.5))
+			spawn_projectiles(current_combo - 2)
 			combo_controller.combo_breaker()
 			roll_indicator.set_roll_strength(get_roll_str())
 			roll_indicator.set_current_roll(current_roll)
@@ -161,6 +166,14 @@ func combo_check() -> void:
 			print("Combo breaker roll: " + str(current_roll))
 		else:
 			combo_controller.reset_combo()
+
+func spawn_projectiles(number_of_projectiles: int) -> void:
+	for i: int in number_of_projectiles:
+		await get_tree().create_timer(0.25).timeout
+		var projectile: Projectile = projectile_scene.instantiate()
+		projectile.init_projectile(self) #TODO Update to choose random racer excluding self
+		projectile.position = roll_indicator.position
+		add_child(projectile)
 
 
 func lowest_roll(rolls: int) -> int:
@@ -295,11 +308,17 @@ func start_race() -> void:
 
 
 func check_for_winner() -> void:
-	if current_progress >= 100.00:
-		current_progress = 100.00
+	if current_progress >= 100.0:
+		current_progress = 100.0
 		emit_signal("race_end", choice)
 		print ("race_end signal fired")
 		get_tree().call_group("racers", "end_race")
+
+
+func apply_projectile_effect(projectile_type: int) -> void:
+	match projectile_type:
+		1:
+			current_progress = clamp(current_progress - 8.0, 0.0, 100.0)
 
 
 func pause_race() -> void:
