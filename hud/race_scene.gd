@@ -42,7 +42,7 @@ var choices_array: Array
 var racing: bool = false
 var medal_delay: bool = true
 
-var debug: bool = true
+var debug: bool = false
 
 # TOGGLES
 var combos_enabled: bool = false

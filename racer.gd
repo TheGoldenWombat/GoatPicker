@@ -54,10 +54,10 @@ extends Control
 @export_range(0.0, 20.0, 0.5) var time_scale: float = 1.0 
 
 ## Minimum time between rolls
-@export var timer_min: float = 1.5
+@export var timer_min: float = 1.0
 
 ## Maximum time between rolls
-@export var timer_max: float = 6.0
+@export var timer_max: float = 4.0
 
 
 @export_group("Attacks")
@@ -179,9 +179,10 @@ func show_crosshair() -> void:
 	target_crosshair.scale = Vector2.ONE * 15.0
 	target_crosshair.show()
 	tween.set_parallel(true)
-	tween.tween_property(target_crosshair, "scale", Vector2.ONE * 0.8, 0.5)
+	tween.tween_property(target_crosshair, "scale", Vector2.ONE * 0.75, 0.5)
 	tween.tween_property(target_crosshair, "rotation_degrees", 90, 0.5)
 	tween.set_parallel(false)
+	tween.tween_property(target_crosshair, "scale", Vector2.ONE * 1.1, 0.1)
 	tween.tween_property(target_crosshair, "scale", Vector2.ONE, 0.1)
 	
 
@@ -190,7 +191,7 @@ func spawn_projectiles(number_of_projectiles: int) -> void:
 		print("attack from:" + str(choice))
 		await get_tree().create_timer(0.25).timeout
 		var target_array: Array[Racer] = get_target_array()
-		if !target_array.is_empty():
+		if !target_array.is_empty() && racing:
 			var projectile: Projectile = projectile_scene.instantiate()
 			projectile.init_projectile(target_array.pick_random())
 			projectile.position = roll_indicator.position
@@ -368,6 +369,7 @@ func resume_race() -> void:
 	update_line()
 
 func end_race() -> void:
+	racing = false
 	current_roll = 0
 	roll_str = get_roll_str()
 	roll_indicator.set_roll_strength(roll_str)
@@ -377,7 +379,6 @@ func end_race() -> void:
 	combo_controller.current_combo = 0
 	combo_controller.reset_combo()
 	target_crosshair.hide()
-	racing = false
 	roll_timer.stop()
 	update_line()
 

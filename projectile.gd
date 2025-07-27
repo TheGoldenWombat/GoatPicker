@@ -7,8 +7,10 @@ extends Area2D
 var target_racer: Racer
 var target: Area2D
 
-var max_speed: float = 350.00
-var drag_factor: float = 0.04
+var max_speed: float = 300.00
+var boost_multiplier: float = 4.0
+var current_speed: float
+var drag_factor: float = 0.11
 var current_velocity: Vector2 = Vector2.ZERO
 
 var projectile_type: int
@@ -21,6 +23,7 @@ func init_projectile(racer: Racer) -> void:
 	projectile_type = randi_range(1, NUM_TYPES)
 	target_racer.show_crosshair()
 	set_projectile_color()
+	
 
 func set_projectile_color() -> void:
 	match projectile_type:
@@ -36,17 +39,20 @@ func signal_on_hit() -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	current_velocity = max_speed * Vector2.RIGHT.rotated(rotation)
+	current_speed = max_speed * boost_multiplier # Initial boost
+	current_velocity = current_speed * Vector2.RIGHT.rotated(rotation)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
+	# Lerp down initial speed boost
+	if current_speed > max_speed:
+		current_speed = lerp(current_speed, max_speed, 0.7)
+	
+	# Move projectile toward target
 	var direction: Vector2 = global_position.direction_to(target.global_position)
-	
-	var desired_velocity: Vector2 = direction * max_speed
+	var desired_velocity: Vector2 = direction * current_speed
 	var change: Vector2 = (desired_velocity - current_velocity) * drag_factor
-	
 	current_velocity += change
-	
 	position += current_velocity * delta
 	look_at(global_position + current_velocity)
 
