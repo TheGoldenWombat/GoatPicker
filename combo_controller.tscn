@@ -120,6 +120,7 @@ vertical_alignment = 1
 
 [node name="ComboBreakerAlert" type="Sprite2D" parent="."]
 visible = false
+z_index = 60
 texture = ExtResource("3_5rcld")
 
 [node name="ComboBreakerSFX" type="AudioStreamPlayer" parent="ComboBreakerAlert"]

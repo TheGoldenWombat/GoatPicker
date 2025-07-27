@@ -42,6 +42,8 @@ var choices_array: Array
 var racing: bool = false
 var medal_delay: bool = true
 
+var debug: bool = true
+
 # TOGGLES
 var combos_enabled: bool = false
 var attacks_enabled: bool = false
@@ -141,6 +143,7 @@ func spawn_racers(mode: int = 1) -> void:
 		sfx_reel_spin.play(randf_range(0.0,6.0))
 		#await get_tree().create_timer(0.1).timeout # For debugging
 		var timer_length: float = 1.5 / original_time_scale
+		if debug == true: timer_length = 0.3
 		await get_tree().create_timer(timer_length).timeout
 		sfx_reel_spin.stop()
 		sfx_reel_stop.play()
@@ -288,6 +291,7 @@ signal race_pause
 func on_race_end(choice: String) -> void:
 	racing = false
 	emit_signal("race_end", choice)
+	get_tree().call_group("projectiles", "remove_projectile")
 	print("race_end signal relayed")
 	sfx_race_end()
 	pause_button.hide()

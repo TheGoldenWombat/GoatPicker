@@ -79,6 +79,7 @@ var end_padding: float = 5
 @export var combo_controller: ComboController
 @export var finishline: TextureRect
 @export var projectile_collision: Area2D
+@export var target_reticle: TextureRect
 
 
 @export_group("Labels")
@@ -167,13 +168,34 @@ func combo_check() -> void:
 		else:
 			combo_controller.reset_combo()
 
+func show_reticle() -> void:
+	target_reticle.scale = Vector2.ONE * 4.0
+	var tween: Tween = get_tree().create_tween()
+	tween.tween_property(target_reticle, "scale", Vector2.ONE, 0.5)
+	target_reticle.show()
+
 func spawn_projectiles(number_of_projectiles: int) -> void:
 	for i: int in number_of_projectiles:
+		print("attack from:" + str(choice))
 		await get_tree().create_timer(0.25).timeout
 		var projectile: Projectile = projectile_scene.instantiate()
-		projectile.init_projectile(self) #TODO Update to choose random racer excluding self
+		projectile.init_projectile(get_target_array().pick_random()) #TODO Update to choose random racer excluding self
 		projectile.position = roll_indicator.position
 		add_child(projectile)
+
+func get_racer_array() -> Array[Node]:
+	var racers: Array[Node] = get_tree().get_nodes_in_group("racers")
+	return racers
+
+func get_target_array() -> Array[Racer]:
+	var racers: Array[Node] = get_racer_array()
+	var targets: Array[Racer] = []
+	for racer: Racer in racers:
+		if racer.choice == self.choice: continue
+		if racer.current_progress < 10.0: continue
+		for i: int in int(racer.current_progress):
+			targets.append(racer)
+	return targets
 
 
 func lowest_roll(rolls: int) -> int:
@@ -332,6 +354,14 @@ func resume_race() -> void:
 	update_line()
 
 func end_race() -> void:
+	current_roll = 0
+	roll_str = get_roll_str()
+	roll_indicator.set_roll_strength(roll_str)
+	roll_indicator.set_current_roll(current_roll)
+	roll_indicator.get_new_indicator_color()
+	current_roll_label.text = str(current_roll)
+	combo_controller.current_combo = 0
+	combo_controller.reset_combo()
 	racing = false
 	roll_timer.stop()
 	update_line()
