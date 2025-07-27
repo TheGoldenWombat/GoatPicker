@@ -31,16 +31,19 @@ func _process(_delta: float) -> void:
 signal restart_race_button_pressed
 func _on_restart_race_button_pressed() -> void:
 	emit_signal("restart_race_button_pressed")
+	resume_race_button.hide()
 	hide()
 
 signal setup_new_race_button_pressed
 func _on_setup_new_race_button_pressed() -> void:
 	emit_signal("setup_new_race_button_pressed")
+	resume_race_button.hide()
 	hide()
 
 signal main_menu_button_pressed
 func _on_main_menu_button_pressed() -> void:
 	emit_signal("main_menu_button_pressed")
+	resume_race_button.hide()
 	hide()
 
 
@@ -55,3 +58,4 @@ signal resume_race
 func _on_resume_race_button_pressed() -> void:
 	emit_signal("resume_race")
 	resume_race_button.hide()
+	

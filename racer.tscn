@@ -28,12 +28,14 @@ width = 24
 [sub_resource type="CircleShape2D" id="CircleShape2D_fodlf"]
 radius = 13.0
 
-[node name="Racer" type="PanelContainer" node_paths=PackedStringArray("rect", "line", "line_grad", "line_grad2", "roll_timer", "roll_timer_meter", "top_three_mask", "top_three_color", "roll_indicator", "combo_controller", "finishline", "projectile_collision", "target_reticle", "choice_label", "current_progress_label", "roll_timer_wait_label", "current_roll_label") groups=["racers"]]
+[node name="Racer" type="PanelContainer" node_paths=PackedStringArray("rect", "line", "line_grad", "line_grad2", "roll_timer", "roll_timer_meter", "top_three_mask", "top_three_color", "roll_indicator", "combo_controller", "finishline", "projectile_collision", "target_crosshair", "choice_label", "current_progress_label", "roll_timer_wait_label", "current_roll_label") groups=["racers"]]
 custom_minimum_size = Vector2(0, 72)
 offset_right = 1920.0
 offset_bottom = 72.0
 size_flags_horizontal = 3
 script = ExtResource("1_aicwh")
+timer_min = 0.25
+timer_max = 0.8
 rect = NodePath("ColorRect")
 line = NodePath("ColorRect/Line")
 line_grad = NodePath("ColorRect/Line/LineGradient")
@@ -46,7 +48,7 @@ roll_indicator = NodePath("ColorRect/RollIndicator")
 combo_controller = NodePath("ColorRect/RollIndicator/ComboController")
 finishline = NodePath("ColorRect/FinishSprite")
 projectile_collision = NodePath("ColorRect/Line/BulletTarget/Area2D")
-target_reticle = NodePath("ColorRect/Line/BulletTarget/TargetReticle")
+target_crosshair = NodePath("ColorRect/Line/BulletTarget/TargetCrosshair")
 choice_label = NodePath("ColorRect/ChoiceLabel")
 current_progress_label = NodePath("ColorRect/CurrentProgressLabel")
 roll_timer_wait_label = NodePath("ColorRect/RollTimerWaitLabel")
@@ -119,9 +121,10 @@ grow_vertical = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect/Line/BulletTarget/Area2D"]
 shape = SubResource("CircleShape2D_fodlf")
 
-[node name="TargetReticle" type="TextureRect" parent="ColorRect/Line/BulletTarget"]
+[node name="TargetCrosshair" type="TextureRect" parent="ColorRect/Line/BulletTarget"]
 visible = false
 z_index = 40
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

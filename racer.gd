@@ -60,6 +60,10 @@ extends Control
 @export var timer_max: float = 6.0
 
 
+@export_group("Attacks")
+@export var min_target_progress: float = 0.0
+
+
 @export_group("Padding")
 ## Padding around each racer
 @export var outside_padding: float = 5.0 #DEPRECATED
@@ -79,7 +83,7 @@ var end_padding: float = 5
 @export var combo_controller: ComboController
 @export var finishline: TextureRect
 @export var projectile_collision: Area2D
-@export var target_reticle: TextureRect
+@export var target_crosshair: TextureRect
 
 
 @export_group("Labels")
@@ -130,6 +134,7 @@ func set_line_max_length() -> void:
 
 
 func init_racer() -> void:
+	end_race()
 	roll_timer_meter.update_meter(0.0)
 	reset_current_progress()
 	update_finishline()
@@ -159,7 +164,7 @@ func combo_check() -> void:
 			print("Roll before breaker: " + str(current_roll))
 			print("Combo before breaker: " + str(current_combo))
 			current_roll = ceil(current_roll + current_combo + (current_combo * 0.5))
-			spawn_projectiles(current_combo - 2)
+			if attacks_enabled: spawn_projectiles(current_combo - 2)
 			combo_controller.combo_breaker()
 			roll_indicator.set_roll_strength(get_roll_str())
 			roll_indicator.set_current_roll(current_roll)
@@ -168,20 +173,29 @@ func combo_check() -> void:
 		else:
 			combo_controller.reset_combo()
 
-func show_reticle() -> void:
-	target_reticle.scale = Vector2.ONE * 4.0
+func show_crosshair() -> void:
 	var tween: Tween = get_tree().create_tween()
-	tween.tween_property(target_reticle, "scale", Vector2.ONE, 0.5)
-	target_reticle.show()
+	target_crosshair.rotation_degrees = 0.0
+	target_crosshair.scale = Vector2.ONE * 15.0
+	target_crosshair.show()
+	tween.set_parallel(true)
+	tween.tween_property(target_crosshair, "scale", Vector2.ONE * 0.8, 0.5)
+	tween.tween_property(target_crosshair, "rotation_degrees", 90, 0.5)
+	tween.set_parallel(false)
+	tween.tween_property(target_crosshair, "scale", Vector2.ONE, 0.1)
+	
 
 func spawn_projectiles(number_of_projectiles: int) -> void:
 	for i: int in number_of_projectiles:
 		print("attack from:" + str(choice))
 		await get_tree().create_timer(0.25).timeout
-		var projectile: Projectile = projectile_scene.instantiate()
-		projectile.init_projectile(get_target_array().pick_random()) #TODO Update to choose random racer excluding self
-		projectile.position = roll_indicator.position
-		add_child(projectile)
+		var target_array: Array[Racer] = get_target_array()
+		if !target_array.is_empty():
+			var projectile: Projectile = projectile_scene.instantiate()
+			projectile.init_projectile(target_array.pick_random())
+			projectile.position = roll_indicator.position
+			projectile.rotation_degrees = randi_range(-80, 80)
+			add_child(projectile)
 
 func get_racer_array() -> Array[Node]:
 	var racers: Array[Node] = get_tree().get_nodes_in_group("racers")
@@ -192,7 +206,7 @@ func get_target_array() -> Array[Racer]:
 	var targets: Array[Racer] = []
 	for racer: Racer in racers:
 		if racer.choice == self.choice: continue
-		if racer.current_progress < 10.0: continue
+		if racer.current_progress < min_target_progress: continue
 		for i: int in int(racer.current_progress):
 			targets.append(racer)
 	return targets
@@ -362,6 +376,7 @@ func end_race() -> void:
 	current_roll_label.text = str(current_roll)
 	combo_controller.current_combo = 0
 	combo_controller.reset_combo()
+	target_crosshair.hide()
 	racing = false
 	roll_timer.stop()
 	update_line()

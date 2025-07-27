@@ -103,7 +103,7 @@ theme_override_icons/grabber_highlight = ExtResource("3_t4had")
 theme_override_styles/slider = SubResource("StyleBoxEmpty_3adh0")
 min_value = 1.0
 max_value = 3.0
-value = 1.0
+value = 3.0
 tick_count = 3
 ticks_on_borders = true
 
@@ -167,7 +167,6 @@ alignment = 1
 
 [node name="AttacksLabel" type="Label" parent="PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/CenterContainer/RaceContainer/Checkboxes/AttacksContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 0.27451)
 text = "Attacks"
 horizontal_alignment = 2
 
@@ -176,7 +175,6 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("4_3adh0")
-disabled = true
 
 [node name="UnusedContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/GridContainer/CenterPanel/MarginContainer/CenterContainer/RaceContainer/Checkboxes"]
 layout_mode = 2
