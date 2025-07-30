@@ -42,7 +42,8 @@ var choices_array: Array
 var racing: bool = false
 var medal_delay: bool = true
 
-var debug: bool = false
+@export_group("Debug")
+@export var debug: bool = false
 
 # TOGGLES
 var combos_enabled: bool = false
@@ -138,25 +139,33 @@ func spawn_racers(mode: int = 1) -> void:
 		
 		racer.race_end.connect(on_race_end)
 		
-		racer.randomizing_choice = true
 		racers_container.add_child(racer)
-		sfx_reel_spin.play(randf_range(0.0,6.0))
-		#await get_tree().create_timer(0.1).timeout # For debugging
-		var timer_length: float = 1.5 / original_time_scale
-		if debug == true: timer_length = 0.3
-		await get_tree().create_timer(timer_length).timeout
-		sfx_reel_spin.stop()
-		sfx_reel_stop.play()
-		racer.randomizing_choice = false
+		
+		if !debug:
+			racer.randomizing_choice = true
+			sfx_reel_spin.play(randf_range(0.0,6.0))
+			var timer_length: float = 1.5 / original_time_scale
+			await get_tree().create_timer(timer_length).timeout
+			sfx_reel_spin.stop()
+			sfx_reel_stop.play()
+			racer.randomizing_choice = false
+		else:
+			#I'M NOT ENTIRELY SURE WHY THIS WORKS, BUT IT DOES
+			#IT WILL BREAK WITHOUT IT
+			#SOMETHING TO DO WITH MAX_LINE_LENGTH 
+			await get_tree().create_timer(0.0).timeout
 		
 		racer.choice = choices_array[i]
 		racer.init_racer()
 		
-		await get_tree().create_timer(0.3).timeout
+		if !debug: await get_tree().create_timer(0.3).timeout
 
 
 func start_race() -> void:
-	await sfx_race_start_fanfare()
+	if !debug: 
+		await sfx_race_start_fanfare()
+	else:
+		sfx_gunshot.play()
 	race_music.play()
 	racing = true
 	get_tree().call_group("racers", "start_race")
@@ -294,6 +303,7 @@ func on_race_end(choice: String) -> void:
 	get_tree().call_group("projectiles", "remove_projectile")
 	print("race_end signal relayed")
 	sfx_race_end()
+	leaderboard_label.text = get_leaderboard_text()
 	pause_button.hide()
 
 

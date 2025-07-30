@@ -32,6 +32,9 @@ var current_combo: int = 0
 const ALERT_ROTATE_MIN: int = -10
 const ALERT_ROTATE_MAX: int = 25
 
+@export_group("Debug")
+@export var debug: bool = false
+@export var debug_min_combo: int = 3
 
 ################################################################################
 # --------------------------------- FUNCTIONS -------------------------------- #
@@ -65,11 +68,13 @@ func animate_combo_counter() -> void:
 
 func reset_combo() -> void:
 	current_combo = 0
+	if debug: current_combo = debug_min_combo
 	combo_counter.hide()
 
 
 func combo_breaker() -> void:
 	current_combo = 0
+	if debug: current_combo = debug_min_combo
 	combo_counter.hide()
 	spawn_combo_breaker_alert()
 
@@ -111,6 +116,7 @@ func play_combo_sfx() -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if debug: current_combo = 3
 	init_combo_controller()
 	combo_counter.pivot_offset = combo_counter.size / 2 # Center text pivot
 

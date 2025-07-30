@@ -7,10 +7,14 @@ extends Area2D
 var target_racer: Racer
 var target: Area2D
 
-var max_speed: float = 300.00
-var boost_multiplier: float = 4.0
+var max_speed: float = 500.00
+var boost_multiplier: float = 5.0
 var current_speed: float
-var drag_factor: float = 0.11
+
+const LAUNCH_DRAG_FACTOR: float = 0.01
+const CRUISING_DRAG_FACTOR: float = 0.25
+var current_drag_factor: float
+
 var current_velocity: Vector2 = Vector2.ZERO
 
 var projectile_type: int
@@ -41,18 +45,26 @@ func signal_on_hit() -> void:
 func _ready() -> void:
 	current_speed = max_speed * boost_multiplier # Initial boost
 	current_velocity = current_speed * Vector2.RIGHT.rotated(rotation)
+	current_drag_factor = LAUNCH_DRAG_FACTOR
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
-	# Lerp down initial speed boost
-	if current_speed > max_speed:
-		current_speed = lerp(current_speed, max_speed, 0.7)
-	
+
 	# Move projectile toward target
-	var direction: Vector2 = global_position.direction_to(target.global_position)
-	var desired_velocity: Vector2 = direction * current_speed
-	var change: Vector2 = (desired_velocity - current_velocity) * drag_factor
-	current_velocity += change
+	if current_speed > max_speed:
+		var deceleration: float = max_speed * delta * boost_multiplier / 2.5
+		current_speed -= deceleration
+		
+	if current_speed <= max_speed * (boost_multiplier * 0.66):
+		if current_drag_factor <= CRUISING_DRAG_FACTOR:
+			current_drag_factor = lerp(current_drag_factor, CRUISING_DRAG_FACTOR, 0.005)
+			print(current_drag_factor)
+		var direction: Vector2 = global_position.direction_to(target.global_position)
+		var desired_velocity: Vector2 = direction * current_speed
+		var change: Vector2 = (desired_velocity - current_velocity) * current_drag_factor
+		current_velocity += change
+	else:
+		current_velocity = Vector2.RIGHT * current_speed
 	position += current_velocity * delta
 	look_at(global_position + current_velocity)
 

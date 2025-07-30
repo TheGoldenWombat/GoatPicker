@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bt6vihwuvkw1n"]
+[gd_scene load_steps=5 format=3 uid="uid://bt6vihwuvkw1n"]
 
 [ext_resource type="Texture2D" uid="uid://c0qt68x0egtvo" path="res://circle_mask.png" id="1_a85iw"]
 [ext_resource type="Script" uid="uid://dbhn1fd0bpqfu" path="res://projectile.gd" id="1_qxf0c"]
+[ext_resource type="Texture2D" uid="uid://2hee7pw7ck2n" path="res://images/missile/missile.png" id="3_dgwo2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qxf0c"]
 radius = 4.0
@@ -13,6 +14,7 @@ projectile_tip = NodePath("TextureRect")
 projectile_body = NodePath("ColorRect")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
@@ -25,6 +27,7 @@ grow_horizontal = 0
 grow_vertical = 2
 
 [node name="TextureRect" type="TextureRect" parent="."]
+visible = false
 self_modulate = Color(1, 0.466667, 0, 1)
 anchors_preset = 8
 anchor_left = 0.5
@@ -45,5 +48,12 @@ shape = SubResource("CircleShape2D_qxf0c")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 target_position = Vector2(20, 0)
+
+[node name="Missile" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-72, -1)
+rotation = 3.14159
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("3_dgwo2")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

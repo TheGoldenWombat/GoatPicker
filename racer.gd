@@ -101,7 +101,7 @@ var end_padding: float = 5
 @onready var choices_array: Array = get_choices_array(list_path)
 
 var line_max_length: float
-var choice: String = "Default"
+var choice: String = ""
 var previous_roll: int
 var current_roll: int = 0
 var current_progress: float = 0.0
@@ -130,12 +130,12 @@ func resize_racer() -> void: #DEPRECATED
 
 
 func set_line_max_length() -> void:
-	line_max_length = finishline.position.x - line.position.x
+	line_max_length = finishline.global_position.x - line.global_position.x
 
 
 func init_racer() -> void:
 	end_race()
-	roll_timer_meter.update_meter(0.0)
+	roll_timer_meter.update_meter(1.0)
 	reset_current_progress()
 	update_finishline()
 	reset_line()
@@ -189,13 +189,13 @@ func show_crosshair() -> void:
 func spawn_projectiles(number_of_projectiles: int) -> void:
 	for i: int in number_of_projectiles:
 		print("attack from:" + str(choice))
-		await get_tree().create_timer(0.25).timeout
+		await get_tree().create_timer(0.4).timeout
 		var target_array: Array[Racer] = get_target_array()
 		if !target_array.is_empty() && racing:
 			var projectile: Projectile = projectile_scene.instantiate()
 			projectile.init_projectile(target_array.pick_random())
 			projectile.position = roll_indicator.position
-			projectile.rotation_degrees = randi_range(-80, 80)
+			projectile.rotation_degrees = randi_range(-10, 10)
 			add_child(projectile)
 
 func get_racer_array() -> Array[Node]:
@@ -339,6 +339,7 @@ func start_race() -> void:
 	racing = true
 	#current_progress_label.show()
 	reset_line()
+	roll_timer.paused = false
 	randomize_roll_timer_wait()
 	roll_timer.start()
 	update_current_roll()
@@ -346,10 +347,11 @@ func start_race() -> void:
 
 func check_for_winner() -> void:
 	if current_progress >= 100.0:
-		current_progress = 100.0
 		emit_signal("race_end", choice)
-		print ("race_end signal fired")
 		get_tree().call_group("racers", "end_race")
+		print ("race_end signal fired")
+		current_progress = 100.0
+		update_current_progress_label()
 
 
 func apply_projectile_effect(projectile_type: int) -> void:
@@ -378,9 +380,11 @@ func end_race() -> void:
 	current_roll_label.text = str(current_roll)
 	combo_controller.current_combo = 0
 	combo_controller.reset_combo()
-	target_crosshair.hide()
 	roll_timer.stop()
-	update_line()
+	#update_line()
+	target_crosshair.hide()
+	await get_tree().create_timer(0.5).timeout
+	target_crosshair.hide()
 
 
 ################################################################################
@@ -390,20 +394,20 @@ func end_race() -> void:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#resize_racer()
-	init_racer()
+	#init_racer()
 	update_line()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if racing:
-		check_for_winner()
 		update_current_progress(delta)
 		update_roll_timer_text()
 		update_roll_timer_meter()
 		update_medal()
 		update_line()
 		update_finishline()
+		check_for_winner()
 	if randomizing_choice:
 		if reel_timer <= 0:
 			var new_choice: String = choices_array.pick_random()
