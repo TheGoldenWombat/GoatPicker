@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bt6vihwuvkw1n"]
+[gd_scene load_steps=10 format=3 uid="uid://bt6vihwuvkw1n"]
 
 [ext_resource type="Texture2D" uid="uid://c0qt68x0egtvo" path="res://circle_mask.png" id="1_a85iw"]
 [ext_resource type="Script" uid="uid://dbhn1fd0bpqfu" path="res://projectile.gd" id="1_qxf0c"]
@@ -7,11 +7,28 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_qxf0c"]
 radius = 4.0
 
-[node name="Projectile" type="Area2D" node_paths=PackedStringArray("projectile_tip", "projectile_body") groups=["projectiles"]]
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dgwo2"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_sxmqc"]
+
+[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_2xblw"]
+loop = false
+stream_count = 2
+stream_0 = SubResource("AudioStreamRandomizer_dgwo2")
+stream_1 = SubResource("AudioStreamRandomizer_sxmqc")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dac07"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_0c7x6"]
+
+[node name="Projectile" type="Area2D" node_paths=PackedStringArray("projectile_tip", "projectile_body", "launch_sfx", "cruising_sfx", "explosion_sfx") groups=["projectiles"]]
 z_index = 50
 script = ExtResource("1_qxf0c")
 projectile_tip = NodePath("TextureRect")
 projectile_body = NodePath("ColorRect")
+launch_sfx = NodePath("Launch")
+cruising_sfx = NodePath("Cruising")
+explosion_sfx = NodePath("Explosion")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
@@ -55,5 +72,14 @@ position = Vector2(-72, -1)
 rotation = 3.14159
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("3_dgwo2")
+
+[node name="Launch" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamPlaylist_2xblw")
+
+[node name="Cruising" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_dac07")
+
+[node name="Explosion" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_0c7x6")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
