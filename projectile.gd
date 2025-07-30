@@ -4,9 +4,12 @@ extends Area2D
 # TODO CLEAN UP THIS WHOLE THING
 # LOTS OF UNNECESSARY COMPLEXITY FROM EXPERIMENTING
 
+# TODO ADD DAMAGE MODIFIER BASED ON HOW LONG THE MISSILE IS AIRBORNE
+
 @export var projectile_tip: TextureRect
 @export var projectile_body: ColorRect
-@export var launch_sfx: AudioStreamPlayer2D
+@export var launch_initial_sfx: AudioStreamPlayer2D
+@export var launch_post_sfx: AudioStreamPlayer2D
 @export var cruising_sfx: AudioStreamPlayer2D
 @export var explosion_sfx: AudioStreamPlayer2D
 
@@ -44,34 +47,42 @@ func set_projectile_color() -> void:
 func remove_projectile() -> void:
 	queue_free()
 
+
 func signal_on_hit() -> void:
 	emit_signal("on_hit", projectile_type)
 
 
+func play_launch_sfx() -> void:
+	launch_initial_sfx.play()
+	await launch_initial_sfx.finished
+	launch_post_sfx.play()
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	current_speed = max_speed * boost_multiplier # Initial boost
+	var boost_modifier = randf_range(0.8, 1.2)
+	current_speed = max_speed * boost_multiplier * boost_modifier # Initial boost
 	current_velocity = current_speed * Vector2.RIGHT.rotated(rotation)
 	current_drag_factor = LAUNCH_DRAG_FACTOR
+	play_launch_sfx()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	
-	
 	# Move projectile toward target
 	if current_speed > max_speed:
-		var deceleration: float = max_speed * delta * boost_multiplier / 2.5
+		var deceleration: float = max_speed * delta * boost_multiplier / 2.0
 		current_speed -= deceleration
-		
-	if current_speed <= max_speed * (boost_multiplier * 0.66):
+		current_velocity = Vector2.RIGHT * current_speed
+	else:
+		if launch_post_sfx.playing: launch_post_sfx.stop()
+		if !cruising_sfx.playing: cruising_sfx.play()
 		if current_drag_factor <= CRUISING_DRAG_FACTOR:
 			current_drag_factor = lerp(current_drag_factor, CRUISING_DRAG_FACTOR, 0.005)
 		var direction: Vector2 = global_position.direction_to(target.global_position)
 		var desired_velocity: Vector2 = direction * current_speed
 		var change: Vector2 = (desired_velocity - current_velocity) * current_drag_factor
 		current_velocity += change
-	else:
-		current_velocity = Vector2.RIGHT * current_speed
 	position += current_velocity * delta
 	look_at(global_position + current_velocity)
 
@@ -79,7 +90,6 @@ func _physics_process(delta: float) -> void:
 func _process(_delta: float) -> void:
 	if !target_racer.target_crosshair.visible:
 		target_racer.target_crosshair.show()
-		
 
 
 func _on_area_entered(area: Area2D) -> void:
@@ -87,6 +97,8 @@ func _on_area_entered(area: Area2D) -> void:
 	print ("target: " + str(target))
 	print ("entered: " + str(area))
 	if area == target:
+		if launch_post_sfx.playing: launch_post_sfx.stop()
+		if cruising_sfx.playing: cruising_sfx.stop()
 		explosion_sfx.play()
 		target_racer.apply_projectile_effect(projectile_type)
 		target_racer.target_crosshair.hide()
