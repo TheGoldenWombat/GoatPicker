@@ -153,6 +153,7 @@ text = "Default"
 vertical_alignment = 1
 
 [node name="CurrentProgressLabel" type="Label" parent="ColorRect"]
+z_index = 100
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
