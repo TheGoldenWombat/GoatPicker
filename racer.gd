@@ -395,6 +395,7 @@ func end_race() -> void:
 func _ready() -> void:
 	#resize_racer()
 	#init_racer()
+	update_finishline()
 	update_line()
 
 
