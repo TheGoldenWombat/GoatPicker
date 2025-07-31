@@ -1,29 +1,85 @@
-[gd_scene load_steps=9 format=3 uid="uid://bt6vihwuvkw1n"]
+[gd_scene load_steps=36 format=3 uid="uid://bt6vihwuvkw1n"]
 
 [ext_resource type="Texture2D" uid="uid://c0qt68x0egtvo" path="res://circle_mask.png" id="1_a85iw"]
 [ext_resource type="Script" uid="uid://dbhn1fd0bpqfu" path="res://projectile.gd" id="1_qxf0c"]
 [ext_resource type="Texture2D" uid="uid://2hee7pw7ck2n" path="res://images/missile/missile.png" id="3_dgwo2"]
+[ext_resource type="AudioStream" uid="uid://ljg1semd0rnl" path="res://images/missile/sfx/missile_launch/De-Cruise-Missile.ogg.mp3" id="4_guifb"]
+[ext_resource type="AudioStream" uid="uid://bxro12om773t4" path="res://images/missile/sfx/missile_launch/De-Cruise-Missiles.ogg.mp3" id="5_j04k1"]
+[ext_resource type="AudioStream" uid="uid://klb5kvkavyst" path="res://images/missile/sfx/missile_launch/De-Missiles.ogg.mp3" id="6_p24u1"]
+[ext_resource type="AudioStream" uid="uid://wycqjeoqxohd" path="res://images/missile/sfx/missile_launch/En-us-missile.ogg.mp3" id="7_gq7sw"]
+[ext_resource type="AudioStream" uid="uid://diww7ghhyx6fy" path="res://images/missile/sfx/missile_launch/LL-Q150_(fra)-0x010C-missile.wav.mp3" id="8_3ovpx"]
+[ext_resource type="AudioStream" uid="uid://blyne6f2i6cr8" path="res://images/missile/sfx/missile_launch/LL-Q150_(fra)-Eihel-missiles.wav.mp3" id="9_pknk5"]
+[ext_resource type="AudioStream" uid="uid://bwptxuwoqrt5v" path="res://images/missile/sfx/missile_launch/LL-Q1860_(eng)-Vealhurl-cruise_missile.wav.mp3" id="10_s62jh"]
+[ext_resource type="AudioStream" uid="uid://1tt47u3kj65m" path="res://images/missile/sfx/missile_launch/LL-Q14185_(oci)-Davidgrosclaude-missile.wav.mp3" id="11_owtjq"]
+[ext_resource type="AudioStream" uid="uid://bx30g85hrxhvg" path="res://images/missile/sfx/missile_launch/Nl-missile.ogg.mp3" id="12_q4q4t"]
+[ext_resource type="AudioStream" uid="uid://bebesn61l3lxq" path="res://images/missile/sfx/missile_launch/Nl-missiles.ogg.mp3" id="13_tykw2"]
+[ext_resource type="AudioStream" uid="uid://dfcp2nwdwghj6" path="res://images/missile/sfx/missile_explosion/De-Big_Bang.ogg.mp3" id="14_ed674"]
+[ext_resource type="AudioStream" uid="uid://cxj1o6rijgp7l" path="res://images/missile/sfx/missile_explosion/De-blast.ogg.mp3" id="15_v4yxo"]
+[ext_resource type="AudioStream" uid="uid://bafwaolcf65gj" path="res://images/missile/sfx/missile_explosion/En-us-explosion.ogg.mp3" id="16_1bcxf"]
+[ext_resource type="AudioStream" uid="uid://cjxcv7prxfak" path="res://images/missile/sfx/missile_explosion/LL-Q1860_(eng)-Grendelkhan-bang.wav.mp3" id="17_axk8j"]
+[ext_resource type="AudioStream" uid="uid://qwmx1ac8y8f3" path="res://images/missile/sfx/missile_explosion/LL-Q1860_(eng)-Grendelkhan-boom.wav.mp3" id="18_sqa20"]
+[ext_resource type="AudioStream" uid="uid://cacjpt0ip3g08" path="res://images/missile/sfx/missile_explosion/LL-Q1860_(eng)-Grendelkhan-explosion.wav.mp3" id="19_fxvd1"]
+[ext_resource type="AudioStream" uid="uid://37svsj2dqho7" path="res://images/missile/sfx/missile_explosion/LL-Q1860_(eng)-Simplificationalizer-boom.wav.mp3" id="20_2mufh"]
+[ext_resource type="AudioStream" uid="uid://1r1wbeim7t3x" path="res://images/missile/sfx/missile_explosion/LL-Q1860_(eng)-Wodencafe-boom.wav.mp3" id="21_xdrmb"]
+[ext_resource type="AudioStream" uid="uid://catb576ncihta" path="res://images/missile/sfx/missile_explosion/LL-Q14196_(afr)-Oesjaar-boom.wav.mp3" id="22_cmt77"]
+[ext_resource type="AudioStream" uid="uid://b3sqjwfayp7yr" path="res://images/missile/sfx/missile_explosion/De-bläst.ogg.mp3" id="23_d2868"]
+[ext_resource type="AudioStream" uid="uid://tp0lnkj4gbm2" path="res://images/missile/sfx/missile_explosion/De-Boom.ogg(1).mp3" id="24_5vmm7"]
+[ext_resource type="AudioStream" uid="uid://udfxixi7jpgh" path="res://images/missile/sfx/missile_explosion/De-boom.ogg.mp3" id="25_3rs8g"]
+[ext_resource type="AudioStream" uid="uid://b7idjr74sm4py" path="res://images/missile/sfx/missile_explosion/De-Boomer.ogg.mp3" id="26_v6cls"]
+[ext_resource type="AudioStream" uid="uid://sl4cfoe870dr" path="res://images/missile/sfx/missile_explosion/De-Booms.ogg.mp3" id="27_10exv"]
+[ext_resource type="AudioStream" uid="uid://d2sdw7joy8us0" path="res://images/missile/sfx/missile_explosion/En-us-bang.ogg.mp3" id="28_mxncw"]
+[ext_resource type="AudioStream" uid="uid://c22kih5io256i" path="res://images/missile/sfx/missile_explosion/En-us-Big_Bang.ogg.mp3" id="29_mejdh"]
+[ext_resource type="AudioStream" uid="uid://c8qeergb763bp" path="res://images/missile/sfx/missile_explosion/En-us-blast.ogg.mp3" id="30_8qy1j"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qxf0c"]
 radius = 4.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dgwo2"]
+streams_count = 10
+stream_0/stream = ExtResource("4_guifb")
+stream_1/stream = ExtResource("5_j04k1")
+stream_2/stream = ExtResource("6_p24u1")
+stream_3/stream = ExtResource("7_gq7sw")
+stream_4/stream = ExtResource("8_3ovpx")
+stream_5/stream = ExtResource("9_pknk5")
+stream_6/stream = ExtResource("10_s62jh")
+stream_7/stream = ExtResource("11_owtjq")
+stream_8/stream = ExtResource("12_q4q4t")
+stream_9/stream = ExtResource("13_tykw2")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_sxmqc"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dac07"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_0c7x6"]
+streams_count = 17
+stream_0/stream = ExtResource("14_ed674")
+stream_1/stream = ExtResource("15_v4yxo")
+stream_2/stream = ExtResource("23_d2868")
+stream_3/stream = ExtResource("24_5vmm7")
+stream_4/stream = ExtResource("25_3rs8g")
+stream_5/stream = ExtResource("26_v6cls")
+stream_6/stream = ExtResource("27_10exv")
+stream_7/stream = ExtResource("28_mxncw")
+stream_8/stream = ExtResource("29_mejdh")
+stream_9/stream = ExtResource("30_8qy1j")
+stream_10/stream = ExtResource("16_1bcxf")
+stream_11/stream = ExtResource("17_axk8j")
+stream_12/stream = ExtResource("18_sqa20")
+stream_13/stream = ExtResource("19_fxvd1")
+stream_14/stream = ExtResource("20_2mufh")
+stream_15/stream = ExtResource("21_xdrmb")
+stream_16/stream = ExtResource("22_cmt77")
 
-[node name="Projectile" type="Area2D" node_paths=PackedStringArray("projectile_tip", "projectile_body", "launch_initial_sfx", "launch_post_sfx", "cruising_sfx", "explosion_sfx") groups=["projectiles"]]
+[node name="Projectile" type="Area2D" node_paths=PackedStringArray("projectile_tip", "projectile_body", "missile_sfx_launch", "missile_sfx_cruising", "missile_sfx_return", "missile_sfx_explosion") groups=["projectiles"]]
 z_index = 50
 script = ExtResource("1_qxf0c")
 projectile_tip = NodePath("TextureRect")
 projectile_body = NodePath("ColorRect")
-launch_initial_sfx = NodePath("LaunchInitial")
-launch_post_sfx = NodePath("LaunchPost")
-cruising_sfx = NodePath("Cruising")
-explosion_sfx = NodePath("Explosion")
+missile_sfx_launch = NodePath("MissileLaunch")
+missile_sfx_cruising = NodePath("MissileCruising")
+missile_sfx_return = NodePath("MissileReturn")
+missile_sfx_explosion = NodePath("MissileExplosion")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
@@ -61,23 +117,25 @@ shape = SubResource("CircleShape2D_qxf0c")
 [node name="RayCast2D" type="RayCast2D" parent="."]
 target_position = Vector2(20, 0)
 
-[node name="Missile" type="Sprite2D" parent="."]
+[node name="MissileSprite" type="Sprite2D" parent="."]
 texture_filter = 1
 position = Vector2(-72, -1)
 rotation = 3.14159
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("3_dgwo2")
 
-[node name="LaunchInitial" type="AudioStreamPlayer2D" parent="."]
+[node name="MissileLaunch" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamRandomizer_dgwo2")
+volume_db = 15.0
 
-[node name="LaunchPost" type="AudioStreamPlayer2D" parent="."]
+[node name="MissileCruising" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_sxmqc")
 
-[node name="Cruising" type="AudioStreamPlayer2D" parent="."]
+[node name="MissileReturn" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_dac07")
 
-[node name="Explosion" type="AudioStreamPlayer2D" parent="."]
+[node name="MissileExplosion" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamRandomizer_0c7x6")
+volume_db = 15.0
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

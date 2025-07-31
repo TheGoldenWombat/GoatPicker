@@ -1,0 +1,52 @@
+[gd_scene load_steps=20 format=3 uid="uid://baigg34fuj5br"]
+
+[ext_resource type="Script" uid="uid://bnkymdh2fd4t8" path="res://vfx/explosion.gd" id="1_lqchp"]
+[ext_resource type="AudioStream" uid="uid://dfcp2nwdwghj6" path="res://images/missile/sfx/missile_explosion/De-Big_Bang.ogg.mp3" id="1_skpbd"]
+[ext_resource type="AudioStream" uid="uid://cxj1o6rijgp7l" path="res://images/missile/sfx/missile_explosion/De-blast.ogg.mp3" id="2_lqchp"]
+[ext_resource type="AudioStream" uid="uid://bafwaolcf65gj" path="res://images/missile/sfx/missile_explosion/En-us-explosion.ogg.mp3" id="3_ckruu"]
+[ext_resource type="AudioStream" uid="uid://cjxcv7prxfak" path="res://images/missile/sfx/missile_explosion/LL-Q1860_(eng)-Grendelkhan-bang.wav.mp3" id="4_wn15t"]
+[ext_resource type="AudioStream" uid="uid://qwmx1ac8y8f3" path="res://images/missile/sfx/missile_explosion/LL-Q1860_(eng)-Grendelkhan-boom.wav.mp3" id="5_kvdeb"]
+[ext_resource type="AudioStream" uid="uid://cacjpt0ip3g08" path="res://images/missile/sfx/missile_explosion/LL-Q1860_(eng)-Grendelkhan-explosion.wav.mp3" id="6_i57y5"]
+[ext_resource type="AudioStream" uid="uid://37svsj2dqho7" path="res://images/missile/sfx/missile_explosion/LL-Q1860_(eng)-Simplificationalizer-boom.wav.mp3" id="7_cairi"]
+[ext_resource type="AudioStream" uid="uid://1r1wbeim7t3x" path="res://images/missile/sfx/missile_explosion/LL-Q1860_(eng)-Wodencafe-boom.wav.mp3" id="8_4nfp7"]
+[ext_resource type="AudioStream" uid="uid://catb576ncihta" path="res://images/missile/sfx/missile_explosion/LL-Q14196_(afr)-Oesjaar-boom.wav.mp3" id="9_h0syb"]
+[ext_resource type="AudioStream" uid="uid://b3sqjwfayp7yr" path="res://images/missile/sfx/missile_explosion/De-bläst.ogg.mp3" id="10_aweh3"]
+[ext_resource type="AudioStream" uid="uid://tp0lnkj4gbm2" path="res://images/missile/sfx/missile_explosion/De-Boom.ogg(1).mp3" id="11_1rwnd"]
+[ext_resource type="AudioStream" uid="uid://udfxixi7jpgh" path="res://images/missile/sfx/missile_explosion/De-boom.ogg.mp3" id="12_xskc0"]
+[ext_resource type="AudioStream" uid="uid://b7idjr74sm4py" path="res://images/missile/sfx/missile_explosion/De-Boomer.ogg.mp3" id="13_rl84t"]
+[ext_resource type="AudioStream" uid="uid://sl4cfoe870dr" path="res://images/missile/sfx/missile_explosion/De-Booms.ogg.mp3" id="14_dn7oe"]
+[ext_resource type="AudioStream" uid="uid://d2sdw7joy8us0" path="res://images/missile/sfx/missile_explosion/En-us-bang.ogg.mp3" id="15_dr1kd"]
+[ext_resource type="AudioStream" uid="uid://c22kih5io256i" path="res://images/missile/sfx/missile_explosion/En-us-Big_Bang.ogg.mp3" id="16_ka1ot"]
+[ext_resource type="AudioStream" uid="uid://c8qeergb763bp" path="res://images/missile/sfx/missile_explosion/En-us-blast.ogg.mp3" id="17_v1a28"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_8grth"]
+streams_count = 17
+stream_0/stream = ExtResource("1_skpbd")
+stream_1/stream = ExtResource("2_lqchp")
+stream_2/stream = ExtResource("10_aweh3")
+stream_3/stream = ExtResource("11_1rwnd")
+stream_4/stream = ExtResource("12_xskc0")
+stream_5/stream = ExtResource("13_rl84t")
+stream_6/stream = ExtResource("14_dn7oe")
+stream_7/stream = ExtResource("15_dr1kd")
+stream_8/stream = ExtResource("16_ka1ot")
+stream_9/stream = ExtResource("17_v1a28")
+stream_10/stream = ExtResource("3_ckruu")
+stream_11/stream = ExtResource("4_wn15t")
+stream_12/stream = ExtResource("5_kvdeb")
+stream_13/stream = ExtResource("6_i57y5")
+stream_14/stream = ExtResource("7_cairi")
+stream_15/stream = ExtResource("8_4nfp7")
+stream_16/stream = ExtResource("9_h0syb")
+
+[node name="Explosion" type="Node2D" node_paths=PackedStringArray("missile_explosion_sfx")]
+script = ExtResource("1_lqchp")
+missile_explosion_sfx = NodePath("MissileExplosion")
+
+[node name="MissileExplosion" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_8grth")
+volume_db = 15.0
+
+[node name="ExplosionAnimations" type="Node2D" parent="."]
+
+[node name="Explosion01" type="AnimatedSprite2D" parent="ExplosionAnimations"]

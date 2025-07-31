@@ -195,7 +195,7 @@ func spawn_projectiles(number_of_projectiles: int) -> void:
 			var projectile: Projectile = projectile_scene.instantiate()
 			projectile.init_projectile(target_array.pick_random())
 			projectile.position = roll_indicator.position
-			projectile.rotation_degrees = randi_range(-10, 10)
+			#projectile.rotation_degrees = randi_range(-10, 10)
 			add_child(projectile)
 
 func get_racer_array() -> Array[Node]:
@@ -354,10 +354,10 @@ func check_for_winner() -> void:
 		update_current_progress_label()
 
 
-func apply_projectile_effect(projectile_type: int) -> void:
+func apply_projectile_effect(projectile_type: int, dmg_multi: float) -> void:
 	match projectile_type:
 		1:
-			current_progress = clamp(current_progress - 8.0, 0.0, 100.0)
+			current_progress = clamp(current_progress - 5 * dmg_multi, 0.0, 100.0)
 
 
 func pause_race() -> void:
