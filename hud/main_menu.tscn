@@ -41,7 +41,7 @@ grow_vertical = 2
 theme = ExtResource("3_tjwcq")
 text = "Goat-a-matic
 Pickerator
-3001"
+3002α"
 horizontal_alignment = 1
 
 [node name="PanelContainer" type="PanelContainer" parent="."]

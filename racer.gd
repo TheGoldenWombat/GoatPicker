@@ -187,9 +187,9 @@ func show_crosshair() -> void:
 	
 
 func spawn_projectiles(number_of_projectiles: int) -> void:
+	print("attack from:" + str(choice))
+	await get_tree().create_timer(0.4).timeout
 	for i: int in number_of_projectiles:
-		print("attack from:" + str(choice))
-		await get_tree().create_timer(0.4).timeout
 		var target_array: Array[Racer] = get_target_array()
 		if !target_array.is_empty() && racing:
 			var projectile: Projectile = projectile_scene.instantiate()
@@ -197,6 +197,7 @@ func spawn_projectiles(number_of_projectiles: int) -> void:
 			projectile.position = roll_indicator.position
 			#projectile.rotation_degrees = randi_range(-10, 10)
 			add_child(projectile)
+			await projectile.missile_sfx_launch.finished
 
 func get_racer_array() -> Array[Node]:
 	var racers: Array[Node] = get_tree().get_nodes_in_group("racers")

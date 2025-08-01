@@ -60,6 +60,7 @@ func play_launch_sfx() -> void:
 	missile_sfx_launch.play()
 	await missile_sfx_launch.finished
 	missile_sfx_cruising.play()
+	missile_sfx_cruising.loop
 
 func spawn_explosion() -> void:
 	var explosion: Explosion = explosion_scene.instantiate()
@@ -74,7 +75,6 @@ func _ready() -> void:
 	current_velocity = current_speed * Vector2.RIGHT.rotated(rotation)
 	current_drag_factor = CRUISING_DRAG_FACTOR
 	play_launch_sfx()
-	await get_tree().create_timer(0.4).timeout
 	active = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
