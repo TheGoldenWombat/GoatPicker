@@ -39,7 +39,6 @@ race_end_jingle = NodePath("Sounds/RaceEndJingle")
 race_end_music = NodePath("Sounds/RaceEndMusic")
 leaderboard_label = NodePath("MainContainer/HBoxContainer/LeaderboardMargin/LeaderboardLabel")
 pause_button = NodePath("MainContainer/HBoxContainer/ButtonMargin/PauseButton")
-debug = true
 metadata/_edit_horizontal_guides_ = [930.0]
 
 [node name="Sounds" type="Node" parent="."]

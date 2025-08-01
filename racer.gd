@@ -61,7 +61,7 @@ extends Control
 
 
 @export_group("Attacks")
-@export var min_target_progress: float = 0.0
+@export var min_target_progress: float = 10.0
 
 
 @export_group("Padding")
@@ -207,8 +207,8 @@ func get_target_array() -> Array[Racer]:
 	var racers: Array[Node] = get_racer_array()
 	var targets: Array[Racer] = []
 	for racer: Racer in racers:
-		if racer.choice == self.choice: continue
-		if racer.current_progress < min_target_progress: continue
+		if racer.choice == self.choice: continue #SKIP SELF
+		if racer.current_progress < min_target_progress: continue #SKIP LOW %
 		for i: int in int(racer.current_progress):
 			targets.append(racer)
 	return targets
@@ -395,7 +395,7 @@ func end_race() -> void:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#resize_racer()
-	#init_racer()
+	init_racer()
 	update_finishline()
 	update_line()
 

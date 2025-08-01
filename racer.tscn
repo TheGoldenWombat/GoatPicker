@@ -120,9 +120,7 @@ grow_vertical = 2
 shape = SubResource("CircleShape2D_fodlf")
 
 [node name="TargetCrosshair" type="TextureRect" parent="ColorRect/Line/BulletTarget"]
-visible = false
 z_index = 40
-texture_filter = 1
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

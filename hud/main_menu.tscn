@@ -25,7 +25,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.254148, 0.2387, 0.31, 1)
 
-[node name="Title" type="Label" parent="."]
+[node name="Title" type="RichTextLabel" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -39,9 +39,10 @@ offset_bottom = 181.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_tjwcq")
+bbcode_enabled = true
 text = "Goat-a-matic
 Pickerator
-3002α"
+3002[color=red]α[/color]"
 horizontal_alignment = 1
 
 [node name="PanelContainer" type="PanelContainer" parent="."]

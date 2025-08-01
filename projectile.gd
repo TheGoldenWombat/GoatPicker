@@ -16,8 +16,8 @@ var explosion_scene: PackedScene = preload("res://vfx/explosion.tscn")
 var target_racer: Racer
 var target: Area2D
 
-var max_speed: float = 900.00
-var boost_multiplier: float = 3.0
+var max_speed: float = 1200.00
+var boost_multiplier: float = 2.5
 var current_speed: float
 
 const LAUNCH_DRAG_FACTOR: float = 0.01
@@ -60,7 +60,7 @@ func play_launch_sfx() -> void:
 	missile_sfx_launch.play()
 	await missile_sfx_launch.finished
 	missile_sfx_cruising.play()
-	missile_sfx_cruising.loop
+	#missile_sfx_cruising.loop
 
 func spawn_explosion() -> void:
 	var explosion: Explosion = explosion_scene.instantiate()
